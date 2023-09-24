@@ -1,6 +1,8 @@
-import admin from "firebase-admin";
-import credential from "./firebaseAccount.json";
+import { cert, initializeApp } from "firebase-admin/app";
+import credential from "./firebaseCredentials.json" assert { type: "json" };
 
-admin.initializeApp({
-  credential,
-});
+const firebase = initializeApp({
+  credential: cert(credential),
+}, "datbasekeepers-backend");
+
+export default firebase;

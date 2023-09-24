@@ -2,6 +2,7 @@ import { connect } from "@planetscale/database";
 import cors from "cors";
 import { config } from "dotenv";
 import express from "express";
+import firebase from "./config/firebase.js";
 
 config();
 
@@ -18,10 +19,14 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (_req, res) => res.send("Hello World!"));
 
+app.post("/signup", async (_req, res) => {
+  res.json({ message: firebase.name });
+});
+
 app.listen(PORT, () => console.log(`Backend listening on port ${PORT}!`));
 
 const sqlConfig = {
-  url: process.env.DATABASE_URL
+  url: process.env.DATABASE_URL,
 };
 
 const conn = connect(sqlConfig);
