@@ -3,5 +3,5 @@
   "singleQuote": false,
   "endOfLine": "auto",
   "tabWidth": 2,
-  "prettier.bracketSpacing": false
+  "bracketSpacing": true
 }
