@@ -1,8 +1,7 @@
-import { connect } from "@planetscale/database";
 import cors from "cors";
 import { config } from "dotenv";
 import express from "express";
-import firebase from "./config/firebase.js";
+import routes from "./routes/index.js";
 
 config();
 
@@ -17,20 +16,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (_req, res) => res.send("Hello World!"));
-
-app.post("/signup", async (_req, res) => {
-  res.json({ message: firebase.name });
-});
+app.use("/api", routes);
 
 app.listen(PORT, () => console.log(`Backend listening on port ${PORT}!`));
-
-const sqlConfig = {
-  url: process.env.DATABASE_URL,
-};
-
-const conn = connect(sqlConfig);
-const results = await conn.execute(
-  "SELECT unique_id,username,email,dob FROM Patient"
-);
-console.log(`Returned length should be 4 : ${results.fields.length}`);
