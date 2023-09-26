@@ -5,6 +5,6 @@ import { isAuthenticated } from "../middlewares/firebase-auth.js";
 const router = express.Router();
 
 router.post("/signup", authController.signup);
-router.get("/token", [isAuthenticated]);
+router.get("/token", [isAuthenticated], authController.token);
 
 export default router;
