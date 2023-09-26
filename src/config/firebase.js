@@ -1,10 +1,8 @@
-import { config } from "dotenv";
 import { cert, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
+import { FIREBASE_CREDENTIALS } from "../utils/environment.js";
 
-config();
-
-const credential = JSON.parse(process.env.FIREBASE_CREDENTIALS);
+const credential = JSON.parse(FIREBASE_CREDENTIALS);
 
 const firebase = initializeApp(
   {

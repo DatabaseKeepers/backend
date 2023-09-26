@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon src/index.js",
     "lint": "npx prettier --write \"src/**/*.js\" \"src/**/*.json\"",
     "start": "cross-env NODE_ENV=production nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
