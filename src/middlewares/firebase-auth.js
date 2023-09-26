@@ -15,7 +15,7 @@ export const isAuthenticated = (req, res, next) => {
     try {
       const userInfo = await firebaseAuth.verifyIdToken(req.authToken);
       if (userInfo.uid) {
-        res.status(200).send({ message: "You are authorized" });
+        req.userUID = userInfo.uid;
         return next();
       }
     } catch (error) {
