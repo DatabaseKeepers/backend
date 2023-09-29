@@ -1,0 +1,85 @@
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  PATIENT
+  PHYSICIAN
+  RADIOLOGIST
+}
+
+model User {
+  id                Int               @unique @default(autoincrement())
+  uid               String            @unique @db.VarChar(29)
+  email             String            @unique
+  profile_image_url String?
+  role              Role              @default(PATIENT)
+  ImagesUploaded    Image[]           @relation("UploadedImages")
+  Images            Image[]           @relation("Images")
+  NotificationsFor  Notification[]    @relation("PatientNotification")
+  NotificationsFrom Notification[]    @relation("RadiologistNotification")
+  PatientRelation   PatientRelation[] @relation("PatientRelation")
+  StaffRelation     PatientRelation[] @relation("StaffRelation")
+  StaffCredentials  StaffCredentials?
+
+  @@index(uid)
+}
+
+model Image {
+  id                Int            @id @default(autoincrement())
+  uid               String         @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
+  uploaded_by_user  User           @relation("UploadedImages", fields: [uploaded_by], references: [uid])
+  uploaded_by       String         @db.VarChar(29)
+  uploaded_for_user User           @relation("Images", fields: [uploaded_for], references: [uid])
+  uploaded_for      String         @db.VarChar(29)
+  url               String
+  notes             String?
+  diagnoses         String?
+  createdAt         DateTime       @default(now())
+  Notification      Notification[] @relation("ImageNotification")
+
+  @@index([uid])
+  @@index([uploaded_by])
+  @@index([uploaded_for])
+}
+
+model Notification {
+  id              Int     @id @default(autoincrement())
+  uid             String  @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
+  patient         User    @relation("PatientNotification", fields: [patient_uid], references: [uid])
+  patient_uid     String  @db.VarChar(29)
+  radiologist     User    @relation("RadiologistNotification", fields: [radiologist_uid], references: [uid])
+  radiologist_uid String  @db.VarChar(29)
+  image           Image   @relation("ImageNotification", fields: [image_uid], references: [uid])
+  image_uid       String  @db.VarChar(36)
+  read            Boolean @default(false)
+
+  @@index([patient_uid])
+  @@index([radiologist_uid])
+  @@index([image_uid])
+}
+
+model PatientRelation {
+  id          Int    @id @default(autoincrement())
+  patient     User   @relation("PatientRelation", fields: [patient_uid], references: [uid])
+  patient_uid String @db.VarChar(29)
+  staff       User   @relation("StaffRelation", fields: [staff_uid], references: [uid])
+  staff_uid   String @db.VarChar(29)
+
+  @@index([patient_uid])
+  @@index([staff_uid])
+}
+
+model StaffCredentials {
+  user         User   @relation(fields: [user_uid], references: [uid])
+  user_uid     String @unique @db.VarChar(29)
+  bio          String
+  expertise    String
+  years_of_exp Int
+}
