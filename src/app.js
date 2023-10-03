@@ -6,7 +6,10 @@ import { NODE_ENV } from "./utils/environment.js";
 const WHICH_API = NODE_ENV === "production" ? "PROD" : "DEV";
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin:
+    WHICH_API === "PROD"
+      ? ["https://radiologyarchive.com", /\.radiologyarchive\.com$/]
+      : ["https://dev.radiologyarchive.com", "http://localhost:3000"],
 };
 
 const app = express();
