@@ -1,5 +1,7 @@
 ```bash
 .
+├── prisma
+│   └── schema.prisma
 ├── src
 │   ├── config                  # External services: (planetscale & firebase)
 │   │   ├── db.js
@@ -9,7 +11,8 @@
 │   │   ├── user.controller.js
 │   │   └── index.js
 │   ├── middlewares
-│   │   └── firebase-auth.js    # Ensure valid firebase token in request header
+│   │   ├── firebase-auth.js    # Ensure valid firebase token in request header
+│   │   └── validators.js       # Contains schemas to be used in express.js routes
 │   ├── routes                  # Contains all route definitions
 │   │   ├── auth.route.js
 │   │   ├── user.route.js
@@ -23,6 +26,7 @@
 ├── README.md
 ├── package.json
 ├── package-lock.json
+├── .prettierrc
 └── .env.example
 
 ```
@@ -37,9 +41,16 @@
 
 Rename the .env.example to .env
 🔴 are required! Put the values in single quotes!
-- 🔴 DATABASE_URL           (GET FROM DISCORD)
-- 🔴 FIREBASE_CREDENTIALS   (GET FROM DISCORD)
-- ⭕PORT
+
+- 🔴 DATABASE_URL
+- 🔴 FIREBASE_ADMIN_CREDENTIALS
+- 🔴 FIREBASE_API_KEY
+- 🔴 FIREBASE_AUTH_DOMAIN
+- 🔴 FIREBASE_PROJECT_ID
+- 🔴 FIREBASE_STORAGE_BUCKET
+- 🔴 FIREBASE_MESSAGING_SENDER_ID
+- 🔴 FIREBASE_APP_ID
+- ⭕ PORT
 
 ## Running the project
 

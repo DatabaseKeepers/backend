@@ -1,4 +1,4 @@
-import { firebaseAuth } from "../config/firebase.js";
+import { adminAuth } from "../config/firebase.js";
 
 const getAuthToken = (req, _res, next) => {
   if (
@@ -11,9 +11,10 @@ const getAuthToken = (req, _res, next) => {
 };
 
 export const isAuthenticated = (req, res, next) => {
+  console.log(req.headers.authorization);
   getAuthToken(req, res, async () => {
     try {
-      const userInfo = await firebaseAuth.verifyIdToken(req.authToken);
+      const userInfo = await adminAuth.verifyIdToken(req.authToken);
       if (userInfo.uid) {
         req.userUID = userInfo.uid;
         return next();
