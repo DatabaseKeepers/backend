@@ -18,6 +18,10 @@ model User {
   id                Int               @unique @default(autoincrement())
   uid               String            @unique @db.VarChar(29)
   email             String            @unique
+  dob               DateTime          @db.Date
+  first_name        String
+  last_name         String
+  title             String?
   profile_image_url String?
   role              Role              @default(PATIENT)
   ImagesUploaded    Image[]           @relation("UploadedImages")
