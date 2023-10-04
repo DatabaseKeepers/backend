@@ -9,7 +9,7 @@ const corsOptions = {
   origin:
     WHICH_API === "PROD"
       ? ["https://radiologyarchive.com", /\.radiologyarchive\.com$/]
-      : ["https://dev.radiologyarchive.com", "http://localhost:3000"],
+      : ["https://dev.radiologyarchive.com", "http://localhost:5173"],
 };
 
 const app = express();
