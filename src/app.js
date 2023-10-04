@@ -10,6 +10,7 @@ const corsOptions = {
     WHICH_API === "PROD"
       ? ["https://radiologyarchive.com", /\.radiologyarchive\.com$/]
       : ["https://dev.radiologyarchive.com", "http://localhost:5173"],
+  preflightContinue: true,
 };
 
 const app = express();
