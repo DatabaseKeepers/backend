@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@planetscale/database": "^1.11.0",
-    "@prisma/client": "^5.3.1",
+    "@prisma/client": "^5.4.1",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
@@ -29,7 +29,7 @@
     "firebase-admin": "^11.11.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3",
-    "prisma": "^5.3.1",
+    "prisma": "^5.4.1",
     "typescript": "^5.2.2"
   }
 }
