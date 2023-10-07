@@ -4,6 +4,7 @@ import {
   auth,
   signInWithEmailAndPassword,
 } from "../config/firebase.js";
+import dbConn from "../config/db.js";
 
 export async function login(req, res) {
   const result = validationResult(req);
@@ -52,18 +53,34 @@ export async function signup(req, res) {
     return res.status(400).json({ errors: sanitizedErrors });
   }
 
-  const { email, password } = req.body;
+  const { email, password, dob, first_name, last_name, title, role } = req.body;
   await adminAuth
     .createUser({
       email: email,
       password: password,
     })
     .then((userRecord) => {
-      console.log("Successfully created new user:", userRecord.uid);
-      return res.status(200).json({ userRecord });
+      // Create a new user in the planetscale database since we use firebase auth
+      // for authentication and planetscale for storing user data
+      dbConn
+        .execute(
+          "INSERT INTO User(uid, email, dob, first_name, last_name, title, role) VALUES(?, ?, ?, ?, ?, ?, ?)",
+          [userRecord.uid, email, dob, first_name, last_name, title, role]
+        )
+        .then((result) => {
+          if (result.rowsAffected > 0) {
+            res.status(200).json({ msg: "Successfully created new user" });
+          }
+        })
+        .catch((error) => {
+          console.log("Error inserting new user:", error.body.message);
+          return res.status(409).json({
+            errors: [{ msg: "Unable to create account", path: "auth/signup" }],
+          });
+        });
     })
     .catch((error) => {
-      console.log("Error creating new user:", error);
+      console.log("Error creating new user:", error.errorInfo);
       return res
         .status(409)
         .json({ errors: [{ msg: error.message, path: "auth/signup" }] });

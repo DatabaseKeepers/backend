@@ -42,6 +42,21 @@ export const signupSchema = checkSchema(
         errorMessage: "Password is required",
       },
     },
+    dob: { isISO8601: { errorMessage: "Invalid date of birth" } },
+    first_name: { notEmpty: { errorMessage: "First name is required" } },
+    last_name: { notEmpty: { errorMessage: "Last name is required" } },
+    title: { optional: true },
+    role: {
+      default: "Patient",
+      toLowerCase: true,
+      isAlpha: {
+        errorMessage: "Invalid role",
+      },
+      isIn: {
+        options: ["patient", "radiologist", "physician"],
+        errorMessage: "Invalid role",
+      },
+    },
   },
   ["body"]
 );
