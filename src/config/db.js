@@ -1,7 +1,8 @@
 import { connect } from "@planetscale/database";
+import { DATABASE_URL } from "../utils/environment.js";
 
 const sqlConfig = {
-  url: process.env.DATABASE_URL,
+  url: DATABASE_URL,
 };
 
 const dbConn = connect(sqlConfig);

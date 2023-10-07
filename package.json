@@ -1,29 +1,35 @@
 {
-  "name": "@backendkeepers/backend",
+  "name": "@radiologyarchive/backend",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "npx tsc",
-    "dev": "nodemon ./src/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon src/index.js",
     "lint": "npx prettier --write \"src/**/*.js\" \"src/**/*.json\"",
     "start": "cross-env NODE_ENV=production nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=16.13"
+  },
   "dependencies": {
     "@planetscale/database": "^1.11.0",
+    "@prisma/client": "^5.4.1",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "firebase": "^10.4.0"
   },
   "devDependencies": {
-    "firebase-admin": "^11.10.1",
+    "firebase-admin": "^11.11.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3",
+    "prisma": "^5.4.1",
     "typescript": "^5.2.2"
   }
 }
