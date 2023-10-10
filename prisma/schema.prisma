@@ -31,6 +31,7 @@ model User {
   PatientRelation   PatientRelation[] @relation("PatientRelation")
   StaffRelation     PatientRelation[] @relation("StaffRelation")
   StaffCredentials  StaffCredentials?
+  Transactions      Transaction[]
 
   @@index(uid)
 }
@@ -86,4 +87,16 @@ model StaffCredentials {
   bio          String
   expertise    String
   years_of_exp Int
+}
+
+model Transaction {
+  id          Int     @id @default(autoincrement())
+  uid         String  @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
+  user        User    @relation(fields: [user_uid], references: [uid])
+  user_uid    String  @db.VarChar(29)
+  amount      Float
+  description String?
+  createdAt   DateTime @default(now())
+
+  @@index([user_uid])
 }
