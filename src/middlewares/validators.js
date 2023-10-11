@@ -47,13 +47,13 @@ export const signupSchema = checkSchema(
     last_name: { notEmpty: { errorMessage: "Last name is required" } },
     title: { optional: true },
     role: {
-      default: "Patient",
+      default: "patient",
       toLowerCase: true,
       isAlpha: {
         errorMessage: "Invalid role",
       },
       isIn: {
-        options: ["patient", "radiologist", "physician"],
+        options: [["patient", "radiologist", "physician"]],
         errorMessage: "Invalid role",
       },
     },
