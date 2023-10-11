@@ -14,24 +14,32 @@ enum Role {
   RADIOLOGIST
 }
 
+enum TransactionStatus {
+  SUCCESS
+  PENDING
+  FAILED
+}
+
 model User {
-  id                Int               @unique @default(autoincrement())
-  uid               String            @unique @db.VarChar(29)
-  email             String            @unique
-  dob               DateTime          @db.Date
-  first_name        String
-  last_name         String
-  title             String?
-  profile_image_url String?
-  role              Role              @default(PATIENT)
-  ImagesUploaded    Image[]           @relation("UploadedImages")
-  Images            Image[]           @relation("Images")
-  NotificationsFor  Notification[]    @relation("PatientNotification")
-  NotificationsFrom Notification[]    @relation("RadiologistNotification")
-  PatientRelation   PatientRelation[] @relation("PatientRelation")
-  StaffRelation     PatientRelation[] @relation("StaffRelation")
-  StaffCredentials  StaffCredentials?
-  Transactions      Transaction[]
+  id                 Int               @unique @default(autoincrement())
+  uid                String            @unique @db.VarChar(29)
+  email              String            @unique
+  dob                DateTime          @db.Date
+  first_name         String
+  last_name          String
+  title              String?
+  profile_image_url  String?
+  role               Role              @default(PATIENT)
+  ImagesUploaded     Image[]           @relation("UploadedImages")
+  Images             Image[]           @relation("Images")
+  NotificationsFor   Notification[]    @relation("PatientNotification")
+  NotificationsFrom  Notification[]    @relation("RadiologistNotification")
+  PatientRelation    PatientRelation[] @relation("PatientRelation")
+  StaffRelation      PatientRelation[] @relation("StaffRelation")
+  StaffCredentials   StaffCredentials?
+  Transactions       Transaction[]
+  PatientInvoice     Invoice[]         @relation("PatientInvoice")
+  RadiologistInvoice Invoice[]         @relation("RadiologistInvoice")
 
   @@index(uid)
 }
@@ -89,14 +97,34 @@ model StaffCredentials {
   years_of_exp Int
 }
 
+model Invoice {
+  id              Int           @id @default(autoincrement())
+  uid             String        @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
+  patient         User          @relation("PatientInvoice", fields: [patient_uid], references: [uid])
+  patient_uid     String        @db.VarChar(29)
+  radiologist     User          @relation("RadiologistInvoice", fields: [radiologist_uid], references: [uid])
+  radiologist_uid String        @db.VarChar(29)
+  amount          Float
+  paid            Boolean       @default(false)
+  paid_at         DateTime?
+  createdAt       DateTime      @default(now())
+  transactions    Transaction[]
+
+  @@index([patient_uid])
+  @@index([radiologist_uid])
+}
+
 model Transaction {
-  id          Int     @id @default(autoincrement())
-  uid         String  @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
-  user        User    @relation(fields: [user_uid], references: [uid])
-  user_uid    String  @db.VarChar(29)
-  amount      Float
-  description String?
-  createdAt   DateTime @default(now())
+  id               Int               @id @default(autoincrement())
+  uid              String            @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
+  user             User              @relation(fields: [user_uid], references: [uid])
+  user_uid         String            @db.VarChar(29)
+  invoice          Invoice           @relation(fields: [invoice_uid], references: [uid])
+  invoice_uid      String            @db.VarChar(36)
+  amount           Float
+  transaction_date DateTime
+  status           TransactionStatus @default(PENDING)
 
   @@index([user_uid])
+  @@index([invoice_uid])
 }
