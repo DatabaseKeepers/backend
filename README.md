@@ -8,17 +8,21 @@
 │   │   └── firebase.js
 │   ├── controllers             # Binds routes and validate requests to service
 │   │   ├── auth.controller.js
+│   │   ├── payment.controller.js
 │   │   ├── user.controller.js
 │   │   └── index.js
 │   ├── middlewares
+│   │   ├── authorization.js    # Ensure user is permitted to access an endpoint
 │   │   ├── firebase-auth.js    # Ensure valid firebase token in request header
 │   │   └── validators.js       # Contains schemas to be used in express.js routes
 │   ├── routes                  # Contains all route definitions
 │   │   ├── auth.route.js
+│   │   ├── payment.route.js
 │   │   ├── user.route.js
 │   │   └── index.js
 │   ├── services                # Employs logic to requests from controller
 │   │   ├── auth.controller.js
+│   │   ├── payment.controller.js
 │   │   ├── user.controller.js
 │   │   └── index.js
 │   └── utils                   # Snippets to be used throughout codebase

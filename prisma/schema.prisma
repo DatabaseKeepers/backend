@@ -106,7 +106,6 @@ model Invoice {
   radiologist_uid String        @db.VarChar(29)
   amount          Float
   paid            Boolean       @default(false)
-  paid_at         DateTime?
   createdAt       DateTime      @default(now())
   transactions    Transaction[]
 

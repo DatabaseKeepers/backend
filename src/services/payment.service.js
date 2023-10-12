@@ -8,7 +8,7 @@ export async function bill(req, res) {
     return error;
   });
   for (const error of sanitizedErrors) {
-    error.path = "payment/bill";
+    error.path = req.originalUrl;
   }
   if (errors.length > 0) {
     return res.status(400).json({ errors: sanitizedErrors });
@@ -32,7 +32,7 @@ export async function bill(req, res) {
       console.log("Error inserting new bill: ", error);
       return res.status(409).json({
         msg: "Unable to create bill for " + patientName,
-        path: "payment/bill",
+        path: req.originalUrl,
       });
     });
 }
@@ -49,7 +49,36 @@ export async function pay(req, res) {
   if (errors.length > 0) {
     return res.status(400).json({ errors: sanitizedErrors });
   }
-  return res
-    .status(200)
-    .json({ message: "Payment success for: " + req.userUID });
+  const { invoice } = req.body;
+  const results = await dbConn.transaction(async (tx) => {
+    const updateInvoice = await tx.execute(
+      "INSERT INTO Transaction (user_uid, invoice_uid, amount, transaction_date, status) VALUES (?, ?, ?, ?, ?)",
+      [req.userUID, invoice, req.amount, new Date(), "SUCCESS"]
+    );
+    const createTransaction = await tx.execute(
+      "UPDATE Invoice SET paid = TRUE WHERE uid = ?",
+      [invoice]
+    );
+    return [updateInvoice, createTransaction];
+  });
+  console.log(results);
+  return res.status(200).json({ msg: "Successfully paid invoice" });
+}
+
+export async function usersInvoices(req, res) {
+  await dbConn
+    .execute(
+      "SELECT uid, radiologist_uid, amount, paid, paid_at, createdAt FROM Invoice WHERE patient_uid=(?)",
+      [req.params.userId]
+    )
+    .then((result) => {
+      return res.status(200).json({ data: result.rows });
+    })
+    .catch((error) => {
+      console.log("Error fetching invoices: ", error);
+      return res.status(409).json({
+        msg: "Unable to fetch invoices",
+        path: req.originalUrl,
+      });
+    });
 }
