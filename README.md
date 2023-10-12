@@ -13,6 +13,7 @@
 │   │   └── index.js
 │   ├── middlewares
 │   │   ├── authorization.js    # Ensure user is permitted to access an endpoint
+│   │   ├── errors.js           # Returns any errors before servicing
 │   │   ├── firebase-auth.js    # Ensure valid firebase token in request header
 │   │   └── validators.js       # Contains schemas to be used in express.js routes
 │   ├── routes                  # Contains all route definitions
@@ -54,6 +55,8 @@ Rename the .env.example to .env
 - 🔴 FIREBASE_STORAGE_BUCKET
 - 🔴 FIREBASE_MESSAGING_SENDER_ID
 - 🔴 FIREBASE_APP_ID
+- 🔴 STRIPE_SECRET_KEY
+
 - ⭕ PORT
 
 ## Running the project

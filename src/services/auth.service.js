@@ -1,4 +1,3 @@
-import { validationResult } from "express-validator";
 import {
   adminAuth,
   auth,
@@ -7,15 +6,6 @@ import {
 import dbConn from "../config/db.js";
 
 export async function login(req, res) {
-  const result = validationResult(req);
-  const errors = result.array();
-  const sanitizedErrors = errors.map(({ type, value, location, ...error }) => {
-    return error;
-  });
-  if (errors.length > 0) {
-    return res.status(400).json({ errors: sanitizedErrors });
-  }
-
   const { email, password } = req.body;
   await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -44,15 +34,6 @@ export async function login(req, res) {
 }
 
 export async function signup(req, res) {
-  const result = validationResult(req);
-  const errors = result.array();
-  const sanitizedErrors = errors.map(({ type, value, location, ...error }) => {
-    return error;
-  });
-  if (errors.length > 0) {
-    return res.status(400).json({ errors: sanitizedErrors });
-  }
-
   const { email, password, dob, first_name, last_name, title, role } = req.body;
   await adminAuth
     .createUser({

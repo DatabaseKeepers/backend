@@ -1,5 +1,6 @@
 import cors from "cors";
 import express from "express";
+import { errors } from "./middlewares/errors.js";
 import routes from "./routes/index.js";
 import { NODE_ENV } from "./utils/environment.js";
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", routes);
+app.use("/api", errors);
 
 app.get("/", (_req, res) => {
   res.send(`You've reached RadiologyArchive's ${WHICH_API} API!`);

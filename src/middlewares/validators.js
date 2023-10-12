@@ -9,8 +9,7 @@ async function checkEmailExists(email) {
       if (user) return Promise.resolve();
       return Promise.reject();
     })
-    .catch((error) => {
-      console.log(error.code, error.message);
+    .catch((_error) => {
       return Promise.reject();
     });
 }
