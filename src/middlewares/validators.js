@@ -9,17 +9,19 @@ async function checkEmailExists(email) {
       if (user) return Promise.resolve();
       return Promise.reject();
     })
-    .catch((error) => {
-      console.log(error.code, error.message);
+    .catch((_error) => {
       return Promise.reject();
     });
 }
 
 async function checkPatientExists(uid, { req }) {
   await dbConn
-    .execute("SELECT first_name, last_name FROM User WHERE uid = ?", [uid])
+    .execute("SELECT email, first_name, last_name FROM User WHERE uid = ?", [
+      uid,
+    ])
     .then((result) => {
       if (result.rows.length > 0) {
+        req.patientEmail = result.rows[0].email;
         req.patientName =
           result.rows[0].first_name + " " + result.rows[0].last_name;
         return Promise.resolve(req);
@@ -133,7 +135,7 @@ export const invoicesSchema = checkSchema(
   ["params"]
 );
 
-export const billingSchema = checkSchema(
+export const invoiceSchema = checkSchema(
   {
     patient: {
       notEmpty: {

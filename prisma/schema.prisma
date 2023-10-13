@@ -44,6 +44,11 @@ model User {
   @@index(uid)
 }
 
+model StripeUser {
+  patient_uid String @unique @db.VarChar(29)
+  stripe_id   String @unique
+}
+
 model Image {
   id                Int            @id @default(autoincrement())
   uid               String         @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
@@ -99,7 +104,7 @@ model StaffCredentials {
 
 model Invoice {
   id              Int           @id @default(autoincrement())
-  uid             String        @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
+  uid             String        @unique @db.VarChar(29)
   patient         User          @relation("PatientInvoice", fields: [patient_uid], references: [uid])
   patient_uid     String        @db.VarChar(29)
   radiologist     User          @relation("RadiologistInvoice", fields: [radiologist_uid], references: [uid])

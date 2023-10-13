@@ -5,5 +5,5 @@ export async function me(req, res) {
     console.log("Error fetching user data:", error);
     res.status(409).json({ error: error.message });
   });
-  res.json({ message: `You are ${user.email}` });
+  res.json({ msg: `You are ${user.email}` });
 }
