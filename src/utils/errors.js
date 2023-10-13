@@ -10,7 +10,9 @@ export const errors = async (req, res, next) => {
     error.path = req.originalUrl;
   }
   if (errors.length > 0) {
-    return res.status(400).json({ errors: sanitizedErrors });
+    res.status(400).json({ errors: sanitizedErrors });
   }
   next();
 };
+
+export default errors;

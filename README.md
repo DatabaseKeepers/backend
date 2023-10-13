@@ -5,20 +5,22 @@
 ├── src
 │   ├── config                  # External services: (planetscale & firebase)
 │   │   ├── db.js
-│   │   └── firebase.js
+│   │   ├── firebase.js
+│   │   └── stripe.js
 │   ├── controllers             # Binds routes and validate requests to service
 │   │   ├── auth.controller.js
 │   │   ├── payment.controller.js
 │   │   ├── user.controller.js
 │   │   └── index.js
 │   ├── middlewares
-│   │   ├── authorization.js    # Ensure user is permitted to access an endpoint
-│   │   ├── errors.js           # Returns any errors before servicing
-│   │   ├── firebase-auth.js    # Ensure valid firebase token in request header
-│   │   └── validators.js       # Contains schemas to be used in express.js routes
-│   ├── routes                  # Contains all route definitions
+│   │   ├── authorization.js        # Ensure user is permitted to access an endpoint
+│   │   ├── create-stripe-user.js   # Creates stripe customer upon given user
+│   │   ├── firebase-auth.js        # Ensure valid firebase token in request header
+│   │   └── validators.js           # Contains schemas to be used in express.js routes
+│   ├── routes                      # Contains all route definitions
 │   │   ├── auth.route.js
 │   │   ├── payment.route.js
+│   │   ├── stripe.route.js
 │   │   ├── user.route.js
 │   │   └── index.js
 │   ├── services                # Employs logic to requests from controller
@@ -27,7 +29,8 @@
 │   │   ├── user.controller.js
 │   │   └── index.js
 │   └── utils                   # Snippets to be used throughout codebase
-│       └── environment.js      # Environment variables are loaded here and exported
+│       ├── environment.js      # Environment variables are loaded here and exported
+│       └── errors.js           # Returns any errors before servicing
 ├── README.md
 ├── package.json
 ├── package-lock.json
@@ -55,7 +58,9 @@ Rename the .env.example to .env
 - 🔴 FIREBASE_STORAGE_BUCKET
 - 🔴 FIREBASE_MESSAGING_SENDER_ID
 - 🔴 FIREBASE_APP_ID
+
 - 🔴 STRIPE_SECRET_KEY
+- 🔴 STRIPE_WEBHOOK_SECRET_KEY
 
 - ⭕ PORT
 

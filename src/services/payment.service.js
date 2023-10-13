@@ -1,54 +1,63 @@
-import { validationResult } from "express-validator";
 import dbConn from "../config/db.js";
+import stripe from "../config/stripe.js";
 
-export async function bill(req, res) {
-  const result = validationResult(req);
-  const errors = result.array();
-  const sanitizedErrors = errors.map(({ type, value, location, ...error }) => {
-    return error;
-  });
-  for (const error of sanitizedErrors) {
-    error.path = req.originalUrl;
-  }
-  if (errors.length > 0) {
-    return res.status(400).json({ errors: sanitizedErrors });
-  }
+export async function invoice(req, res) {
+  await stripe.invoiceItems
+    .create({
+      customer: req.stripeID,
+      invoice: invoice.id,
+      amount: req.body.amount * 100,
+      currency: "usd",
+      description: "Professional opinion",
+    })
 
-  const { patientName, userUID } = req;
-  const { patient, amount } = req.body;
-  await dbConn
-    .execute(
-      "INSERT INTO Invoice (patient_uid, radiologist_uid, amount) VALUES (?, ?, ?)",
-      [patient, userUID, amount]
-    )
-    .then((result) => {
-      if (result.rowsAffected > 0) {
-        return res
-          .status(200)
-          .json({ msg: "Successfully created new bill for " + patientName });
-      }
+    .then((invoiceItems) => {
+      return stripe.invoices.create({
+        customer: invoiceItems.customer,
+        collection_method: "send_invoice",
+        days_until_due: 30,
+        payment_settings: {
+          payment_method_types: ["card", "ach_debit"],
+        },
+        pending_invoice_items_behavior: "include",
+        metadata: {
+          patientUID: req.body.patient,
+          radiologistUID: req.userUID,
+        },
+      });
+    })
+    .then((invoice) => {
+      stripe.invoices.sendInvoice(invoice.id).then(() => {
+        res.status(200).json({
+          msg: "Successfully created invoice for " + req.patientName,
+        });
+      });
     })
     .catch((error) => {
-      console.log("Error inserting new bill: ", error);
-      return res.status(409).json({
-        msg: "Unable to create bill for " + patientName,
+      console.log("Error creating invoice: ", error);
+      res.status(500).json({ msg: "Error creating invoice" });
+    });
+}
+
+export async function invoices(req, res) {
+  await dbConn
+    .execute(
+      "SELECT uid, radiologist_uid, amount, paid, createdAt FROM Invoice WHERE patient_uid=(?)",
+      [req.params.userId]
+    )
+    .then((result) => {
+      res.status(200).json({ data: result.rows });
+    })
+    .catch((error) => {
+      console.log("Error fetching invoices: ", error);
+      res.status(409).json({
+        msg: "Unable to fetch invoices",
         path: req.originalUrl,
       });
     });
 }
 
 export async function pay(req, res) {
-  const result = validationResult(req);
-  const errors = result.array();
-  const sanitizedErrors = errors.map(({ type, value, location, ...error }) => {
-    return error;
-  });
-  for (const error of sanitizedErrors) {
-    error.path = req.originalUrl;
-  }
-  if (errors.length > 0) {
-    return res.status(400).json({ errors: sanitizedErrors });
-  }
   const { invoice } = req.body;
   const results = await dbConn.transaction(async (tx) => {
     const updateInvoice = await tx.execute(
@@ -62,23 +71,5 @@ export async function pay(req, res) {
     return [updateInvoice, createTransaction];
   });
   console.log(results);
-  return res.status(200).json({ msg: "Successfully paid invoice" });
-}
-
-export async function usersInvoices(req, res) {
-  await dbConn
-    .execute(
-      "SELECT uid, radiologist_uid, amount, paid, paid_at, createdAt FROM Invoice WHERE patient_uid=(?)",
-      [req.params.userId]
-    )
-    .then((result) => {
-      return res.status(200).json({ data: result.rows });
-    })
-    .catch((error) => {
-      console.log("Error fetching invoices: ", error);
-      return res.status(409).json({
-        msg: "Unable to fetch invoices",
-        path: req.originalUrl,
-      });
-    });
+  res.status(200).json({ msg: "Successfully paid invoice" });
 }

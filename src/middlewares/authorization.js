@@ -14,15 +14,15 @@ export const isAuthorized = async (req, res, next) => {
       req.userUID === req.params.userId;
 
     if (isOwnerOrAuthorized) {
-      return next();
+      next();
     } else {
-      return res
+      res
         .status(401)
         .send({ error: "You are not authorized to make this request" });
     }
   } catch (error) {
     console.log(error.code, error.message);
-    return res
+    res
       .status(401)
       .send({ error: "You are not authorized to make this request" });
   }
@@ -36,16 +36,19 @@ export const isStaff = async (req, res, next) => {
       [req.userUID]
     );
 
-    if (user.rows.length > 0 && ["PHYSICIAN", "RADIOLOGIST"].includes(user.rows[0].role)) {
-      return next();
+    if (
+      user.rows.length > 0 &&
+      ["PHYSICIAN", "RADIOLOGIST"].includes(user.rows[0].role)
+    ) {
+      next();
     } else {
-      return res
+      res
         .status(401)
         .send({ error: "You are not authorized to make this request" });
     }
   } catch (error) {
     console.log(error.code, error.message);
-    return res
+    res
       .status(401)
       .send({ error: "You are not authorized to make this request" });
   }

@@ -14,6 +14,7 @@ export const FIREBASE_MESSAGING_SENDER_ID =
 export const FIREBASE_APP_ID = process.env.FIREBASE_APP_ID;
 
 export const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
+export const STRIPE_WEBHOOK_SECRET_KEY = process.env.STRIPE_WEBHOOK_SECRET_KEY;
 
 export const NODE_ENV = process.env.NODE_ENV;
 export const PORT = process.env.PORT;
