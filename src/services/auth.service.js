@@ -53,6 +53,13 @@ export async function signup(req, res) {
           if (result.rowsAffected > 0) {
             res.status(200).json({ msg: "Successfully created new user" });
           }
+          adminAuth
+            .updateUser(userRecord.uid, {
+              displayName: title + " " + first_name + " " + last_name,
+            })
+            .catch((error) =>
+              console.log("Error updating displayName: ", error)
+            );
         })
         .catch((error) => {
           console.log("Error inserting new user:", error.body.message);
