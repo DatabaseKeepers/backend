@@ -26,10 +26,11 @@ export async function login(req, res) {
             },
           ],
         });
+      } else {
+        res
+          .status(409)
+          .json({ errors: [{ msg: error.message, path: "auth/signin" }] });
       }
-      res
-        .status(409)
-        .json({ errors: [{ msg: error.message, path: "auth/signin" }] });
     });
 }
 
