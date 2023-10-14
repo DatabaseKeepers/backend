@@ -8,7 +8,11 @@ export async function me(req, res) {
     });
 
   if (result.size === 1) {
-    res.json({ role: result.rows[0].role.toLowerCase() });
+    res.json({
+      role:
+        result.rows[0].role.charAt(0) +
+        result.rows[0].role.slice(1).toLowerCase(),
+    });
   } else {
     res.json({ role: "patient" });
   }
