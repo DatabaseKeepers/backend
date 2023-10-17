@@ -17,3 +17,17 @@ export async function me(req, res) {
     res.json({ role: "Patient" });
   }
 }
+
+export async function patients(req, res) {
+  const result = await dbConn
+    .execute(
+      "SELECT uid, first_name, last_name FROM User U JOIN PatientRelation PR ON U.uid = PR.patient_uid WHERE PR.staff_uid = ? ",
+      [req.userUID]
+    )
+    .catch((error) => {
+      console.log("user.service.patients: ", error);
+      res.json({ patients: [] });
+    });
+
+  res.json({ patients: result.rows });
+}
