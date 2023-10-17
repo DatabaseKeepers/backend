@@ -14,6 +14,6 @@ export async function me(req, res) {
         result.rows[0].role.slice(1).toLowerCase(),
     });
   } else {
-    res.json({ role: "patient" });
+    res.json({ role: "Patient" });
   }
 }
