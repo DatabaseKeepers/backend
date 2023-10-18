@@ -31,3 +31,17 @@ export async function patients(req, res) {
 
   res.json({ patients: result.rows });
 }
+
+export async function uploadImage(req, res) {
+  await dbConn
+    .execute(
+      "INSERT IGNORE INTO Image (uploaded_by, uploaded_for, url, notes) VALUES (?, ?, ?, ?)",
+      [req.userUID, req.body.patient, req.body.url, req.body.notes]
+    )
+    .catch((error) => {
+      console.log("user.service.uploadImage: ", error);
+      res.status(422).json({ success: false });
+    });
+
+  res.json({ success: true });
+}
