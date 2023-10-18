@@ -184,3 +184,30 @@ export const paySchema = checkSchema(
   },
   ["body"]
 );
+
+export const uploadImageSchema = checkSchema({
+  patient: {
+    notEmpty: {
+      bail: true,
+      errorMessage: "Patient's uid is required",
+    },
+    patientExists: {
+      bail: true,
+      custom: checkPatientExists,
+      errorMessage: "Patient does not exist",
+    },
+  },
+  url: {
+    notEmpty: {
+      bail: true,
+      errorMessage: "Image url is required",
+    },
+    isURL: {
+      bail: true,
+      options: {
+        host_whitelist: ["firebasestorage.googleapis.com"],
+      },
+      errorMessage: "Invalid image url",
+    },
+  },
+});
