@@ -32,6 +32,39 @@ export async function patients(req, res) {
   res.json({ patients: result.rows });
 }
 
+export async function profile(req, res) {
+  const results = await dbConn
+    .transaction(async (tx) => {
+      const user = await tx.execute(
+        "SELECT first_name, last_name, dob, email, title FROM User WHERE uid = ?",
+        [req.userUID]
+      );
+      const staff = await tx.execute(
+        "\
+      SELECT \
+        U.uid AS uid, \
+        U.first_name AS first_name, \
+        U.last_name AS last_name, \
+        U.role AS role, \
+        U.title AS title \
+      FROM \
+          User AS U \
+      INNER JOIN \
+          PatientRelation AS PR ON U.uid = PR.staff_uid \
+      WHERE \
+          PR.patient_uid = ? ",
+        [req.userUID]
+      );
+      return [user, staff];
+    })
+    .catch((error) => {
+      console.log("user.service.profile: ", error);
+      res.status(204).json({});
+    });
+
+  res.json({ profile: results[0].rows[0], staff: results[1].rows });
+}
+
 export async function uploadImage(req, res) {
   await dbConn
     .execute(

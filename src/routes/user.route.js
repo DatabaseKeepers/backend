@@ -13,5 +13,6 @@ router.post(
   [isAuthenticated, isStaff, uploadImageSchema],
   userController.uploadImage
 );
+router.get("/profile", [isAuthenticated], userController.profile);
 
 export default router;
