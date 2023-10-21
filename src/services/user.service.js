@@ -1,5 +1,34 @@
 import dbConn from "../config/db.js";
 
+export async function images(req, res) {
+  const result = await dbConn
+    .execute(
+      "\
+      SELECT \
+        I.uid, \
+        I.url, \
+        INN.note, \
+        CONCAT(UA.title, ' ', UA.first_name, ' ', UA.last_name) AS full_name, \
+        UA.role \
+      FROM User U \
+          JOIN Image I ON U.uid = I.uploaded_for \
+          LEFT JOIN ( \
+            SELECT INN.uid, INN.note, INN.image_uid, INN.author_uid \
+            FROM ImageNote INN \
+            JOIN User UA ON INN.author_uid = UA.uid \
+            WHERE UA.role IN ('PHYSICIAN', 'RADIOLOGIST') \
+        ) AS INN ON I.uid = INN.image_uid \
+      LEFT JOIN User UA ON INN.author_uid = UA.uid \
+      WHERE U.role = 'PATIENT' AND U.uid = ?",
+      [req.params.uid]
+    )
+    .catch((error) => {
+      console.log("user.service.me: ", error);
+    });
+
+  res.json({ images: result.rows });
+}
+
 export async function me(req, res) {
   const result = await dbConn
     .execute("SELECT role FROM User WHERE uid = ?", [req.userUID])
@@ -76,15 +105,24 @@ export async function profile(req, res) {
 }
 
 export async function uploadImage(req, res) {
-  await dbConn
-    .execute(
-      "INSERT IGNORE INTO Image (uploaded_by, uploaded_for, url, notes) VALUES (?, ?, ?, ?)",
-      [req.userUID, req.body.patient, req.body.url, req.body.notes]
-    )
-    .catch((error) => {
-      console.log("user.service.uploadImage: ", error);
-      res.status(422).json({ success: false });
+  try {
+    await dbConn.execute("SELECT UUID() as uuid").then((result) => {
+      dbConn
+        .execute(
+          "INSERT IGNORE INTO Image (uid, uploaded_by, uploaded_for, url) VALUES (?, ?, ?, ?)",
+          [result.rows[0].uuid, req.userUID, req.body.patient, req.body.url]
+        )
+        .then(() => {
+          dbConn.execute(
+            "INSERT INTO ImageNote (image_uid, author_uid, note) VALUES (?, ?, ?)",
+            [result.rows[0].uuid, req.userUID, req.body.notes]
+          );
+        });
     });
+  } catch (error) {
+    console.log("user.service.uploadImage: ", error);
+    res.status(422).json({ success: false });
+  }
 
   res.json({ success: true });
 }

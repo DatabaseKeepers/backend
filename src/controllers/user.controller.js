@@ -1,5 +1,9 @@
 import { userService } from "../services/index.js";
 
+export async function images(req, res) {
+  await userService.images(req, res);
+}
+
 export async function me(req, res) {
   await userService.me(req, res);
 }
