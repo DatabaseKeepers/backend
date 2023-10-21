@@ -65,6 +65,8 @@ router.post(express.raw({ type: "application/json" }), (req, res) => {
       break;
     case "payment_intent.succeeded":
       break;
+    case "source.chargeable":
+      break;
 
     default:
       console.log(`Unhandled event type ${event.type}`);
