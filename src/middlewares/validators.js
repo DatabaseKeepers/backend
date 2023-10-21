@@ -69,6 +69,27 @@ async function checkInvoicePaid(uid) {
     });
 }
 
+export const addPatientSchema = checkSchema(
+  {
+    email: {
+      emailExists: {
+        bail: true,
+        custom: checkEmailExists,
+        errorMessage: "Email already exists",
+      },
+      isEmail: {
+        trim: true,
+        errorMessage: "Invalid email",
+      },
+    },
+    dob: { isISO8601: { errorMessage: "Invalid date of birth" } },
+    first_name: { notEmpty: { errorMessage: "First name is required" } },
+    last_name: { notEmpty: { errorMessage: "Last name is required" } },
+    title: { optional: true },
+  },
+  ["body"]
+);
+
 export const loginSchema = checkSchema(
   {
     email: { isEmail: { trim: true, errorMessage: "Invalid email" } },

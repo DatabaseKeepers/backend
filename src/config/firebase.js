@@ -3,6 +3,7 @@ import { getAuth as getAdminAuth } from "firebase-admin/auth";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
@@ -42,6 +43,12 @@ const firebase = initializeApp(firebaseConfig, "radiologyarchive-firebase");
 
 const auth = getAuth(firebase);
 
-export { adminAuth, auth, signInWithEmailAndPassword, updateProfile };
+export {
+  adminAuth,
+  auth,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  updateProfile,
+};
 
 export default firebase;

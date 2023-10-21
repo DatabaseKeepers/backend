@@ -1,9 +1,52 @@
+import crypto from "crypto";
 import dbConn from "../config/db.js";
 import {
   adminAuth,
   auth,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from "../config/firebase.js";
+
+export async function addPatient(req, res) {
+  const { email, dob, first_name, last_name, title } = req.body;
+  const role = "PATIENT";
+  try {
+    await adminAuth
+      .createUser({
+        email: email,
+        password: crypto.randomBytes(18).toString("hex"),
+      })
+      .then(async (userRecord) => {
+        await dbConn
+          .execute(
+            "INSERT INTO User(uid, email, dob, first_name, last_name, title, role) VALUES(?, ?, ?, ?, ?, ?, ?)",
+            [userRecord.uid, email, dob, first_name, last_name, title, role]
+          )
+          .then(async () => {
+            await adminAuth
+              .updateUser(userRecord.uid, {
+                displayName: title + " " + first_name + " " + last_name,
+              })
+              .then(() => {
+                sendPasswordResetEmail(auth, email).then(() => {
+                  console.log("Password reset email sent to: ", email);
+                  res.status(200).json({
+                    msg: "Successfully added new patient",
+                  });
+                });
+              })
+              .catch((error) =>
+                console.log("Error updating displayName: ", error)
+              );
+          });
+      });
+  } catch (error) {
+    console.log("Error inserting new user:", error.message);
+    res.status(409).json({
+      errors: [{ msg: "Unable to add patient", path: "auth/add-patient" }],
+    });
+  }
+}
 
 export async function login(req, res) {
   const { email, password } = req.body;
