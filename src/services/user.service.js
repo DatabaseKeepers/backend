@@ -21,7 +21,17 @@ export async function me(req, res) {
 export async function patients(req, res) {
   const result = await dbConn
     .execute(
-      "SELECT uid, first_name, last_name FROM User U JOIN PatientRelation PR ON U.uid = PR.patient_uid WHERE PR.staff_uid = ? ",
+      "SELECT U.uid, U.first_name, U.last_name, U.email, \
+          ( \
+            SELECT JSON_ARRAYAGG( \
+              JSON_OBJECT('uid', I.uid, 'url', I.url) \
+            )\
+            FROM Image I \
+            WHERE U.uid = I.uploaded_for \
+          ) AS images \
+        FROM User U \
+        JOIN PatientRelation PR ON U.uid = PR.patient_uid \
+        WHERE PR.staff_uid = ? ",
       [req.userUID]
     )
     .catch((error) => {
