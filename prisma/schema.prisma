@@ -108,12 +108,13 @@ model PatientRelation {
 }
 
 model StaffCredentials {
-  user         User   @relation(fields: [user_uid], references: [uid])
-  user_uid     String @unique @db.VarChar(29)
-  uid          String @db.VarChar(29)
+  user         User   @relation(fields: [uid], references: [uid])
+  uid          String @unique @db.VarChar(29)
   bio          String
   expertise    String
   years_of_exp Int
+
+  @@index([uid])
 }
 
 model Invoice {
