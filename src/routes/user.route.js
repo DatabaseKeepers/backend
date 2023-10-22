@@ -9,11 +9,12 @@ const router = express.Router();
 router.get("/:uid/images", [isAuthenticated, isAuthorized], userController.images)
 router.get("/me", [isAuthenticated], userController.me);
 router.get("/patients", [isAuthenticated, isStaff], userController.patients);
+router.get("/profile", [isAuthenticated], userController.profile);
+router.get("/radiologists", [isAuthenticated], userController.radiologists);
 router.post(
   "/upload-image",
   [isAuthenticated, isStaff, uploadImageSchema],
   userController.uploadImage
 );
-router.get("/profile", [isAuthenticated], userController.profile);
 
 export default router;

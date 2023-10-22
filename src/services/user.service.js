@@ -104,6 +104,24 @@ export async function profile(req, res) {
   res.json({ profile: results[0].rows[0], staff: results[1].rows });
 }
 
+export async function radiologist(_req, res) {
+  const result = await dbConn
+    .execute(
+      "\
+      SELECT U.uid, U.title, U.first_name, U.last_name, U.email, \
+        SC.bio, SC.expertise, SC.years_of_exp \
+      FROM User U \
+      LEFT JOIN StaffCredentials SC ON U.uid = SC.uid \
+      WHERE U.role = 'RADIOLOGIST'"
+    )
+    .catch((error) => {
+      console.log("user.service.patients: ", error);
+      res.json({ radiologists: [] });
+    });
+
+  res.json({ radiologists: result.rows });
+}
+
 export async function uploadImage(req, res) {
   try {
     await dbConn.execute("SELECT UUID() as uuid").then((result) => {

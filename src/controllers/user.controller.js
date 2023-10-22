@@ -16,6 +16,10 @@ export async function profile(req, res) {
   await userService.profile(req, res);
 }
 
+export async function radiologists(req, res) {
+  await userService.radiologist(req, res);
+}
+
 export async function uploadImage(req, res) {
   await userService.uploadImage(req, res);
 }
