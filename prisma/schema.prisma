@@ -72,7 +72,7 @@ model ImageNote {
   uid        String   @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
   author_uid String   @unique @db.VarChar(29)
   image_uid  String   @db.VarChar(36)
-  note       String
+  note       String   @db.LongText
   createdAt  DateTime @default(now())
   Image      Image    @relation(fields: [image_uid], references: [uid])
 
@@ -110,7 +110,7 @@ model PatientRelation {
 model StaffCredentials {
   user         User   @relation(fields: [uid], references: [uid])
   uid          String @unique @db.VarChar(29)
-  bio          String
+  bio          String @db.LongText()
   expertise    String
   years_of_exp Int
 
