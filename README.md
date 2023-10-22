@@ -1,5 +1,16 @@
+# Radiology Archive's Backend
+
+The backend of Radiology Archive, built on [Express.js](https://expressjs.com/) and utilizing various technologies like [Prisma](https://www.prisma.io/), [PlanetScale](https://planetscale.com/), [Firebase Auth & Storage](https://firebase.google.com/), and [Stripe](https://stripe.com/docs/development) — designed to manage and serve medical imaging data securely and handle user authentication and payment processing.
+
+## Documentation
+
+See the [radiology archive API docs](https://databasekeepers.github.io/backend/).
+
+## Project Structure
+
 ```bash
 .
+├── docs                        # Documentation for API
 ├── prisma
 │   └── schema.prisma
 ├── src
@@ -28,9 +39,11 @@
 │   │   ├── payment.controller.js
 │   │   ├── user.controller.js
 │   │   └── index.js
-│   └── utils                   # Snippets to be used throughout codebase
-│       ├── environment.js      # Environment variables are loaded here and exported
-│       └── errors.js           # Returns any errors before servicing
+│   ├── utils                   # Snippets to be used throughout codebase
+│   │   ├── environment.js      # Environment variables are loaded here and exported
+│   │   └── errors.js           # Returns any errors before servicing
+│   ├── app.js                  # Initialize express appication and its dependencies
+│   └── index.js                # Entry point to start express appplication
 ├── README.md
 ├── package.json
 ├── package-lock.json
@@ -38,6 +51,8 @@
 └── .env.example
 
 ```
+
+# Running the Project Locally
 
 ## Install
 
