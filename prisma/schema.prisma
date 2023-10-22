@@ -51,13 +51,13 @@ model StripeUser {
 
 model Image {
   id                Int            @id @default(autoincrement())
-  uid               String         @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
+  uid               String         @unique @db.VarChar(36)
   uploaded_by_user  User           @relation("UploadedImages", fields: [uploaded_by], references: [uid])
   uploaded_by       String         @db.VarChar(29)
   uploaded_for_user User           @relation("Images", fields: [uploaded_for], references: [uid])
   uploaded_for      String         @db.VarChar(29)
   url               String
-  notes             String?
+  notes             ImageNote[]
   diagnoses         String?
   createdAt         DateTime       @default(now())
   Notification      Notification[] @relation("ImageNotification")
@@ -65,6 +65,19 @@ model Image {
   @@index([uid])
   @@index([uploaded_by])
   @@index([uploaded_for])
+}
+
+model ImageNote {
+  id         Int      @id @default(autoincrement())
+  uid        String   @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
+  author_uid String   @unique @db.VarChar(29)
+  image_uid  String   @db.VarChar(36)
+  note       String
+  createdAt  DateTime @default(now())
+  Image      Image    @relation(fields: [image_uid], references: [uid])
+
+  @@index([uid])
+  @@index([image_uid])
 }
 
 model Notification {
@@ -96,7 +109,7 @@ model PatientRelation {
 
 model StaffCredentials {
   user         User   @relation(fields: [user_uid], references: [uid])
-  user_uid     String @unique @db.VarChar(29)
+  user_uid     String @unique @map("uid") @db.VarChar(29)
   bio          String
   expertise    String
   years_of_exp Int
