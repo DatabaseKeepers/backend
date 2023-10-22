@@ -1,0 +1,452 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2023-10-22T18:30:41.835Z",
+  "__export_source": "insomnia.desktop.app:v0.1.3",
+  "resources": [
+    {
+      "_id": "req_f98271e44f354bdebdbdd2c7ae31bfde",
+      "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
+      "modified": 1697999280863,
+      "created": 1697856018319,
+      "url": "{{host}}/api/auth/add-patient",
+      "name": "Create a patient account on behalf of a staff member.",
+      "description": "Create a patient account on behalf of a staff member.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\": \"patient3@radiologyarchive.com\",\n\t\"dob\": \"1990-01-01\",\n\t\"first_name\": \"John\",\n\t\"last_name\": \"Doe\",\n\t\"title\": \"\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_43fbed9f9b0a4791875b528e81d71fc1"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer",
+        "disabled": false
+      },
+      "metaSortKey": -1697999280839,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_8bea69be9e5841dd94352de723ab4921",
+      "parentId": "wrk_a49d39df1d5c4aa0b0064df427ad3890",
+      "modified": 1697999262093,
+      "created": 1697999256330,
+      "name": "auth",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1695812566931,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_a49d39df1d5c4aa0b0064df427ad3890",
+      "parentId": null,
+      "modified": 1697942156834,
+      "created": 1697942141122,
+      "name": "Radiology Archive API",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_60dd5e4c71984712897a033168fe383b",
+      "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
+      "modified": 1697999297008,
+      "created": 1696463217635,
+      "url": "{{host}}/api/auth/login",
+      "name": "Login user",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\": \"radiologist@test.com\",\n\t\"password\": \"testtest123\"\n}"
+      },
+      "parameters": [],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {},
+      "metaSortKey": -1697999280739,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_089baa5e56c5476783b69aa3fb7f7250",
+      "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
+      "modified": 1697999300234,
+      "created": 1695426311293,
+      "url": "{{host}}/api/auth/signup",
+      "name": "Create an account for the user with the provided body arguments.",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\": \"patient@test.com\",\n\t\"password\": \"\",\n\t\"dob\": \"1990-01-01\",\n\t\"first_name\": \"John\",\n\t\"last_name\": \"Doe\",\n\t\"role\": \"patient\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_43fbed9f9b0a4791875b528e81d71fc1"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer",
+        "disabled": true
+      },
+      "metaSortKey": -1697999280639,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_8f7b74cfb8d64591aa3d7a109c2120cc",
+      "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
+      "modified": 1697999301551,
+      "created": 1695624761982,
+      "url": "{{host}}/api/auth/token",
+      "name": "Specifies if the id token is valid.",
+      "description": "",
+      "method": "GET",
+      "body": { "mimeType": "application/json", "text": "" },
+      "parameters": [],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1697999280539,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_232e227e5bd345d5a9993651c1a68ae7",
+      "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
+      "modified": 1697999242936,
+      "created": 1697879165547,
+      "url": "{{host}}/api/user/{{ _.patient_uid }}/images",
+      "name": "Returns a list of images of the specified user uid.",
+      "description": "",
+      "method": "GET",
+      "body": { "mimeType": "application/json", "text": "" },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_43fbed9f9b0a4791875b528e81d71fc1"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1697999151216,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_75fa0d2d1274485c8aedb3784d962004",
+      "parentId": "wrk_a49d39df1d5c4aa0b0064df427ad3890",
+      "modified": 1697999140026,
+      "created": 1697999130087,
+      "name": "user",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1695803030516,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_18150e48e30c434b834aeb1c3afba7f4",
+      "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
+      "modified": 1697999241672,
+      "created": 1695712866951,
+      "url": "{{host}}/api/user/me",
+      "name": "Returns the role of the requesting bearer token.",
+      "description": "",
+      "method": "GET",
+      "body": { "mimeType": "application/json", "text": "" },
+      "parameters": [],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1697999151116,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_dc2be9d54ce7429fa5e422531f8fef44",
+      "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
+      "modified": 1697999218676,
+      "created": 1697853451683,
+      "url": "{{host}}/api/user/patients",
+      "name": "Get a list of current patients",
+      "description": "",
+      "method": "GET",
+      "body": { "mimeType": "application/json", "text": "" },
+      "parameters": [
+        {
+          "id": "pair_b35217344fde414dad44dafb2de6acca",
+          "name": "",
+          "value": "",
+          "description": ""
+        }
+      ],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer",
+        "disabled": false
+      },
+      "metaSortKey": -1697999151016,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_fd8e77e52a1743b39c4560e1cad64f01",
+      "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
+      "modified": 1697999239578,
+      "created": 1697669833675,
+      "url": "{{host}}/api/user/profile",
+      "name": "Return profile of the specified user uid.",
+      "description": "",
+      "method": "GET",
+      "body": { "mimeType": "application/json", "text": "" },
+      "parameters": [],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1697999150991,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_f172982d9ec741328aa5eaea5d1d7abf",
+      "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
+      "modified": 1697999235349,
+      "created": 1697952837400,
+      "url": "{{host}}/api/user/radiologists",
+      "name": "Get a list of radiologists",
+      "description": "",
+      "method": "GET",
+      "body": { "mimeType": "application/json", "text": "" },
+      "parameters": [
+        {
+          "id": "pair_b35217344fde414dad44dafb2de6acca",
+          "name": "",
+          "value": "",
+          "description": ""
+        }
+      ],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer",
+        "disabled": false
+      },
+      "metaSortKey": -1697999150966,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_cdc3a409a4d84357a57ba159bb795fd9",
+      "parentId": "fld_3f0ce5f0862941ecb05e8f7e31fe7957",
+      "modified": 1697999371897,
+      "created": 1697064654760,
+      "url": "{{host}}/api/payment/invoices/{{ _.patient_uid }}",
+      "name": "Get a list of invoices for a user from the specified uid",
+      "description": "",
+      "method": "GET",
+      "body": { "mimeType": "application/json", "text": "" },
+      "parameters": [
+        {
+          "id": "pair_b35217344fde414dad44dafb2de6acca",
+          "name": "",
+          "value": "",
+          "description": ""
+        }
+      ],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer",
+        "disabled": false
+      },
+      "metaSortKey": -1697999371870,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_3f0ce5f0862941ecb05e8f7e31fe7957",
+      "parentId": "wrk_a49d39df1d5c4aa0b0064df427ad3890",
+      "modified": 1697999369627,
+      "created": 1697999340641,
+      "name": "payment",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1682928375725.3618,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_7e73dc5f31ec461bb7db2c5b1ab57576",
+      "parentId": "fld_3f0ce5f0862941ecb05e8f7e31fe7957",
+      "modified": 1697999373077,
+      "created": 1697125401660,
+      "url": "{{ _.host }}/api/payment/invoice",
+      "name": "Invoice a user",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"patient\": \"{patient_uid}\",\n\t\"amount\": 1337\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_33a63dbb842442fa8da7020fe0e34de8",
+          "disabled": false
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer",
+        "disabled": false
+      },
+      "metaSortKey": -1697999371770,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "env_579dda9506b34136873873f6380d25b8",
+      "parentId": "wrk_a49d39df1d5c4aa0b0064df427ad3890",
+      "modified": 1696463134593,
+      "created": 1695425945293,
+      "name": "Base Environment",
+      "data": {},
+      "dataPropertyOrder": {},
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1695425945293,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_171a61f0ef3d49b8accc1307b14baa4c",
+      "parentId": "wrk_a49d39df1d5c4aa0b0064df427ad3890",
+      "modified": 1695425945294,
+      "created": 1695425945294,
+      "name": "Default Jar",
+      "cookies": [],
+      "_type": "cookie_jar"
+    },
+    {
+      "_id": "env_a5ef9e77a97f4f21b8e7df3c66f630e7",
+      "parentId": "env_579dda9506b34136873873f6380d25b8",
+      "modified": 1697953015214,
+      "created": 1696463135692,
+      "name": "",
+      "data": {
+        "host": "{API_URL}",
+        "jwtToken": "{idToken}",
+        "patient_uid": "{patient_uid}"
+      },
+      "dataPropertyOrder": {
+        "&": ["host", "jwtToken", "patient_uid"]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1696463135692,
+      "_type": "environment"
+    }
+  ]
+}
