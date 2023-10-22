@@ -56,20 +56,3 @@ export async function invoices(req, res) {
       });
     });
 }
-
-export async function pay(req, res) {
-  const { invoice } = req.body;
-  const results = await dbConn.transaction(async (tx) => {
-    const updateInvoice = await tx.execute(
-      "INSERT INTO Transaction (user_uid, invoice_uid, amount, transaction_date, status) VALUES (?, ?, ?, ?, ?)",
-      [req.userUID, invoice, req.amount, new Date(), "SUCCESS"]
-    );
-    const createTransaction = await tx.execute(
-      "UPDATE Invoice SET paid = TRUE WHERE uid = ?",
-      [invoice]
-    );
-    return [updateInvoice, createTransaction];
-  });
-  console.log(results);
-  res.status(200).json({ msg: "Successfully paid invoice" });
-}

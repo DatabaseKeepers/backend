@@ -21,7 +21,4 @@ router.post(
   paymentController.invoice
 );
 
-// Disabled since we handling payments through Stripe
-//router.post("/pay", [isAuthenticated, paySchema], paymentController.pay);
-
 export default router;
