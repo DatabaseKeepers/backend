@@ -75,7 +75,12 @@ export async function profile(req, res) {
   const results = await dbConn
     .transaction(async (tx) => {
       const user = await tx.execute(
-        "SELECT first_name, last_name, dob, email, title FROM User WHERE uid = ?",
+        "\
+        SELECT \
+          title, first_name, last_name, dob, email, profile_image_url, SC.bio, SC.expertise, SC.years_of_exp \
+        FROM User U \
+        LEFT JOIN StaffCredentials SC ON U.uid = SC.uid \
+        WHERE U.uid = ?",
         [req.userUID]
       );
       const staff = await tx.execute(
