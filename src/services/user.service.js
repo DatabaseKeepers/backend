@@ -75,7 +75,12 @@ export async function profile(req, res) {
   const results = await dbConn
     .transaction(async (tx) => {
       const user = await tx.execute(
-        "SELECT first_name, last_name, dob, email, title FROM User WHERE uid = ?",
+        "\
+        SELECT \
+          title, first_name, last_name, dob, email, profile_image_url, SC.bio, SC.expertise, SC.years_of_exp \
+        FROM User U \
+        LEFT JOIN StaffCredentials SC ON U.uid = SC.uid \
+        WHERE U.uid = ?",
         [req.userUID]
       );
       const staff = await tx.execute(
@@ -143,4 +148,24 @@ export async function uploadImage(req, res) {
   }
 
   res.json({ success: true });
+}
+
+export async function updateProfile(req, res) {
+  try {
+    await dbConn.transaction(async (tx) => {
+      const profile_image_url = await tx.execute(
+        "UPDATE User SET profile_image_url = ? WHERE uid = ?",
+        [req.body.profile_image_url, req.userUID]
+      );
+      const bio = await tx.execute(
+        "UPDATE StaffCredentials SET bio = ? WHERE uid = ?",
+        [req.body.bio, req.userUID]
+      );
+      return [profile_image_url, bio];
+    });
+    res.json({ success: true });
+  } catch (error) {
+    console.log("user.service.uploadImage: ", error);
+    res.status(422).json({ success: false });
+  }
 }

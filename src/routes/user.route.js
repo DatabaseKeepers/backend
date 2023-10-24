@@ -10,6 +10,7 @@ router.get("/:uid/images", [isAuthenticated, isAuthorized], userController.image
 router.get("/me", [isAuthenticated], userController.me);
 router.get("/patients", [isAuthenticated, isStaff], userController.patients);
 router.get("/profile", [isAuthenticated], userController.profile);
+router.put("/profile", [isAuthenticated], userController.updateProfile);
 router.get("/radiologists", [isAuthenticated], userController.radiologists);
 router.post(
   "/upload-image",
