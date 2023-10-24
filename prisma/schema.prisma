@@ -108,11 +108,11 @@ model PatientRelation {
 }
 
 model StaffCredentials {
-  user         User   @relation(fields: [uid], references: [uid])
-  uid          String @unique @db.VarChar(29)
-  bio          String @db.LongText()
-  expertise    String
-  years_of_exp Int
+  user         User    @relation(fields: [uid], references: [uid])
+  uid          String  @unique @db.VarChar(29)
+  bio          String  @db.LongText()
+  expertise    String?
+  years_of_exp Int?
 
   @@index([uid])
 }

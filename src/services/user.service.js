@@ -158,8 +158,8 @@ export async function updateProfile(req, res) {
         [req.body.profile_image_url, req.userUID]
       );
       const bio = await tx.execute(
-        "UPDATE StaffCredentials SET bio = ? WHERE uid = ?",
-        [req.body.bio, req.userUID]
+        "INSERT INTO StaffCredentials(bio, uid) VALUES(?, ?) ON DUPLICATE KEY UPDATE bio = ?",
+        [req.body.bio, req.userUID, req.body.bio]
       );
       return [profile_image_url, bio];
     });
