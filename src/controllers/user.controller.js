@@ -16,6 +16,10 @@ export async function profile(req, res) {
   await userService.profile(req, res);
 }
 
+export async function updateProfile(req, res) {
+  await userService.updateProfile(req, res);
+}
+
 export async function radiologists(req, res) {
   await userService.radiologist(req, res);
 }

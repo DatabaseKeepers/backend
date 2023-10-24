@@ -149,3 +149,23 @@ export async function uploadImage(req, res) {
 
   res.json({ success: true });
 }
+
+export async function updateProfile(req, res) {
+  try {
+    await dbConn.transaction(async (tx) => {
+      const profile_image_url = await tx.execute(
+        "UPDATE User SET profile_image_url = ? WHERE uid = ?",
+        [req.body.profile_image_url, req.userUID]
+      );
+      const bio = await tx.execute(
+        "UPDATE StaffCredentials SET bio = ? WHERE uid = ?",
+        [req.body.bio, req.userUID]
+      );
+      return [profile_image_url, bio];
+    });
+    res.json({ success: true });
+  } catch (error) {
+    console.log("user.service.uploadImage: ", error);
+    res.status(422).json({ success: false });
+  }
+}
