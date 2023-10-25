@@ -232,3 +232,25 @@ export const uploadImageSchema = checkSchema({
     },
   },
 });
+
+export const uploadProfileSchema = checkSchema({
+  profile_image_url: {
+    bail: true,
+    isString: {
+      options: { min: 0 },
+      errorMessage: "Invalid profile image url",
+    },
+    optional: {
+      options: {
+        values: "falsy",
+      },
+    },
+  },
+  bio: {
+    bail: true,
+    isString: {
+      options: { min: 0 },
+      errorMessage: "Use an empty value to remove your bio",
+    },
+  },
+});

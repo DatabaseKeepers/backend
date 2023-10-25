@@ -151,18 +151,26 @@ export async function uploadImage(req, res) {
 }
 
 export async function updateProfile(req, res) {
+  let profile_image_url,
+    bio = null;
   try {
     await dbConn.transaction(async (tx) => {
-      const profile_image_url = await tx.execute(
+      const user = await dbConn.execute("SELECT role FROM User WHERE uid = ?", [
+        req.userUID,
+      ]);
+      profile_image_url = await tx.execute(
         "UPDATE User SET profile_image_url = ? WHERE uid = ?",
         [req.body.profile_image_url, req.userUID]
       );
-      const bio = await tx.execute(
-        "INSERT INTO StaffCredentials(bio, uid) VALUES(?, ?) ON DUPLICATE KEY UPDATE bio = ?",
-        [req.body.bio, req.userUID, req.body.bio]
-      );
+      if (user.rows[0].role !== "PATIENT") {
+        bio = await tx.execute(
+          "INSERT INTO StaffCredentials(bio, uid) VALUES(?, ?) ON DUPLICATE KEY UPDATE bio = ?",
+          [req.body.bio, req.userUID, req.body.bio]
+        );
+      }
       return [profile_image_url, bio];
     });
+
     res.json({ success: true });
   } catch (error) {
     console.log("user.service.uploadImage: ", error);
