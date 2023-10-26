@@ -326,7 +326,10 @@
       "name": "Get a list of radiologists",
       "description": "",
       "method": "GET",
-      "body": { "mimeType": "application/json", "text": "" },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"radiologists\":[{\"uid\":\"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\"title\":\"Dr.\",\"first_name\":\"John\",\"last_name\":\"Radiologist\",\"email\":\"radiologist@test.com\",\"bio\":\"  I am Radiologist John.\\n\\n- Dr. John Radiologist\",\"expertise\":\"Neuroradiology\",\"years_of_exp\":15},{\"uid\":\"6npcE5FQFweAYGAxDlxSARwz1qn2\",\"title\":\"Dr.\",\"first_name\":\"Monica\",\"last_name\":\"Kirk\",\"email\":\"radiologist2@test.com\",\"bio\":null,\"expertise\":null,\"years_of_exp\":null}]}"
+      },
       "parameters": [
         {
           "id": "pair_b35217344fde414dad44dafb2de6acca",
