@@ -235,8 +235,8 @@ export const uploadImageSchema = checkSchema({
 
 export const uploadProfileSchema = checkSchema({
   profile_image_url: {
-    bail: true,
     isString: {
+      bail: true,
       options: { min: 0 },
       errorMessage: "Invalid profile image url",
     },
@@ -247,8 +247,8 @@ export const uploadProfileSchema = checkSchema({
     },
   },
   bio: {
-    bail: true,
     isString: {
+      bail: true,
       options: { min: 0 },
       errorMessage: "Use an empty value to remove your bio",
     },
