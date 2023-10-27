@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
 
-export const errors = async (req, res, next) => {
+const errors = async (req, res, next) => {
   const result = validationResult(req);
   const errors = result.array();
   const sanitizedErrors = errors.map(({ type, value, location, ...error }) => {

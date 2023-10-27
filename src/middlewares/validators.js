@@ -34,6 +34,38 @@ async function checkPatientExists(uid, { req }) {
     });
 }
 
+async function checkPhysicianExistsInHospital(hospital, { req }) {
+  if (req.body.role === "physician") {
+    await dbConn
+      .execute(
+        "\
+      SELECT \
+        U.uid, U.first_name, U.last_name, U.dob \
+      FROM User AS U \
+      JOIN \
+        HospitalPhysician AS HP ON U.uid = HP.physician_uid \
+      WHERE HP.hospital_uid = ? \
+      AND \
+        U.first_name = ? \
+      AND \
+        U.last_name = ? \
+      AND \
+        U.dob = ?",
+        [hospital, req.body.first_name, req.body.last_name, req.body.dob]
+      )
+      .then((result) => {
+        console.log(result.rows);
+        if (result.size > 0) {
+          return Promise.resolve(req);
+        } else {
+          return Promise.reject();
+        }
+      })
+      .catch((error) => console.log(error.code, error.message));
+  }
+  return Promise.resolve();
+}
+
 async function checkInvoiceExists(uid, { req }) {
   await dbConn
     .execute(
@@ -133,6 +165,14 @@ export const signupSchema = checkSchema(
       isIn: {
         options: [["patient", "radiologist", "physician"]],
         errorMessage: "Invalid role",
+      },
+    },
+    hospital: {
+      optional: true,
+      physicianExists: {
+        bail: true,
+        custom: checkPhysicianExistsInHospital,
+        errorMessage: "Physician does not exist in hospital",
       },
     },
   },

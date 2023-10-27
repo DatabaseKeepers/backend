@@ -1,9 +1,12 @@
 import express from "express";
 import { userController } from "../controllers/index.js";
 import { isAuthorized, isStaff } from "../middlewares/authorization.js";
+import errors from "../middlewares/errors.js";
 import { isAuthenticated } from "../middlewares/firebase-auth.js";
-import { uploadImageSchema, uploadProfileSchema } from "../middlewares/validators.js";
-import errors from "../utils/errors.js";
+import {
+  uploadImageSchema,
+  uploadProfileSchema,
+} from "../middlewares/validators.js";
 
 const router = express.Router();
 

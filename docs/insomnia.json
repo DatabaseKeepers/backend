@@ -1,8 +1,8 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-10-27T00:06:58.842Z",
-  "__export_source": "insomnia.desktop.app:v0.1.3",
+  "__export_date": "2023-10-27T23:44:47.878Z",
+  "__export_source": "insomnia.desktop.app:v0.2.2",
   "resources": [
     {
       "_id": "req_f98271e44f354bdebdbdd2c7ae31bfde",
@@ -39,6 +39,7 @@
       "settingEncodeUrl": true,
       "settingRebuildPath": true,
       "settingFollowRedirects": "global",
+      "segmentParams": [],
       "_type": "request"
     },
     {
@@ -87,20 +88,21 @@
       "settingEncodeUrl": true,
       "settingRebuildPath": true,
       "settingFollowRedirects": "global",
+      "segmentParams": [],
       "_type": "request"
     },
     {
       "_id": "req_089baa5e56c5476783b69aa3fb7f7250",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1697999300234,
+      "modified": 1698450015909,
       "created": 1695426311293,
       "url": "{{host}}/api/auth/signup",
       "name": "Create an account for the user with the provided body arguments.",
-      "description": "",
+      "description": "```response:400\nWhen the user signs up as a Physician that does not exist.\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Physician does not exist in hospital\",\n\t\t\t\"path\": \"/api/auth/signup\"\n\t\t}\n\t]\n}\n```",
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"email\": \"patient@test.com\",\n\t\"password\": \"testtest123\",\n\t\"dob\": \"1990-01-01\",\n\t\"first_name\": \"John\",\n\t\"last_name\": \"Doe\",\n\t\"role\": \"patient\"\n}"
+        "text": "{\n\t\"email\": \"patient@test.com\",\n\t\"password\": \"testtest123\",\n\t\"dob\": \"1990-01-01\",\n\t\"first_name\": \"John\",\n\t\"last_name\": \"Doe\",\n\t\"role\": \"patient\",\n\t\"hospital\": \"\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -124,6 +126,7 @@
       "settingEncodeUrl": true,
       "settingRebuildPath": true,
       "settingFollowRedirects": "global",
+      "segmentParams": [],
       "_type": "request"
     },
     {
@@ -151,7 +154,44 @@
       "settingEncodeUrl": true,
       "settingRebuildPath": true,
       "settingFollowRedirects": "global",
+      "segmentParams": [],
       "_type": "request"
+    },
+    {
+      "_id": "req_b323ff875f194b1da13c08c1d0462e56",
+      "parentId": "fld_44ea47c095634c0292ba3d6529a72cb7",
+      "modified": 1698368366765,
+      "created": 1698367969620,
+      "url": "{{host}}/api/hospital/hospitals",
+      "name": "Get a list of hospitals currently part of our service.",
+      "description": "```response:200\n{\n\t\"hospitals\": [\n\t\t{\n\t\t\t\"uid\": \"32705ceb-7461-11ee-81b2-ca6978a5600e\",\n\t\t\t\"name\": \"City General Medical Center\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"32706028-7461-11ee-81b2-ca6978a5600e\",\n\t\t\t\"name\": \"Green Valley Health Center\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"32705f3a-7461-11ee-81b2-ca6978a5600e\",\n\t\t\t\"name\": \"Maplewood Community Hospital\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"32702cf9-7461-11ee-81b2-ca6978a5600e\",\n\t\t\t\"name\": \"St. John's Hospital\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"327060f9-7461-11ee-81b2-ca6978a5600e\",\n\t\t\t\"name\": \"Sunset Memorial Hospital\"\n\t\t}\n\t]\n}\n```",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [{ "name": "User-Agent", "value": "insomnia/0.1.3" }],
+      "authentication": {},
+      "metaSortKey": -1698367969620,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "segmentParams": [],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_44ea47c095634c0292ba3d6529a72cb7",
+      "parentId": "wrk_a49d39df1d5c4aa0b0064df427ad3890",
+      "modified": 1698367964392,
+      "created": 1698367956715,
+      "name": "hospital",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1695807798723.5,
+      "_type": "request_group"
     },
     {
       "_id": "req_232e227e5bd345d5a9993651c1a68ae7",
@@ -184,6 +224,7 @@
       "settingEncodeUrl": true,
       "settingRebuildPath": true,
       "settingFollowRedirects": "global",
+      "segmentParams": [],
       "_type": "request"
     },
     {
@@ -223,6 +264,7 @@
       "settingEncodeUrl": true,
       "settingRebuildPath": true,
       "settingFollowRedirects": "global",
+      "segmentParams": [],
       "_type": "request"
     },
     {
@@ -258,6 +300,7 @@
       "settingEncodeUrl": true,
       "settingRebuildPath": true,
       "settingFollowRedirects": "global",
+      "segmentParams": [],
       "_type": "request"
     },
     {
@@ -285,6 +328,7 @@
       "settingEncodeUrl": true,
       "settingRebuildPath": true,
       "settingFollowRedirects": "global",
+      "segmentParams": [],
       "_type": "request"
     },
     {
@@ -312,6 +356,7 @@
       "settingEncodeUrl": true,
       "settingRebuildPath": true,
       "settingFollowRedirects": "global",
+      "segmentParams": [],
       "_type": "request"
     },
     {
@@ -342,6 +387,7 @@
       "settingEncodeUrl": true,
       "settingRebuildPath": true,
       "settingFollowRedirects": "global",
+      "segmentParams": [],
       "_type": "request"
     },
     {
@@ -377,6 +423,7 @@
       "settingEncodeUrl": true,
       "settingRebuildPath": true,
       "settingFollowRedirects": "global",
+      "segmentParams": [],
       "_type": "request"
     },
     {
@@ -412,6 +459,7 @@
       "settingEncodeUrl": true,
       "settingRebuildPath": true,
       "settingFollowRedirects": "global",
+      "segmentParams": [],
       "_type": "request"
     },
     {
@@ -462,6 +510,7 @@
       "settingEncodeUrl": true,
       "settingRebuildPath": true,
       "settingFollowRedirects": "global",
+      "segmentParams": [],
       "_type": "request"
     },
     {
@@ -500,6 +549,7 @@
       "dataPropertyOrder": {
         "&": ["host", "jwtToken", "patient_uid"]
       },
+      "dataPropertyOrder": { "&": ["host", "jwtToken", "patient_uid"] },
       "color": null,
       "isPrivate": false,
       "metaSortKey": 1696463135692,

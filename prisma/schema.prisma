@@ -21,25 +21,26 @@ enum TransactionStatus {
 }
 
 model User {
-  id                 Int               @unique @default(autoincrement())
-  uid                String            @unique @db.VarChar(29)
-  email              String            @unique
-  dob                DateTime          @db.Date
+  id                 Int                 @unique @default(autoincrement())
+  uid                String              @unique @db.VarChar(29)
+  email              String              @unique
+  dob                DateTime            @db.Date
   first_name         String
   last_name          String
   title              String?
   profile_image_url  String?
-  role               Role              @default(PATIENT)
-  ImagesUploaded     Image[]           @relation("UploadedImages")
-  Images             Image[]           @relation("Images")
-  NotificationsFor   Notification[]    @relation("PatientNotification")
-  NotificationsFrom  Notification[]    @relation("RadiologistNotification")
-  PatientRelation    PatientRelation[] @relation("PatientRelation")
-  StaffRelation      PatientRelation[] @relation("StaffRelation")
+  role               Role                @default(PATIENT)
+  ImagesUploaded     Image[]             @relation("UploadedImages")
+  Images             Image[]             @relation("Images")
+  NotificationsFor   Notification[]      @relation("PatientNotification")
+  NotificationsFrom  Notification[]      @relation("RadiologistNotification")
+  PatientRelation    PatientRelation[]   @relation("PatientRelation")
+  StaffRelation      PatientRelation[]   @relation("StaffRelation")
   StaffCredentials   StaffCredentials?
   Transactions       Transaction[]
-  PatientInvoice     Invoice[]         @relation("PatientInvoice")
-  RadiologistInvoice Invoice[]         @relation("RadiologistInvoice")
+  PatientInvoice     Invoice[]           @relation("PatientInvoice")
+  RadiologistInvoice Invoice[]           @relation("RadiologistInvoice")
+  Hospitals          HospitalPhysician[]
 
   @@index(uid)
 }
@@ -65,6 +66,25 @@ model Image {
   @@index([uid])
   @@index([uploaded_by])
   @@index([uploaded_for])
+}
+
+model Hospital {
+  id         Int                 @unique @default(autoincrement())
+  uid        String              @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
+  name       String              @db.VarChar(255)
+  createdAt  DateTime            @default(now())
+  Physicians HospitalPhysician[]
+}
+
+model HospitalPhysician {
+  id            Int      @id @default(autoincrement())
+  hospital      Hospital @relation(fields: [hospital_uid], references: [uid])
+  hospital_uid  String   @db.VarChar(36)
+  physician     User     @relation(fields: [physician_uid], references: [uid])
+  physician_uid String   @db.VarChar(29)
+
+  @@index([hospital_uid])
+  @@index([physician_uid])
 }
 
 model ImageNote {
