@@ -89,11 +89,10 @@ export async function signup(req, res) {
       })
       .then((userRecord) => {
         dbConn
-          .execute("UPDATE User SET email = ?, title = ? WHERE uid = ?", [
-            email,
-            title,
-            userRecord.uid,
-          ])
+          .execute(
+            "UPDATE User SET email = ?, title = ?, claimed_as_physician = true, WHERE uid = ?",
+            [email, title, userRecord.uid]
+          )
           .then((result) => {
             if (result.rowsAffected > 0) {
               res

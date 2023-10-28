@@ -21,26 +21,27 @@ enum TransactionStatus {
 }
 
 model User {
-  id                 Int                 @unique @default(autoincrement())
-  uid                String              @unique @db.VarChar(29)
-  email              String              @unique
-  dob                DateTime            @db.Date
-  first_name         String
-  last_name          String
-  title              String?
-  profile_image_url  String?
-  role               Role                @default(PATIENT)
-  ImagesUploaded     Image[]             @relation("UploadedImages")
-  Images             Image[]             @relation("Images")
-  NotificationsFor   Notification[]      @relation("PatientNotification")
-  NotificationsFrom  Notification[]      @relation("RadiologistNotification")
-  PatientRelation    PatientRelation[]   @relation("PatientRelation")
-  StaffRelation      PatientRelation[]   @relation("StaffRelation")
-  StaffCredentials   StaffCredentials?
-  Transactions       Transaction[]
-  PatientInvoice     Invoice[]           @relation("PatientInvoice")
-  RadiologistInvoice Invoice[]           @relation("RadiologistInvoice")
-  Hospitals          HospitalPhysician[]
+  id                   Int                 @unique @default(autoincrement())
+  uid                  String              @unique @db.VarChar(29)
+  email                String              @unique
+  dob                  DateTime            @db.Date
+  first_name           String
+  last_name            String
+  title                String?
+  profile_image_url    String?
+  role                 Role                @default(PATIENT)
+  claimed_as_physician Boolean             @default(false)
+  ImagesUploaded       Image[]             @relation("UploadedImages")
+  Images               Image[]             @relation("Images")
+  NotificationsFor     Notification[]      @relation("PatientNotification")
+  NotificationsFrom    Notification[]      @relation("RadiologistNotification")
+  PatientRelation      PatientRelation[]   @relation("PatientRelation")
+  StaffRelation        PatientRelation[]   @relation("StaffRelation")
+  StaffCredentials     StaffCredentials?
+  Transactions         Transaction[]
+  PatientInvoice       Invoice[]           @relation("PatientInvoice")
+  RadiologistInvoice   Invoice[]           @relation("RadiologistInvoice")
+  Hospitals            HospitalPhysician[]
 
   @@index(uid)
 }

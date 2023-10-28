@@ -41,7 +41,7 @@ async function checkPhysicianExistsInHospital(hospital, { req }) {
       .execute(
         "\
       SELECT \
-        U.uid, U.first_name, U.last_name, U.dob \
+        U.uid, U.first_name, U.last_name, U.dob, U.claimed_as_physician \
       FROM User AS U \
       JOIN \
         HospitalPhysician AS HP ON U.uid = HP.physician_uid \
@@ -51,7 +51,9 @@ async function checkPhysicianExistsInHospital(hospital, { req }) {
       AND \
         U.last_name = ? \
       AND \
-        U.dob = ?",
+        U.dob = ? \
+      AND \
+        U.claimed_as_physician = false",
         [hospital, req.body.first_name, req.body.last_name, req.body.dob]
       )
       .then((result) => {
@@ -173,7 +175,8 @@ export const signupSchema = checkSchema(
       physicianExists: {
         bail: true,
         custom: checkPhysicianExistsInHospital,
-        errorMessage: "Physician does not exist in hospital",
+        errorMessage:
+          "Account already exists or physician not found in hospital",
       },
     },
   },
