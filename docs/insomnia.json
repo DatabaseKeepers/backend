@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-10-27T23:44:47.878Z",
+  "__export_date": "2023-10-28T08:14:45.911Z",
   "__export_source": "insomnia.desktop.app:v0.2.2",
   "resources": [
     {
@@ -67,7 +67,7 @@
     {
       "_id": "req_60dd5e4c71984712897a033168fe383b",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1698113425922,
+      "modified": 1698475175340,
       "created": 1696463217635,
       "url": "{{host}}/api/auth/login",
       "name": "Login user",
@@ -75,7 +75,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"email\": \"radiologist@test.com\",\n\t\"password\": \"testtest123\"\n}"
+        "text": "{\n\t\"email\": \"patient@test.com\",\n\t\"password\": \"testtest123\",\n\t\"returnSecureToken\": true\n}"
       },
       "parameters": [],
       "headers": [{ "name": "Content-Type", "value": "application/json" }],
@@ -94,7 +94,7 @@
     {
       "_id": "req_089baa5e56c5476783b69aa3fb7f7250",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1698450015909,
+      "modified": 1698472674161,
       "created": 1695426311293,
       "url": "{{host}}/api/auth/signup",
       "name": "Create an account for the user with the provided body arguments.",
@@ -334,10 +334,10 @@
     {
       "_id": "req_7764ea7cf32142068bf7e4fd8732bfba",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1698358306994,
+      "modified": 1698475228379,
       "created": 1698358303452,
-      "url": "{{host}}/api/user/profile",
-      "name": "Assign radiologist given by specified uid to the user.",
+      "url": "{{host}}/api/user/{{ _.radiologist_uid }}/assign/radiologist",
+      "name": "Assign specified radiologist uid to patient's request.",
       "description": "",
       "method": "POST",
       "body": { "mimeType": "application/json", "text": "" },
@@ -349,6 +349,34 @@
         "prefix": "Bearer"
       },
       "metaSortKey": -1697999150984.75,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "segmentParams": [],
+      "_type": "request"
+    },
+    {
+      "_id": "req_14ed04cc5e604598acd4db661b85fa7d",
+      "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
+      "modified": 1698474630329,
+      "created": 1698474607978,
+      "url": "{{host}}/api/user/{{ _.radiologist_uid }}/remove/radiologist",
+      "name": "Remove radiologist from being tasked by the patient.",
+      "description": "",
+      "method": "DELETE",
+      "body": { "mimeType": "application/json", "text": "" },
+      "parameters": [],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1697999150981.625,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -538,7 +566,7 @@
     {
       "_id": "env_a5ef9e77a97f4f21b8e7df3c66f630e7",
       "parentId": "env_579dda9506b34136873873f6380d25b8",
-      "modified": 1698000885214,
+      "modified": 1698474467645,
       "created": 1696463135692,
       "name": "",
       "data": {
@@ -547,9 +575,8 @@
         "patient_uid": "{patient_uid}"
       },
       "dataPropertyOrder": {
-        "&": ["host", "jwtToken", "patient_uid"]
+        "&": ["host", "jwtToken", "patient_uid", "radiologist_uid"]
       },
-      "dataPropertyOrder": { "&": ["host", "jwtToken", "patient_uid"] },
       "color": null,
       "isPrivate": false,
       "metaSortKey": 1696463135692,
