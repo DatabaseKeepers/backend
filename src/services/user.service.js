@@ -1,5 +1,50 @@
 import dbConn from "../config/db.js";
 
+export async function assignRadiologist(req, res) {
+  await dbConn
+    .execute(
+      "INSERT INTO PatientRelation (patient_uid, staff_uid) VALUES (?, ?)",
+      [req.userUID, req.params.uid]
+    )
+    .then((result) => {
+      if (result.rowsAffected > 0) {
+        res.json({ success: true });
+      } else {
+        res.json({ success: false });
+      }
+    })
+    .catch((error) => {
+      console.log("user.service.assignRadiologist: ", error.body.message);
+      if (error.body.message.includes("Duplicate entry")) {
+        return res.json({
+          success: false,
+          message:
+            "You have already assigned this radiologist to your account.",
+        });
+      }
+      res.json({ success: false });
+    });
+}
+
+export async function removeRadiologist(req, res) {
+  await dbConn
+    .execute(
+      "DELETE FROM PatientRelation WHERE patient_uid = ? AND staff_uid = ?",
+      [req.userUID, req.params.uid]
+    )
+    .then((result) => {
+      if (result.rowsAffected > 0) {
+        res.json({ success: true });
+      } else {
+        res.json({ success: false });
+      }
+    })
+    .catch((error) => {
+      console.log("user.service.removeRadiologist: ", error.body);
+      res.json({ success: false });
+    });
+}
+
 export async function images(req, res) {
   const result = await dbConn
     .execute(

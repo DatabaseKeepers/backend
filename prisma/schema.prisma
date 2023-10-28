@@ -124,6 +124,7 @@ model PatientRelation {
   staff       User   @relation("StaffRelation", fields: [staff_uid], references: [uid])
   staff_uid   String @db.VarChar(29)
 
+  @@unique([patient_uid, staff_uid])
   @@index([patient_uid])
   @@index([staff_uid])
 }
