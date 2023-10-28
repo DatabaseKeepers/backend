@@ -11,7 +11,8 @@ export const isAuthorized = async (req, res, next) => {
     const isOwnerOrAuthorized =
       (user.rows.length > 0 &&
         ["PHYSICIAN", "RADIOLOGIST"].includes(user.rows[0].role)) ||
-      req.userUID === req.params.userId;
+      req.userUID === req.params.userId || // invoices api
+      req.userUID === user.rows[0].uid; // match firebase auth uid to our db uid
 
     if (isOwnerOrAuthorized) {
       next();

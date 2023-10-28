@@ -10,11 +10,29 @@ import {
 
 const router = express.Router();
 
-router.get("/:uid/images", [isAuthenticated, isAuthorized], userController.images)
+router.get(
+  "/:uid/images",
+  [isAuthenticated, isAuthorized],
+  userController.images
+);
+router.post(
+  "/:uid/assign/radiologist",
+  [isAuthenticated, isAuthorized],
+  userController.assignRadiologist
+);
+router.delete(
+  "/:uid/remove/radiologist",
+  [isAuthenticated, isAuthorized],
+  userController.removeRadiologist
+);
 router.get("/me", [isAuthenticated], userController.me);
 router.get("/patients", [isAuthenticated, isStaff], userController.patients);
 router.get("/profile", [isAuthenticated], userController.profile);
-router.put("/profile", [isAuthenticated, uploadProfileSchema, errors], userController.updateProfile);
+router.put(
+  "/profile",
+  [isAuthenticated, uploadProfileSchema, errors],
+  userController.updateProfile
+);
 router.get("/radiologists", [isAuthenticated], userController.radiologists);
 router.post(
   "/upload-image",

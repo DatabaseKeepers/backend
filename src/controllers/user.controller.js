@@ -1,5 +1,13 @@
 import { userService } from "../services/index.js";
 
+export async function assignRadiologist(req, res) {
+  await userService.assignRadiologist(req, res);
+}
+
+export async function removeRadiologist(req, res) {
+  await userService.removeRadiologist(req, res);
+}
+
 export async function images(req, res) {
   await userService.images(req, res);
 }
