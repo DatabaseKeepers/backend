@@ -9,7 +9,8 @@ async function checkEmailExists(email) {
       if (user) return Promise.resolve();
       return Promise.reject();
     })
-    .catch((_error) => {
+    .catch((error) => {
+      if (error.code === "auth/user-not-found") return Promise.resolve();
       return Promise.reject();
     });
 }
@@ -54,8 +55,8 @@ async function checkPhysicianExistsInHospital(hospital, { req }) {
         [hospital, req.body.first_name, req.body.last_name, req.body.dob]
       )
       .then((result) => {
-        console.log(result.rows);
         if (result.size > 0) {
+          req.userUID = result.rows[0].uid;
           return Promise.resolve(req);
         } else {
           return Promise.reject();
