@@ -9,7 +9,8 @@ async function checkEmailExists(email) {
       if (user) return Promise.resolve();
       return Promise.reject();
     })
-    .catch((_error) => {
+    .catch((error) => {
+      if (error.code === "auth/user-not-found") return Promise.resolve();
       return Promise.reject();
     });
 }
@@ -32,6 +33,40 @@ async function checkPatientExists(uid, { req }) {
       console.log(error.code, error.message);
       return Promise.reject();
     });
+}
+
+async function checkPhysicianExistsInHospital(hospital, { req }) {
+  if (req.body.role === "physician") {
+    await dbConn
+      .execute(
+        "\
+      SELECT \
+        U.uid, U.first_name, U.last_name, U.dob, U.claimed_as_physician \
+      FROM User AS U \
+      JOIN \
+        HospitalPhysician AS HP ON U.uid = HP.physician_uid \
+      WHERE HP.hospital_uid = ? \
+      AND \
+        U.first_name = ? \
+      AND \
+        U.last_name = ? \
+      AND \
+        U.dob = ? \
+      AND \
+        U.claimed_as_physician = false",
+        [hospital, req.body.first_name, req.body.last_name, req.body.dob]
+      )
+      .then((result) => {
+        if (result.size > 0) {
+          req.userUID = result.rows[0].uid;
+          return Promise.resolve(req);
+        } else {
+          return Promise.reject();
+        }
+      })
+      .catch((error) => console.log(error.code, error.message));
+  }
+  return Promise.resolve();
 }
 
 async function checkInvoiceExists(uid, { req }) {
@@ -133,6 +168,15 @@ export const signupSchema = checkSchema(
       isIn: {
         options: [["patient", "radiologist", "physician"]],
         errorMessage: "Invalid role",
+      },
+    },
+    hospital: {
+      optional: true,
+      physicianExists: {
+        bail: true,
+        custom: checkPhysicianExistsInHospital,
+        errorMessage:
+          "Account already exists or physician not found in hospital",
       },
     },
   },
