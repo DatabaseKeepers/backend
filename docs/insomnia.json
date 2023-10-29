@@ -1,17 +1,17 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-10-28T08:14:45.911Z",
+  "__export_date": "2023-10-29T07:02:05.284Z",
   "__export_source": "insomnia.desktop.app:v0.2.2",
   "resources": [
     {
       "_id": "req_f98271e44f354bdebdbdd2c7ae31bfde",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1697999280863,
+      "modified": 1698530695868,
       "created": 1697856018319,
       "url": "{{host}}/api/auth/add-patient",
       "name": "Create a patient account on behalf of a staff member.",
-      "description": "Create a patient account on behalf of a staff member.",
+      "description": "```response:200\n{\n\t\"msg\": \"Successfully added new patient\"\n}\n```",
       "method": "POST",
       "body": {
         "mimeType": "application/json",
@@ -67,15 +67,15 @@
     {
       "_id": "req_60dd5e4c71984712897a033168fe383b",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1698475175340,
+      "modified": 1698531271734,
       "created": 1696463217635,
       "url": "{{host}}/api/auth/login",
       "name": "Login user",
-      "description": "",
+      "description": "```response:200\n{\n\t\"localId\": \"ecJD9MhYvoWRieaPnAL014G7Avf1\",\n\t\"displayName\": \"\",\n\t\"idToken\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6IjBkMGU4NmJkNjQ3NDBjYWQyNDc1NjI4ZGEyZWM0OTZkZjUyYWRiNWQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZGF0YWJhc2Uta2VlcGVycy1kZXYiLCJhdWQiOiJkYXRhYmFzZS1rZWVwZXJzLWRldiIsImF1dGhfdGltZSI6MTY5ODUzMTI0NywidXNlcl9pZCI6ImVjSkQ5TWhZdm9XUmllYVBuQUwwMTRHN0F2ZjEiLCJzdWIiOiJlY0pEOU1oWXZvV1JpZWFQbkFMMDE0RzdBdmYxIiwiaWF0IjoxNjk4NTMxMjQ3LCJleHAiOjE2OTg1MzQ4NDcsImVtYWlsIjoicGF0aWVudEB0ZXN0LmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJwYXRpZW50QHRlc3QuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.KB6gtkXUz95XauzIWVKK6qUbRGa4zbP0KY7j08oJC1gLiHN-qTkorFYyIwHUUVYDhyx3f2ZT9V8Ml5s4538lCaON5ycdBw2LBco3MUb4gKkxC1DSQ5y4G52mv3bJWGtDe0fS1odB2i7Buz47yQxZLIwqtHZyTYepTRjdHseqiHHWzHfcV3Ut6nAHh5aPsU39efZKd0EMJ8Kl5_uTUOH0GcfPPJnLIEebx9Z\",\n\t\"refreshToken\": \"AMf-vByVMarTvjwA10sBVzskTvWA0VmavoeNUI0QsMKvVTFLX4I-w_gdCaIea6t2_RGs4JO-N6tLTebAFu1perWfGdqpEd3foJb-BxQVfZIV9JyKk7Wz3daM8tMYpnFR-63w\",\n\t\"expiresIn\": \"3600\"\n}\n```\n\n```response:409\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"The email or password is incorrect\",\n\t\t\t\"path\": \"auth\"\n\t\t}\n\t]\n}\n```",
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"email\": \"patient@test.com\",\n\t\"password\": \"testtest123\",\n\t\"returnSecureToken\": true\n}"
+        "text": "{\n\t\"email\": \"patient@test.com\",\n\t\"password\": \"testtest123\"\n}"
       },
       "parameters": [],
       "headers": [{ "name": "Content-Type", "value": "application/json" }],
@@ -132,11 +132,11 @@
     {
       "_id": "req_8f7b74cfb8d64591aa3d7a109c2120cc",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1697999301551,
+      "modified": 1698530863397,
       "created": 1695624761982,
       "url": "{{host}}/api/auth/token",
       "name": "Specifies if the id token is valid.",
-      "description": "",
+      "description": "```response:200\n{\n\t\"msg\": \"You are authenticated\"\n}\n```",
       "method": "GET",
       "body": { "mimeType": "application/json", "text": "" },
       "parameters": [],
@@ -196,11 +196,11 @@
     {
       "_id": "req_232e227e5bd345d5a9993651c1a68ae7",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1697999242936,
+      "modified": 1698531163712,
       "created": 1697879165547,
       "url": "{{host}}/api/user/{{ _.patient_uid }}/images",
       "name": "Returns a list of images of the specified user uid.",
-      "description": "",
+      "description": "```response:200\n{\n\t\"images\": [\n\t\t{\n\t\t\t\"uid\": \"4885efe7-6fb3-11ee-aa85-fe400bebb284\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F1a3c9474-7246-4729-ab94-f71e80c3cf9f?alt=media&token=c0ca84f7-6bc3-48b8-aa2b-1c3078e1aeb8\",\n\t\t\t\"note\": \"mushroom\",\n\t\t\t\"full_name\": \"Dr. John Physician\",\n\t\t\t\"role\": \"PHYSICIAN\"\n\t\t}\n\t]\n}\n```",
       "method": "GET",
       "body": { "mimeType": "application/json", "text": "" },
       "parameters": [],
@@ -242,11 +242,11 @@
     {
       "_id": "req_18150e48e30c434b834aeb1c3afba7f4",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1697999241672,
+      "modified": 1698531159034,
       "created": 1695712866951,
       "url": "{{host}}/api/user/me",
       "name": "Returns the role of the requesting bearer token.",
-      "description": "",
+      "description": "```response:200\n{\n\t\"role\": \"Patient\"\n}\n```",
       "method": "GET",
       "body": { "mimeType": "application/json", "text": "" },
       "parameters": [],
@@ -270,11 +270,11 @@
     {
       "_id": "req_dc2be9d54ce7429fa5e422531f8fef44",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1697999218676,
+      "modified": 1698531153813,
       "created": 1697853451683,
       "url": "{{host}}/api/user/patients",
       "name": "Get a list of current patients",
-      "description": "",
+      "description": "```response:200\n{\n\t\"patients\": [\n\t\t{\n\t\t\t\"uid\": \"ecJD9MhYvoWRieaPnAL014G7Avf1\",\n\t\t\t\"first_name\": \"John\",\n\t\t\t\"last_name\": \"Doe\",\n\t\t\t\"email\": \"patient@test.com\",\n\t\t\t\"images\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"4885efe7-6fb3-11ee-aa85-fe400bebb284\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F1a3c9474-7246-4729-ab94-f71e80c3cf9f?alt=media&token=c0ca84f7-6bc3-48b8-aa2b-1c3078e1aeb8\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t]\n}\n```",
       "method": "GET",
       "body": { "mimeType": "application/json", "text": "" },
       "parameters": [
@@ -306,11 +306,11 @@
     {
       "_id": "req_fd8e77e52a1743b39c4560e1cad64f01",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1697999239578,
+      "modified": 1698531147570,
       "created": 1697669833675,
       "url": "{{host}}/api/user/profile",
       "name": "Return profile of the specified user uid.",
-      "description": "",
+      "description": "```response:200\n{\n\t\"profile\": {\n\t\t\"title\": null,\n\t\t\"first_name\": \"John\",\n\t\t\"last_name\": \"Doe\",\n\t\t\"dob\": \"1990-01-01\",\n\t\t\"email\": \"patient@test.com\",\n\t\t\"profile_image_url\": null,\n\t\t\"bio\": null,\n\t\t\"expertise\": null,\n\t\t\"years_of_exp\": null\n\t},\n\t\"staff\": [\n\t\t{\n\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\"first_name\": \"John\",\n\t\t\t\"last_name\": \"Physician\",\n\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\"title\": \"Dr.\"\n\t\t}\n\t]\n}\n```",
       "method": "GET",
       "body": { "mimeType": "application/json", "text": "" },
       "parameters": [],
@@ -334,11 +334,11 @@
     {
       "_id": "req_7764ea7cf32142068bf7e4fd8732bfba",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1698475228379,
+      "modified": 1698531142994,
       "created": 1698358303452,
       "url": "{{host}}/api/user/{{ _.radiologist_uid }}/assign/radiologist",
       "name": "Assign specified radiologist uid to patient's request.",
-      "description": "",
+      "description": "```response:200\n{\n\t\"success\": false,\n\t\"message\": \"You have already assigned this radiologist to your account.\"\n}\n```",
       "method": "POST",
       "body": { "mimeType": "application/json", "text": "" },
       "parameters": [],
@@ -362,11 +362,11 @@
     {
       "_id": "req_14ed04cc5e604598acd4db661b85fa7d",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1698474630329,
+      "modified": 1698557852655,
       "created": 1698474607978,
       "url": "{{host}}/api/user/{{ _.radiologist_uid }}/remove/radiologist",
       "name": "Remove radiologist from being tasked by the patient.",
-      "description": "",
+      "description": "```response:200\n{\n\t\"success\": true\n}\n```\n\n```response:200\n{\n\t\"success\": false,\n\t\"msg\": \"Specified radiologist not found.\"\n}\n```",
       "method": "DELETE",
       "body": { "mimeType": "application/json", "text": "" },
       "parameters": [],
@@ -390,15 +390,15 @@
     {
       "_id": "req_a49c0796eb864d10883e1860cc65c709",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1698122310666,
+      "modified": 1698557964132,
       "created": 1698113234532,
       "url": "{{host}}/api/user/profile",
       "name": "Update profile information.",
-      "description": "",
+      "description": "```response:200\n{\n\t\"success\": true\n}\n```",
       "method": "PUT",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"profile_image_url\": \"{link to url}\",\n\t\"bio\": \"new bio\"\n}"
+        "text": "{\n\t\"profile_image_url\": \"\",\n\t\"bio\": \"new bio\"\n}"
       },
       "parameters": [],
       "headers": [{ "name": "Content-Type", "value": "application/json" }],
@@ -457,11 +457,11 @@
     {
       "_id": "req_cdc3a409a4d84357a57ba159bb795fd9",
       "parentId": "fld_3f0ce5f0862941ecb05e8f7e31fe7957",
-      "modified": 1697999371897,
+      "modified": 1698532098662,
       "created": 1697064654760,
       "url": "{{host}}/api/payment/invoices/{{ _.patient_uid }}",
       "name": "Get a list of invoices for a user from the specified uid",
-      "description": "",
+      "description": "```reponse:200\n{\n\t\"data\": [\n\t\t{\n\t\t\t\"uid\": \"in_1O0iE6BUNcu6Z6Rj3ZcFX3hm\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 1337,\n\t\t\t\"paid\": 0,\n\t\t\t\"createdAt\": \"1970-01-20 15:26:31.454\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"in_1O0iEXBUNcu6Z6Rj3gLZyEIn\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 1337,\n\t\t\t\"paid\": 0,\n\t\t\t\"createdAt\": \"1970-01-20 15:26:31.481\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"in_1O0iF6BUNcu6Z6Rja5oiM8Qr\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 1337,\n\t\t\t\"paid\": 0,\n\t\t\t\"createdAt\": \"1970-01-20 15:26:31.516\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"in_1O0iGDBUNcu6Z6RjtwSviSEF\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 1337,\n\t\t\t\"paid\": 0,\n\t\t\t\"createdAt\": \"2023-10-13 10:06:25.000\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"in_1O0tQOBUNcu6Z6RjS855v0TH\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 1337,\n\t\t\t\"paid\": 0,\n\t\t\t\"createdAt\": \"2023-10-13 22:01:40.000\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"in_1O0tS0BUNcu6Z6Rj9t3s1CBN\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 1337,\n\t\t\t\"paid\": 1,\n\t\t\t\"createdAt\": \"2023-10-13 22:03:20.000\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"in_1O0uHWBUNcu6Z6Rjc9D64gdQ\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 1337,\n\t\t\t\"paid\": 0,\n\t\t\t\"createdAt\": \"2023-10-13 22:56:34.000\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"in_1O3lj0BUNcu6Z6RjMg1389IA\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 1337,\n\t\t\t\"paid\": 1,\n\t\t\t\"createdAt\": \"2023-10-21 20:24:46.000\"\n\t\t}\n\t]\n}\n```",
       "method": "GET",
       "body": { "mimeType": "application/json", "text": "" },
       "parameters": [
@@ -503,18 +503,51 @@
       "_type": "request_group"
     },
     {
+      "_id": "req_603a580128fc45d7811ea272001b1488",
+      "parentId": "fld_3f0ce5f0862941ecb05e8f7e31fe7957",
+      "modified": 1698562832168,
+      "created": 1698562163850,
+      "url": "{{host}}/api/payment/{{ _.invoice_uid }}/invoice",
+      "name": "Void the invoice by its id form the request parameters.",
+      "description": "```reponse:200\n{\n\t\"success\": true,\n\t\"msg\": \"Successfully voided invoice\"\n}\n```\n\n```reponse:200\n{\n\t\"success\": true,\n\t\"msg\": \"Invoice has already been paid or does not exist\"\n}\n```\n\n```response:409\n{\n\t\"msg\": \"Unable to void invoice\",\n\t\"path\": \"/api/payment/in_1O6SU9BUNcu6Z6Rj9mvxBlau/invoice\"\n}\n```",
+      "method": "DELETE",
+      "body": { "mimeType": "application/json", "text": "" },
+      "parameters": [
+        {
+          "id": "pair_b35217344fde414dad44dafb2de6acca",
+          "name": "",
+          "value": "",
+          "description": ""
+        }
+      ],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer",
+        "disabled": false
+      },
+      "metaSortKey": -1697999371820,
+      "isPrivate": false,
+      "settingStoreCookies": false,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "segmentParams": [],
+      "_type": "request"
+    },
+    {
       "_id": "req_7e73dc5f31ec461bb7db2c5b1ab57576",
       "parentId": "fld_3f0ce5f0862941ecb05e8f7e31fe7957",
-      "modified": 1697999938590,
+      "modified": 1698561023243,
       "created": 1697125401660,
-      "url": "{{ _.host }}/api/payment/invoice",
-      "name": "Invoice a user",
-      "description": "",
+      "url": "{{ _.host }}/api/payment/{{ _.radiologist_uid }}/invoice",
+      "name": "Creates an invoice after the patient selects a radiologist.",
+      "description": "```response:200\n{\n\t\"success\": true,\n\t\"msg\": \"Successfully created invoice.\"\n}\n```\n\n```response:200\n{\n\t\"success\": false,\n\t\"msg\": \"Error creating invoice.\"\n}\n```\n\n```response:409\n{\n\t\"msg\": \"You have unpaid invoices. Please pay or cancel them before requesting another opinion.\"\n}\n```",
       "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"patient\": {{ _.patient_uid }},\n\t\"amount\": 1337\n}"
-      },
+      "body": { "mimeType": "application/json", "text": "" },
       "parameters": [],
       "headers": [
         {
@@ -566,16 +599,24 @@
     {
       "_id": "env_a5ef9e77a97f4f21b8e7df3c66f630e7",
       "parentId": "env_579dda9506b34136873873f6380d25b8",
-      "modified": 1698474467645,
+      "modified": 1698562200795,
       "created": 1696463135692,
       "name": "",
       "data": {
         "host": "{API_URL}",
         "jwtToken": "{idToken}",
         "patient_uid": "{patient_uid}"
+        "radiologist_uid": "{radiologist_uid}",
+        "invoice_uid": "{invoice_uid}"
       },
       "dataPropertyOrder": {
-        "&": ["host", "jwtToken", "patient_uid", "radiologist_uid"]
+        "&": [
+          "host",
+          "jwtToken",
+          "patient_uid",
+          "radiologist_uid",
+          "invoice_uid"
+        ]
       },
       "color": null,
       "isPrivate": false,
