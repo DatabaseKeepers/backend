@@ -22,4 +22,10 @@ router.post(
   paymentController.invoice
 );
 
+router.delete(
+  "/:invoiceId/invoice",
+  [isAuthenticated],
+  paymentController.voidInvoice
+)
+
 export default router;
