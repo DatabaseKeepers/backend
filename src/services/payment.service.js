@@ -6,9 +6,9 @@ export async function invoice(req, res) {
     .create({
       customer: req.stripeID,
       invoice: invoice.id,
-      amount: req.body.amount * 100,
+      amount: (Math.floor(Math.random() * 201) + 100) * 100,
       currency: "usd",
-      description: "Professional opinion",
+      description: "Professional opinion from a radiologist",
     })
 
     .then((invoiceItems) => {
@@ -21,21 +21,22 @@ export async function invoice(req, res) {
         },
         pending_invoice_items_behavior: "include",
         metadata: {
-          patientUID: req.body.patient,
-          radiologistUID: req.userUID,
+          patient: req.userUID,
+          radiologist: req.params.uid,
         },
       });
     })
     .then((invoice) => {
       stripe.invoices.sendInvoice(invoice.id).then(() => {
         res.status(200).json({
-          msg: "Successfully created invoice for " + req.patientName,
+          success: true,
+          msg: "Successfully created invoice.",
         });
       });
     })
     .catch((error) => {
       console.log("Error creating invoice: ", error);
-      res.status(500).json({ msg: "Error creating invoice" });
+      res.status(500).json({ success: false, msg: "Error creating invoice." });
     });
 }
 

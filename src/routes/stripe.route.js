@@ -39,8 +39,8 @@ router.post(express.raw({ type: "application/json" }), (req, res) => {
           "INSERT IGNORE INTO Invoice (uid, patient_uid, radiologist_uid, amount, paid, createdAt) VALUES (?, ?, ?, ?, ?, ?)",
           [
             event.data.object.id,
-            event.data.object.metadata.patientUID,
-            event.data.object.metadata.radiologistUID,
+            event.data.object.metadata.patient,
+            event.data.object.metadata.radiologist,
             event.data.object.total / 100,
             event.data.object.paid,
             new Date(event.data.object.created * 1000), // in GMT
