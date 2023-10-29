@@ -59,11 +59,18 @@ router.post(express.raw({ type: "application/json" }), (req, res) => {
       break;
     case "invoice.updated":
       break;
+    case "invoice.voided":
+      dbConn.execute("UPDATE Invoice SET paid = 1 WHERE uid = ?", [
+        event.data.object.id,
+      ]);
+      break;
     case "payment_method.attached":
       break;
     case "payment_intent.created":
       break;
     case "payment_intent.succeeded":
+      break;
+    case "payment_intent.canceled":
       break;
     case "source.chargeable":
       break;
