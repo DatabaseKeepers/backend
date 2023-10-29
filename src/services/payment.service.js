@@ -43,7 +43,7 @@ export async function invoice(req, res) {
 export async function invoices(req, res) {
   await dbConn
     .execute(
-      "SELECT uid, radiologist_uid, amount, paid, createdAt FROM Invoice WHERE patient_uid=(?)",
+      "SELECT uid, radiologist_uid, amount, paid, createdAt FROM Invoice WHERE patient_uid = ?",
       [req.params.userId]
     )
     .then((result) => {
@@ -53,6 +53,31 @@ export async function invoices(req, res) {
       console.log("Error fetching invoices: ", error);
       res.status(409).json({
         msg: "Unable to fetch invoices",
+        path: req.originalUrl,
+      });
+    });
+}
+
+export async function voidInvoice(req, res) {
+  await dbConn
+    .execute("UPDATE Invoice SET paid = true WHERE uid = ? AND paid = false", [
+      req.params.invoiceId,
+    ])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(200).json({
+          success: true,
+          msg: "Invoice has already been paid or does not exist",
+        });
+      }
+      res
+        .status(200)
+        .json({ success: true, msg: "Successfully voided invoice" });
+    })
+    .catch((error) => {
+      console.log("Error voiding invoice: ", error);
+      res.status(409).json({
+        msg: "Unable to void invoice",
         path: req.originalUrl,
       });
     });

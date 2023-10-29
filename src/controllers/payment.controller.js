@@ -7,3 +7,7 @@ export async function invoices(req, res) {
 export async function invoice(req, res) {
   await paymentService.invoice(req, res);
 }
+
+export async function voidInvoice(req, res) {
+  await paymentService.voidInvoice(req, res);
+}
