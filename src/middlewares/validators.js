@@ -175,8 +175,7 @@ export const signupSchema = checkSchema(
       physicianExists: {
         bail: true,
         custom: checkPhysicianExistsInHospital,
-        errorMessage:
-          "Account already exists or physician not found in hospital",
+        errorMessage: "Account already exists or physician not found in hospital",
       },
     },
   },
@@ -198,34 +197,6 @@ export const invoicesSchema = checkSchema(
     },
   },
   ["params"]
-);
-
-export const invoiceSchema = checkSchema(
-  {
-    patient: {
-      notEmpty: {
-        bail: true,
-        errorMessage: "Patient's uid is required",
-      },
-      patientExists: {
-        bail: true,
-        custom: checkPatientExists,
-        errorMessage: "Patient does not exist",
-      },
-    },
-    amount: {
-      notEmpty: {
-        bail: true,
-        errorMessage: "Bill amount is required",
-      },
-      isFloat: {
-        bail: true,
-        options: { min: 0 },
-        errorMessage: "Invalid bill amount",
-      },
-    },
-  },
-  ["body"]
 );
 
 export const paySchema = checkSchema(

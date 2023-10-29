@@ -39,8 +39,8 @@ router.post(express.raw({ type: "application/json" }), (req, res) => {
           "INSERT IGNORE INTO Invoice (uid, patient_uid, radiologist_uid, amount, paid, createdAt) VALUES (?, ?, ?, ?, ?, ?)",
           [
             event.data.object.id,
-            event.data.object.metadata.patientUID,
-            event.data.object.metadata.radiologistUID,
+            event.data.object.metadata.patient,
+            event.data.object.metadata.radiologist,
             event.data.object.total / 100,
             event.data.object.paid,
             new Date(event.data.object.created * 1000), // in GMT
@@ -59,11 +59,18 @@ router.post(express.raw({ type: "application/json" }), (req, res) => {
       break;
     case "invoice.updated":
       break;
+    case "invoice.voided":
+      dbConn.execute("UPDATE Invoice SET paid = 1 WHERE uid = ?", [
+        event.data.object.id,
+      ]);
+      break;
     case "payment_method.attached":
       break;
     case "payment_intent.created":
       break;
     case "payment_intent.succeeded":
+      break;
+    case "payment_intent.canceled":
       break;
     case "source.chargeable":
       break;

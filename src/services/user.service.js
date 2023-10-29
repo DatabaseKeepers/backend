@@ -36,7 +36,7 @@ export async function removeRadiologist(req, res) {
       if (result.rowsAffected > 0) {
         res.json({ success: true });
       } else {
-        res.json({ success: false });
+        res.json({ success: false, msg: "Specified radiologist not found." });
       }
     })
     .catch((error) => {
