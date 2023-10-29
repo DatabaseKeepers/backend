@@ -605,7 +605,7 @@
       "data": {
         "host": "{API_URL}",
         "jwtToken": "{idToken}",
-        "patient_uid": "{patient_uid}"
+        "patient_uid": "{patient_uid}",
         "radiologist_uid": "{radiologist_uid}",
         "invoice_uid": "{invoice_uid}"
       },
