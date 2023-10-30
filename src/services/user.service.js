@@ -50,21 +50,29 @@ export async function images(req, res) {
     .execute(
       "\
       SELECT \
-        I.uid, \
-        I.url, \
-        INN.note, \
-        CONCAT(UA.title, ' ', UA.first_name, ' ', UA.last_name) AS full_name, \
-        UA.role \
+        I.uid, I.url, \
+        IF(COUNT(INN.note) > 0, \
+          JSON_ARRAYAGG( \
+            JSON_OBJECT( \
+              'uid', INN.author_uid, \
+              'note', INN.note, \
+              'full_name', CONCAT(UA.title, ' ', UA.first_name, ' ', UA.last_name), \
+              'role', UA.role \
+            ) \
+          ), \
+          JSON_ARRAY() \
+        ) AS authors \
       FROM User U \
-          JOIN Image I ON U.uid = I.uploaded_for \
-          LEFT JOIN ( \
-            SELECT INN.uid, INN.note, INN.image_uid, INN.author_uid \
-            FROM ImageNote INN \
-            JOIN User UA ON INN.author_uid = UA.uid \
-            WHERE UA.role IN ('PHYSICIAN', 'RADIOLOGIST') \
-        ) AS INN ON I.uid = INN.image_uid \
+      JOIN Image I ON U.uid = I.uploaded_for \
+      LEFT JOIN ( \
+        SELECT INN.uid, INN.note, INN.image_uid, INN.author_uid \
+        FROM ImageNote INN \
+        JOIN User UA ON INN.author_uid = UA.uid \
+        WHERE UA.role IN ('PHYSICIAN', 'RADIOLOGIST') \
+      ) AS INN ON I.uid = INN.image_uid \
       LEFT JOIN User UA ON INN.author_uid = UA.uid \
-      WHERE U.role = 'PATIENT' AND U.uid = ?",
+      WHERE U.role = 'PATIENT' AND U.uid = ? \
+      GROUP BY I.uid, I.url",
       [req.params.uid]
     )
     .catch((error) => {
