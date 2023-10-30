@@ -36,9 +36,10 @@ router.post(express.raw({ type: "application/json" }), (req, res) => {
     case "invoice.finalized":
       dbConn
         .execute(
-          "INSERT IGNORE INTO Invoice (uid, patient_uid, radiologist_uid, amount, paid, createdAt) VALUES (?, ?, ?, ?, ?, ?)",
+          "INSERT IGNORE INTO Invoice (uid, url, patient_uid, radiologist_uid, amount, paid, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)",
           [
             event.data.object.id,
+            event.data.object.hosted_invoice_url,
             event.data.object.metadata.patient,
             event.data.object.metadata.radiologist,
             event.data.object.total / 100,

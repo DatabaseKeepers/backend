@@ -1,6 +1,6 @@
 import express from "express";
 import { paymentController } from "../controllers/index.js";
-import { isAuthorized } from "../middlewares/authorization.js";
+import { isAuthorized, isStaff } from "../middlewares/authorization.js";
 import checkUnpaidInvoices from "../middlewares/check-unpaid-invoices.js";
 import createStripeCustomer from "../middlewares/create-stripe-customer.js";
 import { isAuthenticated } from "../middlewares/firebase-auth.js";
@@ -10,9 +10,15 @@ const router = express.Router();
 
 /* User information routes */
 router.get(
-  "/invoices/:userId",
-  [isAuthenticated, invoicesSchema, isAuthorized],
+  "/invoices",
+  [isAuthenticated, isAuthorized],
   paymentController.invoices
+);
+
+router.get(
+  "/invoices/:userId",
+  [isAuthenticated, invoicesSchema, isStaff],
+  paymentController.invoicesOfUser
 );
 
 /* Transaction routes */

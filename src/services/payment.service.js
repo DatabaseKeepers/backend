@@ -41,9 +41,28 @@ export async function invoice(req, res) {
 }
 
 export async function invoices(req, res) {
+  console.log(req.userUID)
   await dbConn
     .execute(
-      "SELECT uid, radiologist_uid, amount, paid, createdAt FROM Invoice WHERE patient_uid = ?",
+      "SELECT uid, url, radiologist_uid, amount, paid, createdAt FROM Invoice WHERE patient_uid = ?",
+      [req.userUID]
+    )
+    .then((result) => {
+      res.status(200).json({ data: result.rows });
+    })
+    .catch((error) => {
+      console.log("Error fetching invoices: ", error);
+      res.status(409).json({
+        msg: "Unable to fetch invoices",
+        path: req.originalUrl,
+      });
+    });
+}
+
+export async function invoicesOfUser(req, res) {
+  await dbConn
+    .execute(
+      "SELECT uid, url, radiologist_uid, amount, paid, createdAt FROM Invoice WHERE patient_uid = ?",
       [req.params.userId]
     )
     .then((result) => {
