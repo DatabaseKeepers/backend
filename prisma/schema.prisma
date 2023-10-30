@@ -91,13 +91,14 @@ model HospitalPhysician {
 model ImageNote {
   id         Int      @id @default(autoincrement())
   uid        String   @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
-  author_uid String   @unique @db.VarChar(29)
+  author_uid String   @db.VarChar(29)
   image_uid  String   @db.VarChar(36)
   note       String   @db.LongText
   createdAt  DateTime @default(now())
   Image      Image    @relation(fields: [image_uid], references: [uid])
 
   @@index([uid])
+  @@index([author_uid])
   @@index([image_uid])
 }
 
@@ -132,7 +133,7 @@ model PatientRelation {
 model StaffCredentials {
   user         User    @relation(fields: [uid], references: [uid])
   uid          String  @unique @db.VarChar(29)
-  bio          String  @db.LongText()
+  bio          String? @db.LongText()
   expertise    String?
   years_of_exp Int?
 

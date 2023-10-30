@@ -28,8 +28,12 @@ export async function updateProfile(req, res) {
   await userService.updateProfile(req, res);
 }
 
+export async function meetOurRadiologists(req, res) {
+  await userService.meetOurRadiologists(req, res);
+}
+
 export async function radiologists(req, res) {
-  await userService.radiologist(req, res);
+  await userService.radiologists(req, res);
 }
 
 export async function uploadImage(req, res) {

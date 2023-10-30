@@ -50,21 +50,29 @@ export async function images(req, res) {
     .execute(
       "\
       SELECT \
-        I.uid, \
-        I.url, \
-        INN.note, \
-        CONCAT(UA.title, ' ', UA.first_name, ' ', UA.last_name) AS full_name, \
-        UA.role \
+        I.uid, I.url, \
+        IF(COUNT(INN.note) > 0, \
+          JSON_ARRAYAGG( \
+            JSON_OBJECT( \
+              'uid', INN.author_uid, \
+              'note', INN.note, \
+              'full_name', CONCAT(UA.title, ' ', UA.first_name, ' ', UA.last_name), \
+              'role', UA.role \
+            ) \
+          ), \
+          JSON_ARRAY() \
+        ) AS authors \
       FROM User U \
-          JOIN Image I ON U.uid = I.uploaded_for \
-          LEFT JOIN ( \
-            SELECT INN.uid, INN.note, INN.image_uid, INN.author_uid \
-            FROM ImageNote INN \
-            JOIN User UA ON INN.author_uid = UA.uid \
-            WHERE UA.role IN ('PHYSICIAN', 'RADIOLOGIST') \
-        ) AS INN ON I.uid = INN.image_uid \
+      JOIN Image I ON U.uid = I.uploaded_for \
+      LEFT JOIN ( \
+        SELECT INN.uid, INN.note, INN.image_uid, INN.author_uid \
+        FROM ImageNote INN \
+        JOIN User UA ON INN.author_uid = UA.uid \
+        WHERE UA.role IN ('PHYSICIAN', 'RADIOLOGIST') \
+      ) AS INN ON I.uid = INN.image_uid \
       LEFT JOIN User UA ON INN.author_uid = UA.uid \
-      WHERE U.role = 'PATIENT' AND U.uid = ?",
+      WHERE U.role = 'PATIENT' AND U.uid = ? \
+      GROUP BY I.uid, I.url",
       [req.params.uid]
     )
     .catch((error) => {
@@ -154,18 +162,38 @@ export async function profile(req, res) {
   res.json({ profile: results[0].rows[0], staff: results[1].rows });
 }
 
-export async function radiologist(_req, res) {
+export async function meetOurRadiologists(_req, res) {
   const result = await dbConn
     .execute(
       "\
-      SELECT U.uid, U.title, U.first_name, U.last_name, U.email, \
+      SELECT U.uid, U.title, U.first_name, U.last_name, U.profile_image_url, \
+        SC.expertise \
+      FROM User U \
+      LEFT JOIN StaffCredentials SC ON U.uid = SC.uid \
+      WHERE U.role = 'RADIOLOGIST' \
+      ORDER BY RAND() \
+      LIMIT 6"
+    )
+    .catch((error) => {
+      console.log("user.service.meetOurRadiologists: ", error);
+      res.json({ radiologists: [] });
+    });
+
+  res.json({ radiologists: result.rows });
+}
+
+export async function radiologists(_req, res) {
+  const result = await dbConn
+    .execute(
+      "\
+      SELECT U.uid, U.title, U.first_name, U.last_name, U.email, U.profile_image_url, \
         SC.bio, SC.expertise, SC.years_of_exp \
       FROM User U \
       LEFT JOIN StaffCredentials SC ON U.uid = SC.uid \
       WHERE U.role = 'RADIOLOGIST'"
     )
     .catch((error) => {
-      console.log("user.service.patients: ", error);
+      console.log("user.service.radiologists: ", error);
       res.json({ radiologists: [] });
     });
 

@@ -1,13 +1,13 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-10-29T07:02:05.284Z",
+  "__export_date": "2023-10-30T07:59:04.134Z",
   "__export_source": "insomnia.desktop.app:v0.2.2",
   "resources": [
     {
       "_id": "req_f98271e44f354bdebdbdd2c7ae31bfde",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1698530695868,
+      "modified": 1698630360350,
       "created": 1697856018319,
       "url": "{{host}}/api/auth/add-patient",
       "name": "Create a patient account on behalf of a staff member.",
@@ -67,7 +67,7 @@
     {
       "_id": "req_60dd5e4c71984712897a033168fe383b",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1698531271734,
+      "modified": 1698630345805,
       "created": 1696463217635,
       "url": "{{host}}/api/auth/login",
       "name": "Login user",
@@ -196,11 +196,11 @@
     {
       "_id": "req_232e227e5bd345d5a9993651c1a68ae7",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1698531163712,
+      "modified": 1698643320248,
       "created": 1697879165547,
       "url": "{{host}}/api/user/{{ _.patient_uid }}/images",
       "name": "Returns a list of images of the specified user uid.",
-      "description": "```response:200\n{\n\t\"images\": [\n\t\t{\n\t\t\t\"uid\": \"4885efe7-6fb3-11ee-aa85-fe400bebb284\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F1a3c9474-7246-4729-ab94-f71e80c3cf9f?alt=media&token=c0ca84f7-6bc3-48b8-aa2b-1c3078e1aeb8\",\n\t\t\t\"note\": \"mushroom\",\n\t\t\t\"full_name\": \"Dr. John Physician\",\n\t\t\t\"role\": \"PHYSICIAN\"\n\t\t}\n\t]\n}\n```",
+      "description": "```response:200\n{\n\t\"images\": [\n\t\t{\n\t\t\t\"uid\": \"377807b7-76c4-11ee-b572-a2381fd4f437\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F061c6157-ddb8-4154-a679-082682d8437e?alt=media&token=be532a67-8b3e-409d-9e56-2227432177f9\",\n\t\t\t\"authors\": []\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"4885efe7-6fb3-11ee-aa85-fe400bebb284\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F1a3c9474-7246-4729-ab94-f71e80c3cf9f?alt=media&token=c0ca84f7-6bc3-48b8-aa2b-1c3078e1aeb8\",\n\t\t\t\"authors\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\t\t\"note\": \"mushroom\",\n\t\t\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\t\t\"full_name\": \"Dr. John Physician\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\t\t\"note\": \"pizza\",\n\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\"full_name\": \"Dr. John Radiologist\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"6npcE5FQFweAYGAxDlxSARwz1qn2\",\n\t\t\t\t\t\"note\": \"This is a test diagnosis\",\n\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\"full_name\": \"Dr. Monica Kirk\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"67091c8a-76c4-11ee-b572-a2381fd4f437\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F7b459790-0dd2-4f7c-b6a0-62f71fb0e11f?alt=media&token=9fa36c25-ff58-4beb-ac5b-ed824d4470b6\",\n\t\t\t\"authors\": []\n\t\t}\n\t]\n}\n```",
       "method": "GET",
       "body": { "mimeType": "application/json", "text": "" },
       "parameters": [],
@@ -481,7 +481,7 @@
       },
       "metaSortKey": -1697999371870,
       "isPrivate": false,
-      "settingStoreCookies": true,
+      "settingStoreCookies": false,
       "settingSendCookies": true,
       "settingDisableRenderRequestBody": false,
       "settingEncodeUrl": true,
