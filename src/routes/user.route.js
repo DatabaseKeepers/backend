@@ -33,6 +33,7 @@ router.put(
   [isAuthenticated, uploadProfileSchema, errors],
   userController.updateProfile
 );
+router.get("/meet-our-radiologists", [], userController.meetOurRadiologists);
 router.get("/radiologists", [isAuthenticated], userController.radiologists);
 router.post(
   "/upload-image",

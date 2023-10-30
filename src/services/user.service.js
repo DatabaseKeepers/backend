@@ -162,11 +162,26 @@ export async function profile(req, res) {
   res.json({ profile: results[0].rows[0], staff: results[1].rows });
 }
 
-export async function radiologist(_req, res) {
+export async function meetOurRadiologists(_req, res) {
   const result = await dbConn
     .execute(
       "\
-      SELECT U.uid, U.title, U.first_name, U.last_name, U.email, \
+      SELECT U.uid, U.title, U.first_name, U.last_name, U.profile_image_url, \
+        SC.expertise \
+      FROM User U \
+      LEFT JOIN StaffCredentials SC ON U.uid = SC.uid \
+      WHERE U.role = 'RADIOLOGIST' \
+      ORDER BY RAND() \
+      LIMIT 6"
+    )
+    .catch((error) => {
+      console.log("user.service.meetOurRadiologists: ", error);
+      res.json({ radiologists: [] });
+    });
+
+  res.json({ radiologists: result.rows });
+}
+
 export async function radiologists(_req, res) {
   const result = await dbConn
     .execute(
