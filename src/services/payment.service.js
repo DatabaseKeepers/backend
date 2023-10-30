@@ -41,10 +41,10 @@ export async function invoice(req, res) {
 }
 
 export async function invoices(req, res) {
-  console.log(req.userUID)
   await dbConn
     .execute(
-      "SELECT uid, url, radiologist_uid, amount, paid, createdAt FROM Invoice WHERE patient_uid = ?",
+      "SELECT uid, url, radiologist_uid, amount, paid, createdAt FROM Invoice WHERE patient_uid = ? \
+         ORDER BY createdAt DESC",
       [req.userUID]
     )
     .then((result) => {
@@ -62,7 +62,8 @@ export async function invoices(req, res) {
 export async function invoicesOfUser(req, res) {
   await dbConn
     .execute(
-      "SELECT uid, url, radiologist_uid, amount, paid, createdAt FROM Invoice WHERE patient_uid = ?",
+      "SELECT uid, url, radiologist_uid, amount, paid, createdAt FROM Invoice WHERE patient_uid = ? \
+         ORDER BY createdAt DESC",
       [req.params.userId]
     )
     .then((result) => {
