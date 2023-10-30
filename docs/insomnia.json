@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-10-30T07:59:04.134Z",
+  "__export_date": "2023-10-30T10:40:59.591Z",
   "__export_source": "insomnia.desktop.app:v0.2.2",
   "resources": [
     {
@@ -67,7 +67,7 @@
     {
       "_id": "req_60dd5e4c71984712897a033168fe383b",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1698630345805,
+      "modified": 1698662430893,
       "created": 1696463217635,
       "url": "{{host}}/api/auth/login",
       "name": "Login user",
@@ -457,11 +457,11 @@
     {
       "_id": "req_cdc3a409a4d84357a57ba159bb795fd9",
       "parentId": "fld_3f0ce5f0862941ecb05e8f7e31fe7957",
-      "modified": 1698532098662,
+      "modified": 1698662441028,
       "created": 1697064654760,
       "url": "{{host}}/api/payment/invoices/{{ _.patient_uid }}",
       "name": "Get a list of invoices for a user from the specified uid",
-      "description": "```reponse:200\n{\n\t\"data\": [\n\t\t{\n\t\t\t\"uid\": \"in_1O0iE6BUNcu6Z6Rj3ZcFX3hm\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 1337,\n\t\t\t\"paid\": 0,\n\t\t\t\"createdAt\": \"1970-01-20 15:26:31.454\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"in_1O0iEXBUNcu6Z6Rj3gLZyEIn\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 1337,\n\t\t\t\"paid\": 0,\n\t\t\t\"createdAt\": \"1970-01-20 15:26:31.481\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"in_1O0iF6BUNcu6Z6Rja5oiM8Qr\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 1337,\n\t\t\t\"paid\": 0,\n\t\t\t\"createdAt\": \"1970-01-20 15:26:31.516\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"in_1O0iGDBUNcu6Z6RjtwSviSEF\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 1337,\n\t\t\t\"paid\": 0,\n\t\t\t\"createdAt\": \"2023-10-13 10:06:25.000\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"in_1O0tQOBUNcu6Z6RjS855v0TH\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 1337,\n\t\t\t\"paid\": 0,\n\t\t\t\"createdAt\": \"2023-10-13 22:01:40.000\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"in_1O0tS0BUNcu6Z6Rj9t3s1CBN\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 1337,\n\t\t\t\"paid\": 1,\n\t\t\t\"createdAt\": \"2023-10-13 22:03:20.000\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"in_1O0uHWBUNcu6Z6Rjc9D64gdQ\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 1337,\n\t\t\t\"paid\": 0,\n\t\t\t\"createdAt\": \"2023-10-13 22:56:34.000\"\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"in_1O3lj0BUNcu6Z6RjMg1389IA\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 1337,\n\t\t\t\"paid\": 1,\n\t\t\t\"createdAt\": \"2023-10-21 20:24:46.000\"\n\t\t}\n\t]\n}\n```",
+      "description": "```reponse:200\n{\n\t\"data\": [\n\t\t{\n\t\t\t\"uid\": \"in_1O6sohBUNcu6Z6RjtSfgKVA8\",\n\t\t\t\"url\": \"https://invoice.stripe.com/i/acct_1O0Ec7BUNcu6Z6Rj/test_YWNjdF8xTzBFYzdCVU5jdTZaNlJqLF9PdWlGODhiOXYxUmhOQVFvejJNcGtpTjNSTnBRMXZVLDg5MjAyOTMy0200hTcz5Fjm?s=ap\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 109,\n\t\t\t\"paid\": 0,\n\t\t\t\"createdAt\": \"2023-10-30 10:35:31.000\"\n\t\t}\n\t]\n}\n```",
       "method": "GET",
       "body": { "mimeType": "application/json", "text": "" },
       "parameters": [
@@ -501,6 +501,42 @@
       "environmentPropertyOrder": null,
       "metaSortKey": -1682928375725.3618,
       "_type": "request_group"
+    },
+    {
+      "_id": "req_e7a76750a5564850928c85c5152c2389",
+      "parentId": "fld_3f0ce5f0862941ecb05e8f7e31fe7957",
+      "modified": 1698662417485,
+      "created": 1698662002869,
+      "url": "{{host}}/api/payment/invoices",
+      "name": "Get your current list of invoices.",
+      "description": "```reponse:200\n{\n\t\"data\": [\n\t\t{\n\t\t\t\"uid\": \"in_1O6sohBUNcu6Z6RjtSfgKVA8\",\n\t\t\t\"url\": \"https://invoice.stripe.com/i/acct_1O0Ec7BUNcu6Z6Rj/test_YWNjdF8xTzBFYzdCVU5jdTZaNlJqLF9PdWlGODhiOXYxUmhOQVFvejJNcGtpTjNSTnBRMXZVLDg5MjAyOTMy0200hTcz5Fjm?s=ap\",\n\t\t\t\"radiologist_uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\"amount\": 109,\n\t\t\t\"paid\": 0,\n\t\t\t\"createdAt\": \"2023-10-30 10:35:31.000\"\n\t\t}\n\t]\n}\n```",
+      "method": "GET",
+      "body": { "mimeType": "application/json", "text": "" },
+      "parameters": [
+        {
+          "id": "pair_b35217344fde414dad44dafb2de6acca",
+          "name": "",
+          "value": "",
+          "description": ""
+        }
+      ],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer",
+        "disabled": false
+      },
+      "metaSortKey": -1697999371845,
+      "isPrivate": false,
+      "settingStoreCookies": false,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "segmentParams": [],
+      "_type": "request"
     },
     {
       "_id": "req_603a580128fc45d7811ea272001b1488",
