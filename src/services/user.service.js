@@ -159,13 +159,18 @@ export async function radiologist(_req, res) {
     .execute(
       "\
       SELECT U.uid, U.title, U.first_name, U.last_name, U.email, \
+export async function radiologists(_req, res) {
+  const result = await dbConn
+    .execute(
+      "\
+      SELECT U.uid, U.title, U.first_name, U.last_name, U.email, U.profile_image_url, \
         SC.bio, SC.expertise, SC.years_of_exp \
       FROM User U \
       LEFT JOIN StaffCredentials SC ON U.uid = SC.uid \
       WHERE U.role = 'RADIOLOGIST'"
     )
     .catch((error) => {
-      console.log("user.service.patients: ", error);
+      console.log("user.service.radiologists: ", error);
       res.json({ radiologists: [] });
     });
 

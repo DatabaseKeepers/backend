@@ -29,7 +29,7 @@ export async function updateProfile(req, res) {
 }
 
 export async function radiologists(req, res) {
-  await userService.radiologist(req, res);
+  await userService.radiologists(req, res);
 }
 
 export async function uploadImage(req, res) {
