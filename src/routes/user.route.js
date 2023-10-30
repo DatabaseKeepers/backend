@@ -34,7 +34,7 @@ router.put(
   userController.updateProfile
 );
 router.get("/meet-our-radiologists", [], userController.meetOurRadiologists);
-router.get("/radiologists", [isAuthenticated], userController.radiologists);
+router.get("/radiologists", [], userController.radiologists);
 router.post(
   "/upload-image",
   [isAuthenticated, isStaff, uploadImageSchema],
