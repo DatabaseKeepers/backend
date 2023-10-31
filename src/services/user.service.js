@@ -76,7 +76,7 @@ export async function images(req, res) {
       [req.params.uid]
     )
     .catch((error) => {
-      console.log("user.service.me: ", error);
+      console.log("user.service.images: ", error);
     });
 
   res.json({ images: result.rows });

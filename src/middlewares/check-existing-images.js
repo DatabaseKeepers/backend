@@ -7,7 +7,6 @@ async function checkExistingImages(req, res, next) {
       [req.userUID]
     );
 
-    console.log(typeof(existingImages.rows[0]["count(*)"]));
     if (existingImages.rows[0]["count(*)"] === '0') {
       return res.status(409).json({
         msg: "Your account has no existing images. Contact your physician for more information.",

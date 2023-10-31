@@ -35,8 +35,9 @@ async function checkPatientExists(uid, { req }) {
     });
 }
 
+// Disable if physician exists in hospital
 async function checkPhysicianExistsInHospital(hospital, { req }) {
-  if (req.body.role === "physician") {
+  /* if (req.body.role === "physician") {
     await dbConn
       .execute(
         "\
@@ -65,7 +66,7 @@ async function checkPhysicianExistsInHospital(hospital, { req }) {
         }
       })
       .catch((error) => console.log(error.code, error.message));
-  }
+  } */
   return Promise.resolve();
 }
 

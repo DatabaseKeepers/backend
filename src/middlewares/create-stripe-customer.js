@@ -13,16 +13,18 @@ async function createStripeCustomer(req, res, next) {
       } else {
         try {
           dbConn
-            .execute("SELECT first_name, last_name FROM User WHERE uid = ?", [
-              req.userUID,
-            ])
+            .execute(
+              "SELECT email, first_name, last_name FROM User WHERE uid = ?",
+              [req.userUID]
+            )
             .then((result) => {
-              const { firstName, lastName } = result.rows[0];
-              req.patientName = firstName + " " + lastName;
+              const { email, first_name, last_name } = result.rows[0];
+              req.patientEmail = email;
+              req.patientName = first_name + " " + last_name;
 
               stripe.customers
                 .create({
-                  email: req.userEmail,
+                  email: req.patientEmail,
                   name: req.patientName,
                   metadata: {
                     patientUID: req.userUID,
@@ -34,7 +36,7 @@ async function createStripeCustomer(req, res, next) {
                     dbConn
                       .execute(
                         "INSERT IGNORE INTO StripeUser (patient_uid, stripe_id) VALUES (?, ?)",
-                        [req.body.patient, customer.id]
+                        [req.userUID, customer.id]
                       )
                       .then((result) => {
                         if (result.rowsAffected > 0) {
