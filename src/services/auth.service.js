@@ -39,6 +39,10 @@ export async function addPatient(req, res) {
                 console.log("Error updating displayName: ", error)
               );
           });
+        await dbConn.execute(
+          "INSERT INTO PatientRelation(patient_uid, staff_uid) VALUES(?, ?)",
+          [userRecord.uid, req.userUID]
+        );
       });
   } catch (error) {
     console.log("Error inserting new user:", error.message);
