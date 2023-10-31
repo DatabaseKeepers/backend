@@ -1,6 +1,7 @@
 import express from "express";
 import { paymentController } from "../controllers/index.js";
 import { isAuthorized, isStaff } from "../middlewares/authorization.js";
+import checkExistingImages from "../middlewares/check-existing-images.js";
 import checkUnpaidInvoices from "../middlewares/check-unpaid-invoices.js";
 import createStripeCustomer from "../middlewares/create-stripe-customer.js";
 import { isAuthenticated } from "../middlewares/firebase-auth.js";
@@ -24,7 +25,12 @@ router.get(
 /* Transaction routes */
 router.post(
   "/:uid/invoice",
-  [isAuthenticated, createStripeCustomer, checkUnpaidInvoices],
+  [
+    isAuthenticated,
+    checkExistingImages,
+    createStripeCustomer,
+    checkUnpaidInvoices,
+  ],
   paymentController.invoice
 );
 
@@ -32,6 +38,6 @@ router.delete(
   "/:invoiceId/invoice",
   [isAuthenticated],
   paymentController.voidInvoice
-)
+);
 
 export default router;
