@@ -176,11 +176,37 @@ export const signupSchema = checkSchema(
       physicianExists: {
         bail: true,
         custom: checkPhysicianExistsInHospital,
-        errorMessage: "Account already exists or physician not found in hospital",
+        errorMessage:
+          "Account already exists or physician not found in hospital",
       },
     },
   },
   ["body"]
+);
+
+export const invoiceSchema = checkSchema(
+  {
+    uid: {
+      notEmpty: {
+        bail: true,
+        errorMessage: "Radiologist's uid is required",
+      },
+      checkUid: {
+        bail: true,
+        custom: (uid) => {
+          if (uid === "Select a radiologist") return Promise.reject();
+          else return Promise.resolve();
+        },
+        errorMessage: "Please select a radiologist",
+      },
+      isLength: {
+        bail: true,
+        options: { min: 28, max: 28 },
+        errorMessage: "Invalid radiologist's uid",
+      },
+    },
+  },
+  ["params"]
 );
 
 export const invoicesSchema = checkSchema(
