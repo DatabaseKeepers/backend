@@ -288,11 +288,11 @@ export const uploadProfileSchema = checkSchema({
       },
     },
   },
-  bio: {
+  /* bio: {
     isString: {
       bail: true,
       options: { min: 0 },
       errorMessage: "Use an empty value to remove your bio",
     },
-  },
+  }, */
 });
