@@ -4,8 +4,9 @@ import { isAuthorized, isStaff } from "../middlewares/authorization.js";
 import checkExistingImages from "../middlewares/check-existing-images.js";
 import checkUnpaidInvoices from "../middlewares/check-unpaid-invoices.js";
 import createStripeCustomer from "../middlewares/create-stripe-customer.js";
+import errors from "../middlewares/errors.js";
 import { isAuthenticated } from "../middlewares/firebase-auth.js";
-import { invoicesSchema } from "../middlewares/validators.js";
+import { invoiceSchema, invoicesSchema } from "../middlewares/validators.js";
 
 const router = express.Router();
 
@@ -27,6 +28,8 @@ router.post(
   "/:uid/invoice",
   [
     isAuthenticated,
+    invoiceSchema,
+    errors,
     checkExistingImages,
     createStripeCustomer,
     checkUnpaidInvoices,
