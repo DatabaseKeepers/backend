@@ -105,7 +105,8 @@ async function checkInvoicePaid(uid) {
     });
 }
 
-export const addPatientSchema = checkSchema(
+// disable due to add patient feature implemented differently
+/* export const addPatientSchema = checkSchema(
   {
     email: {
       emailExists: {
@@ -124,7 +125,7 @@ export const addPatientSchema = checkSchema(
     title: { optional: true },
   },
   ["body"]
-);
+); */
 
 export const loginSchema = checkSchema(
   {
@@ -247,6 +248,14 @@ export const paySchema = checkSchema(
   },
   ["body"]
 );
+
+/* export const updateImageNoteSchema = checkSchema({
+  image_uid: {
+    imageExists: {
+      bail: true,
+    },
+  },
+}); */
 
 export const uploadImageSchema = checkSchema({
   patient: {

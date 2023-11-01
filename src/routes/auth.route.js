@@ -4,7 +4,7 @@ import { isStaff } from "../middlewares/authorization.js";
 import errors from "../middlewares/errors.js";
 import { isAuthenticated } from "../middlewares/firebase-auth.js";
 import {
-  addPatientSchema,
+  //addPatientSchema,
   loginSchema,
   signupSchema,
 } from "../middlewares/validators.js";
@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.post(
   "/add-patient",
-  [addPatientSchema, isAuthenticated, isStaff],
+  [isAuthenticated, isStaff],
   authController.addPatient
 );
 router.post("/login", [loginSchema], authController.login);
