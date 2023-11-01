@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-10-30T10:40:59.591Z",
+  "__export_date": "2023-11-01T02:28:09.407Z",
   "__export_source": "insomnia.desktop.app:v0.2.2",
   "resources": [
     {
@@ -57,7 +57,7 @@
     {
       "_id": "wrk_a49d39df1d5c4aa0b0064df427ad3890",
       "parentId": null,
-      "modified": 1697942156834,
+      "modified": 1698805445692,
       "created": 1697942141122,
       "name": "Radiology Archive API",
       "description": "",
@@ -67,7 +67,7 @@
     {
       "_id": "req_60dd5e4c71984712897a033168fe383b",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1698662430893,
+      "modified": 1698802611820,
       "created": 1696463217635,
       "url": "{{host}}/api/auth/login",
       "name": "Login user",
@@ -94,7 +94,7 @@
     {
       "_id": "req_089baa5e56c5476783b69aa3fb7f7250",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1698472674161,
+      "modified": 1698724267838,
       "created": 1695426311293,
       "url": "{{host}}/api/auth/signup",
       "name": "Create an account for the user with the provided body arguments.",
@@ -270,11 +270,11 @@
     {
       "_id": "req_dc2be9d54ce7429fa5e422531f8fef44",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1698531153813,
+      "modified": 1698802134509,
       "created": 1697853451683,
       "url": "{{host}}/api/user/patients",
       "name": "Get a list of current patients",
-      "description": "```response:200\n{\n\t\"patients\": [\n\t\t{\n\t\t\t\"uid\": \"ecJD9MhYvoWRieaPnAL014G7Avf1\",\n\t\t\t\"first_name\": \"John\",\n\t\t\t\"last_name\": \"Doe\",\n\t\t\t\"email\": \"patient@test.com\",\n\t\t\t\"images\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"4885efe7-6fb3-11ee-aa85-fe400bebb284\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F1a3c9474-7246-4729-ab94-f71e80c3cf9f?alt=media&token=c0ca84f7-6bc3-48b8-aa2b-1c3078e1aeb8\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t]\n}\n```",
+      "description": "```response:200\n{\n\t\"patients\": [\n\t\t{\n\t\t\t\"uid\": \"ecJD9MhYvoWRieaPnAL014G7Avf1\",\n\t\t\t\"dob\": \"1990-01-01\",\n\t\t\t\"first_name\": \"John\",\n\t\t\t\"last_name\": \"Doe\",\n\t\t\t\"email\": \"patient@test.com\",\n\t\t\t\"profile_image_url\": \"\",\n\t\t\t\"images\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"4885efe7-6fb3-11ee-aa85-fe400bebb284\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F1a3c9474-7246-4729-ab94-f71e80c3cf9f?alt=media&token=c0ca84f7-6bc3-48b8-aa2b-1c3078e1aeb8\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"377807b7-76c4-11ee-b572-a2381fd4f437\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F061c6157-ddb8-4154-a679-082682d8437e?alt=media&token=be532a67-8b3e-409d-9e56-2227432177f9\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"67091c8a-76c4-11ee-b572-a2381fd4f437\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F7b459790-0dd2-4f7c-b6a0-62f71fb0e11f?alt=media&token=9fa36c25-ff58-4beb-ac5b-ed824d4470b6\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"fb809939-774a-11ee-88bf-827fec34a1d2\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F02fb16ad-b66b-4a08-b21b-396e737a82ee?alt=media&token=1a4ca417-1b6c-41b7-b902-7e776d2ca224\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"0a96808f-774b-11ee-88bf-827fec34a1d2\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F41d3e5c5-f417-42d4-94f4-d88ce9cb9866?alt=media&token=f08d3d2e-e352-4b5e-992f-01cbe03ea451\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"4d43d0b6-77c8-11ee-88bf-827fec34a1d2\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F6b4da36e-1560-4929-8cb9-a7556f316049?alt=media&token=27195483-9540-43f1-8632-c6366e327c2c\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t]\n}\n```",
       "method": "GET",
       "body": { "mimeType": "application/json", "text": "" },
       "parameters": [
@@ -577,7 +577,7 @@
     {
       "_id": "req_7e73dc5f31ec461bb7db2c5b1ab57576",
       "parentId": "fld_3f0ce5f0862941ecb05e8f7e31fe7957",
-      "modified": 1698561023243,
+      "modified": 1698804251636,
       "created": 1697125401660,
       "url": "{{ _.host }}/api/payment/{{ _.radiologist_uid }}/invoice",
       "name": "Creates an invoice after the patient selects a radiologist.",
