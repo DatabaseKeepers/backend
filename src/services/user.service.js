@@ -103,7 +103,7 @@ export async function me(req, res) {
 export async function patients(req, res) {
   const result = await dbConn
     .execute(
-      "SELECT U.uid, U.first_name, U.last_name, U.email, \
+      "SELECT U.uid, U.dob, U.first_name, U.last_name, U.email, U.profile_image_url, \
           ( \
             SELECT JSON_ARRAYAGG( \
               JSON_OBJECT('uid', I.uid, 'url', I.url) \
