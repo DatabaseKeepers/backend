@@ -88,7 +88,6 @@ model HospitalPhysician {
 }
 
 model ImageNote {
-  id         Int      @id @default(autoincrement())
   uid        String   @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
   author_uid String   @db.VarChar(29)
   image_uid  String   @db.VarChar(36)
@@ -96,6 +95,7 @@ model ImageNote {
   createdAt  DateTime @default(now())
   Image      Image    @relation(fields: [image_uid], references: [uid])
 
+  @@id([author_uid, image_uid])
   @@index([uid])
   @@index([author_uid])
   @@index([image_uid])

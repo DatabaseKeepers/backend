@@ -20,22 +20,32 @@ See the [radiology archive API docs](https://databasekeepers.github.io/backend/)
 │   │   └── stripe.js
 │   ├── controllers             # Binds routes and validate requests to service
 │   │   ├── auth.controller.js
+│   │   ├── hospital.controller.js
+│   │   ├── image.controller.js
 │   │   ├── payment.controller.js
 │   │   ├── user.controller.js
 │   │   └── index.js
 │   ├── middlewares
-│   │   ├── authorization.js        # Ensure user is permitted to access an endpoint
-│   │   ├── create-stripe-user.js   # Creates stripe customer upon given user
-│   │   ├── firebase-auth.js        # Ensure valid firebase token in request header
-│   │   └── validators.js           # Contains schemas to be used in express.js routes
-│   ├── routes                      # Contains all route definitions
+│   │   ├── authorization.js                # Ensure user is permitted to access an endpoint
+│   │   ├── check-existing-images.js        # Ensure user has images before proceeding to transaction process
+│   │   ├── check-image-note-permissions.js # Ensure user is authorized having a patient relation with the patient's image
+│   │   ├── check-unpaid-invoices.js        # Prevent user from creating multiple invoices before paying previous ones
+│   │   ├── create-stripe-user.js           # Creates stripe customer upon given user
+│   │   ├── errors.js                       # Processes any errors from the route's schema
+│   │   ├── firebase-auth.js                # Ensure valid firebase token in request header
+│   │   └── validators.js                   # Contains schemas to be used in express.js routes
+│   ├── routes                              # Contains all route definitions
 │   │   ├── auth.route.js
+│   │   ├── hospital.route.js
+│   │   ├── image.route.js
 │   │   ├── payment.route.js
 │   │   ├── stripe.route.js
 │   │   ├── user.route.js
 │   │   └── index.js
 │   ├── services                # Employs logic to requests from controller
 │   │   ├── auth.controller.js
+│   │   ├── hospital.controller.js
+│   │   ├── image.controller.js
 │   │   ├── payment.controller.js
 │   │   ├── user.controller.js
 │   │   └── index.js
