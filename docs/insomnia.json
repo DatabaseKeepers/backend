@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-11-01T02:28:09.407Z",
+  "__export_date": "2023-11-01T07:47:57.497Z",
   "__export_source": "insomnia.desktop.app:v0.2.2",
   "resources": [
     {
@@ -67,7 +67,7 @@
     {
       "_id": "req_60dd5e4c71984712897a033168fe383b",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1698802611820,
+      "modified": 1698824605938,
       "created": 1696463217635,
       "url": "{{host}}/api/auth/login",
       "name": "Login user",
@@ -75,7 +75,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"email\": \"patient@test.com\",\n\t\"password\": \"testtest123\"\n}"
+        "text": "{\n\t\"email\": \"radiologist@test.com\",\n\t\"password\": \"testtest123\"\n}"
       },
       "parameters": [],
       "headers": [{ "name": "Content-Type", "value": "application/json" }],
@@ -194,9 +194,55 @@
       "_type": "request_group"
     },
     {
+      "_id": "req_a9f47d5997944f90a720d264e06be56c",
+      "parentId": "fld_5d88f2c6ff484656bd1b5dd2cdf20ead",
+      "modified": 1698824854409,
+      "created": 1698821262720,
+      "url": "{{ _.host }}/api/image/{{ _.image_uid }}",
+      "name": "Update note for an image",
+      "description": "```response:200\n{\n\t\"success\": true,\n\t\"note\": \"This is an updated note analysis.\"\n}\n```\n\n```response:200\n{\n\t\"success\": false\n}\n```",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"note\": \"This is an updated note analysis.\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "User-Agent", "value": "insomnia/0.2.2" }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1698821262720,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "segmentParams": [],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_5d88f2c6ff484656bd1b5dd2cdf20ead",
+      "parentId": "wrk_a49d39df1d5c4aa0b0064df427ad3890",
+      "modified": 1698821260172,
+      "created": 1698821258132,
+      "name": "image",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1695805414619.75,
+      "_type": "request_group"
+    },
+    {
       "_id": "req_232e227e5bd345d5a9993651c1a68ae7",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1698643320248,
+      "modified": 1698812219206,
       "created": 1697879165547,
       "url": "{{host}}/api/user/{{ _.patient_uid }}/images",
       "name": "Returns a list of images of the specified user uid.",
@@ -270,7 +316,7 @@
     {
       "_id": "req_dc2be9d54ce7429fa5e422531f8fef44",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1698802134509,
+      "modified": 1698814730131,
       "created": 1697853451683,
       "url": "{{host}}/api/user/patients",
       "name": "Get a list of current patients",
@@ -635,7 +681,7 @@
     {
       "_id": "env_a5ef9e77a97f4f21b8e7df3c66f630e7",
       "parentId": "env_579dda9506b34136873873f6380d25b8",
-      "modified": 1698562200795,
+      "modified": 1698824546085,
       "created": 1696463135692,
       "name": "",
       "data": {
@@ -643,7 +689,8 @@
         "jwtToken": "{idToken}",
         "patient_uid": "{patient_uid}",
         "radiologist_uid": "{radiologist_uid}",
-        "invoice_uid": "{invoice_uid}"
+        "invoice_uid": "{invoice_uid}",
+        "image_uid": "{image_uid}",
       },
       "dataPropertyOrder": {
         "&": [
@@ -651,7 +698,8 @@
           "jwtToken",
           "patient_uid",
           "radiologist_uid",
-          "invoice_uid"
+          "invoice_uid",
+          "image_uid"
         ]
       },
       "color": null,
