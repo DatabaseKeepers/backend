@@ -256,7 +256,7 @@ export async function updateProfile(req, res) {
         "UPDATE User SET profile_image_url = ? WHERE uid = ?",
         [req.body.profile_image_url, req.userUID]
       );
-      if (user.rows[0].role !== "PATIENT") {
+      if (user.size > 0 && user.rows[0].role !== "PATIENT") {
         bio = await tx.execute(
           "INSERT INTO StaffCredentials(bio, uid) VALUES(?, ?) ON DUPLICATE KEY UPDATE bio = ?",
           [req.body.bio, req.userUID, req.body.bio]
@@ -265,7 +265,7 @@ export async function updateProfile(req, res) {
       return [profile_image_url, bio];
     });
 
-    res.json({ success: true });
+    res.json({ success: true, data: { ...req.body } });
   } catch (error) {
     console.log("user.service.uploadImage: ", error);
     res.status(422).json({ success: false });
