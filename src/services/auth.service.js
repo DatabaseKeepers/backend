@@ -46,7 +46,9 @@ export async function addPatient(req, res) {
           .then(async () => {
             await adminAuth
               .updateUser(userRecord.uid, {
-                displayName: title + " " + first_name + " " + last_name,
+                displayName: title
+                  ? `${title} ${first_name} ${last_name}`
+                  : `${first_name} ${last_name}`,
               })
               .then(() => {
                 sendPasswordResetEmail(auth, email).then(() => {
@@ -169,7 +171,9 @@ export async function signup(req, res) {
           }
           adminAuth
             .updateUser(userRecord.uid, {
-              displayName: title + " " + first_name + " " + last_name,
+              displayName: title
+                ? `${title} ${first_name} ${last_name}`
+                : `${first_name} ${last_name}`,
             })
             .catch((error) =>
               console.log("Error updating displayName: ", error)
