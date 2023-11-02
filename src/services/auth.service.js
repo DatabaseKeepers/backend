@@ -9,6 +9,27 @@ import {
 
 export async function addPatient(req, res) {
   const { email, dob, first_name, last_name, title } = req.body;
+
+  const emailExists = await dbConn
+    .execute("SELECT uid FROM User WHERE email = ?", [email])
+    .catch((error) => {
+      console.log(error.code, error.message);
+      return res.status(409).json({ msg: "Unable to add patient" });
+    });
+
+  if (emailExists.size > 0) {
+    await dbConn
+      .execute(
+        "INSERT IGNORE INTO PatientRelation(patient_uid, staff_uid) VALUES(?, ?)",
+        [emailExists.rows[0].uid, req.userUID]
+      )
+      .catch((error) => {
+        console.log(error.code, error.message);
+        return res.status(409).json({ msg: "Unable to add patient" });
+      });
+    return res.json({ success: true, msg: "Successfully added patient" });
+  }
+
   const role = "PATIENT";
   try {
     await adminAuth
@@ -25,7 +46,9 @@ export async function addPatient(req, res) {
           .then(async () => {
             await adminAuth
               .updateUser(userRecord.uid, {
-                displayName: title + " " + first_name + " " + last_name,
+                displayName: title
+                  ? `${title} ${first_name} ${last_name}`
+                  : `${first_name} ${last_name}`,
               })
               .then(() => {
                 sendPasswordResetEmail(auth, email).then(() => {
@@ -148,7 +171,9 @@ export async function signup(req, res) {
           }
           adminAuth
             .updateUser(userRecord.uid, {
-              displayName: title + " " + first_name + " " + last_name,
+              displayName: title
+                ? `${title} ${first_name} ${last_name}`
+                : `${first_name} ${last_name}`,
             })
             .catch((error) =>
               console.log("Error updating displayName: ", error)
