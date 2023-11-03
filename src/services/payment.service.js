@@ -28,10 +28,14 @@ export async function invoice(req, res) {
     })
     .then((invoice) => {
       stripe.invoices.sendInvoice(invoice.id).then(() => {
-        dbConn.execute(
-          "INSERT INTO PatientRelation(patient_uid, staff_uid) VALUES(?, ?)",
-          [req.userUID, req.params.uid]
-        );
+        dbConn
+          .execute(
+            "INSERT IGNORE INTO PatientRelation(patient_uid, staff_uid) VALUES(?, ?)",
+            [req.userUID, req.params.uid]
+          )
+          .catch((error) =>
+            console.log("payment.service.invoice: ", error.code, error.message)
+          );
         res.status(200).json({
           success: true,
           msg: "Successfully created invoice.",

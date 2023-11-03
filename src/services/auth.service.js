@@ -62,10 +62,14 @@ export async function addPatient(req, res) {
                 console.log("Error updating displayName: ", error)
               );
           });
-        await dbConn.execute(
-          "INSERT INTO PatientRelation(patient_uid, staff_uid) VALUES(?, ?)",
-          [userRecord.uid, req.userUID]
-        );
+        await dbConn
+          .execute(
+            "INSERT IGNORE INTO PatientRelation(patient_uid, staff_uid) VALUES(?, ?)",
+            [userRecord.uid, req.userUID]
+          )
+          .catch((error) =>
+            console.log("auth.service.addPatient: ", error.code, error.message)
+          );
       });
   } catch (error) {
     console.log("Error inserting new user:", error.message);
