@@ -15,6 +15,25 @@ async function checkEmailExists(email) {
     });
 }
 
+async function checkImageExists(uid) {
+  await dbConn
+    .execute(
+      "SELECT CASE WHEN EXISTS (SELECT 1 FROM Image WHERE uid = ?) THEN 1 ELSE 0 END AS image_exists",
+      [uid]
+    )
+    .then((result) => {
+      if (result.rows[0].image_exists === "1") {
+        return Promise.resolve();
+      } else {
+        return Promise.reject();
+      }
+    })
+    .catch((error) => {
+      console.log("checkImageExists: ", error.code, error.message);
+      return Promise.reject();
+    });
+}
+
 async function checkPatientExists(uid, { req }) {
   await dbConn
     .execute("SELECT email, first_name, last_name FROM User WHERE uid = ?", [
@@ -249,13 +268,15 @@ export const paySchema = checkSchema(
   ["body"]
 );
 
-/* export const updateImageNoteSchema = checkSchema({
+export const updateImageNoteSchema = checkSchema({
   image_uid: {
     imageExists: {
       bail: true,
+      custom: checkImageExists,
+      errorMessage: "Image does not exist",
     },
   },
-}); */
+});
 
 export const uploadImageSchema = checkSchema({
   patient: {
