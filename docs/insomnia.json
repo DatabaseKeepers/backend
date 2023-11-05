@@ -1,21 +1,21 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-11-01T07:47:57.497Z",
+  "__export_date": "2023-11-05T21:07:07.181Z",
   "__export_source": "insomnia.desktop.app:v0.2.2",
   "resources": [
     {
       "_id": "req_f98271e44f354bdebdbdd2c7ae31bfde",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1698630360350,
+      "modified": 1698838429724,
       "created": 1697856018319,
       "url": "{{host}}/api/auth/add-patient",
-      "name": "Create a patient account on behalf of a staff member.",
-      "description": "```response:200\n{\n\t\"msg\": \"Successfully added new patient\"\n}\n```",
+      "name": "Create a new patient account or add existing patient.",
+      "description": "```response:200\n{\n\t\"msg\": \"Successfully added new patient\"\n}\n```\n\n```response:200\n{\n\t\"success\": true,\n\t\"msg\": \"Successfully added patient\"\n}\n```",
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"email\": \"patient3@radiologyarchive.com\",\n\t\"dob\": \"1990-01-01\",\n\t\"first_name\": \"Caleb\",\n\t\"last_name\": \"Cane\",\n\t\"title\": \"\"\n}"
+        "text": "{\n\t\"email\": \"patient20@radiologyarchive.com\",\n\t\"dob\": \"1990-01-01\",\n\t\"first_name\": \"Agent\",\n\t\"last_name\": \"Twenty\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -67,7 +67,7 @@
     {
       "_id": "req_60dd5e4c71984712897a033168fe383b",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1698824605938,
+      "modified": 1699182916014,
       "created": 1696463217635,
       "url": "{{host}}/api/auth/login",
       "name": "Login user",
@@ -94,15 +94,15 @@
     {
       "_id": "req_089baa5e56c5476783b69aa3fb7f7250",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1698724267838,
+      "modified": 1698894156142,
       "created": 1695426311293,
       "url": "{{host}}/api/auth/signup",
-      "name": "Create an account for the user with the provided body arguments.",
+      "name": "Create an account",
       "description": "```response:400\nWhen the user signs up as a Physician that does not exist.\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Physician does not exist in hospital\",\n\t\t\t\"path\": \"/api/auth/signup\"\n\t\t}\n\t]\n}\n```",
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"email\": \"patient@test.com\",\n\t\"password\": \"testtest123\",\n\t\"dob\": \"1990-01-01\",\n\t\"first_name\": \"John\",\n\t\"last_name\": \"Doe\",\n\t\"role\": \"patient\",\n\t\"hospital\": \"\"\n}"
+        "text": "{\n\t\"email\": \"fakephysician@test.com\",\n\t\"password\": \"testtest123\",\n\t\"dob\": \"1990-01-01\",\n\t\"first_name\": \"John\",\n\t\"last_name\": \"Doe\",\n\t\"role\": \"Physician\",\n\t\"hospital\": \"City General Medical Center\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -196,15 +196,15 @@
     {
       "_id": "req_a9f47d5997944f90a720d264e06be56c",
       "parentId": "fld_5d88f2c6ff484656bd1b5dd2cdf20ead",
-      "modified": 1698824854409,
+      "modified": 1699216275117,
       "created": 1698821262720,
       "url": "{{ _.host }}/api/image/{{ _.image_uid }}",
       "name": "Update note for an image",
-      "description": "```response:200\n{\n\t\"success\": true,\n\t\"note\": \"This is an updated note analysis.\"\n}\n```\n\n```response:200\n{\n\t\"success\": false\n}\n```",
+      "description": "```response:200\n{\n\t\"success\": true,\n\t\"note\": \"This is an updated note analysis.\"\n}\n```\n\n```response:200\n{\n\t\"success\": false\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Image does not exist\",\n\t\t\t\"path\": \"/api/image/1\"\n\t\t}\n\t]\n}\n```\n\n```response:409\n{\n\t\"msg\": \"The patient has not paid for this image yet. Please wait for the patient to pay before updating the note.\"\n}\n```",
       "method": "PUT",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"note\": \"This is an updated note analysis.\"\n}"
+        "text": "{\n\t\"note\": \"Note check\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -320,7 +320,7 @@
       "created": 1697853451683,
       "url": "{{host}}/api/user/patients",
       "name": "Get a list of current patients",
-      "description": "```response:200\n{\n\t\"patients\": [\n\t\t{\n\t\t\t\"uid\": \"ecJD9MhYvoWRieaPnAL014G7Avf1\",\n\t\t\t\"dob\": \"1990-01-01\",\n\t\t\t\"first_name\": \"John\",\n\t\t\t\"last_name\": \"Doe\",\n\t\t\t\"email\": \"patient@test.com\",\n\t\t\t\"profile_image_url\": \"\",\n\t\t\t\"images\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"4885efe7-6fb3-11ee-aa85-fe400bebb284\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F1a3c9474-7246-4729-ab94-f71e80c3cf9f?alt=media&token=c0ca84f7-6bc3-48b8-aa2b-1c3078e1aeb8\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"377807b7-76c4-11ee-b572-a2381fd4f437\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F061c6157-ddb8-4154-a679-082682d8437e?alt=media&token=be532a67-8b3e-409d-9e56-2227432177f9\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"67091c8a-76c4-11ee-b572-a2381fd4f437\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F7b459790-0dd2-4f7c-b6a0-62f71fb0e11f?alt=media&token=9fa36c25-ff58-4beb-ac5b-ed824d4470b6\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"fb809939-774a-11ee-88bf-827fec34a1d2\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F02fb16ad-b66b-4a08-b21b-396e737a82ee?alt=media&token=1a4ca417-1b6c-41b7-b902-7e776d2ca224\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"0a96808f-774b-11ee-88bf-827fec34a1d2\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F41d3e5c5-f417-42d4-94f4-d88ce9cb9866?alt=media&token=f08d3d2e-e352-4b5e-992f-01cbe03ea451\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"4d43d0b6-77c8-11ee-88bf-827fec34a1d2\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F6b4da36e-1560-4929-8cb9-a7556f316049?alt=media&token=27195483-9540-43f1-8632-c6366e327c2c\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t]\n}\n```",
+      "description": "```response:200\n{\n\t\"patients\": [\n\t\t{\n\t\t\t\"uid\": \"ecJD9MhYvoWRieaPnAL014G7Avf1\",\n\t\t\t\"dob\": \"1990-01-01\",\n\t\t\t\"first_name\": \"John\",\n\t\t\t\"last_name\": \"Doe\",\n\t\t\t\"email\": \"patient@test.com\",\n\t\t\t\"profile_image_url\": \"\",\n\t\t\t\"images\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"4d43d0b6-77c8-11ee-88bf-827fec34a1d2\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F6b4da36e-1560-4929-8cb9-a7556f316049?alt=media&token=27195483-9540-43f1-8632-c6366e327c2c\",\n\t\t\t\t\t\"authors\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\t\t\t\t\"note\": \"adada\",\n\t\t\t\t\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\t\t\t\t\"full_name\": \"Dr. John Physician\"\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"0a96808f-774b-11ee-88bf-827fec34a1d2\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F41d3e5c5-f417-42d4-94f4-d88ce9cb9866?alt=media&token=f08d3d2e-e352-4b5e-992f-01cbe03ea451\",\n\t\t\t\t\t\"authors\": []\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"fb809939-774a-11ee-88bf-827fec34a1d2\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F02fb16ad-b66b-4a08-b21b-396e737a82ee?alt=media&token=1a4ca417-1b6c-41b7-b902-7e776d2ca224\",\n\t\t\t\t\t\"authors\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\t\t\t\t\"note\": \"My brain atm\",\n\t\t\t\t\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\t\t\t\t\"full_name\": \"Dr. John Physician\"\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"67091c8a-76c4-11ee-b572-a2381fd4f437\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F7b459790-0dd2-4f7c-b6a0-62f71fb0e11f?alt=media&token=9fa36c25-ff58-4beb-ac5b-ed824d4470b6\",\n\t\t\t\t\t\"authors\": []\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"377807b7-76c4-11ee-b572-a2381fd4f437\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F061c6157-ddb8-4154-a679-082682d8437e?alt=media&token=be532a67-8b3e-409d-9e56-2227432177f9\",\n\t\t\t\t\t\"authors\": []\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"4885efe7-6fb3-11ee-aa85-fe400bebb284\",\n\t\t\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F1a3c9474-7246-4729-ab94-f71e80c3cf9f?alt=media&token=c0ca84f7-6bc3-48b8-aa2b-1c3078e1aeb8\",\n\t\t\t\t\t\"authors\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\t\t\t\t\"note\": \"mushroom\",\n\t\t\t\t\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\t\t\t\t\"full_name\": \"Dr. John Physician\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\t\t\t\t\"note\": \"pizza\",\n\t\t\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\t\t\"full_name\": \"Dr. John Radiologist\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"uid\": \"6npcE5FQFweAYGAxDlxSARwz1qn2\",\n\t\t\t\t\t\t\t\"note\": \"This is a test diagnosis\",\n\t\t\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\t\t\"full_name\": \"Dr. Monica Kirk\"\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t]\n}\n```",
       "method": "GET",
       "body": { "mimeType": "application/json", "text": "" },
       "parameters": [
@@ -436,15 +436,15 @@
     {
       "_id": "req_a49c0796eb864d10883e1860cc65c709",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1698557964132,
+      "modified": 1698894431641,
       "created": 1698113234532,
       "url": "{{host}}/api/user/profile",
       "name": "Update profile information.",
-      "description": "```response:200\n{\n\t\"success\": true\n}\n```",
+      "description": "```response:200\n{\n\t\"success\": true,\n\t\"data\": {\n\t\t\"profile_image_url\": \"\",\n\t\t\"bio\": \"\"\n\t}\n}\n```",
       "method": "PUT",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"profile_image_url\": \"\",\n\t\"bio\": \"new bio\"\n}"
+        "text": "{\n\t\"profile_image_url\": \"\"\n}"
       },
       "parameters": [],
       "headers": [{ "name": "Content-Type", "value": "application/json" }],
@@ -681,7 +681,7 @@
     {
       "_id": "env_a5ef9e77a97f4f21b8e7df3c66f630e7",
       "parentId": "env_579dda9506b34136873873f6380d25b8",
-      "modified": 1698824546085,
+      "modified": 1699182982067,
       "created": 1696463135692,
       "name": "",
       "data": {
