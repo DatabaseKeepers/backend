@@ -690,7 +690,7 @@
         "patient_uid": "{patient_uid}",
         "radiologist_uid": "{radiologist_uid}",
         "invoice_uid": "{invoice_uid}",
-        "image_uid": "{image_uid}",
+        "image_uid": "{image_uid}"
       },
       "dataPropertyOrder": {
         "&": [
