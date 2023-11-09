@@ -6,6 +6,7 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from "../config/firebase.js";
+import { notificationService } from "./index.js";
 
 export async function addPatient(req, res) {
   const { email, dob, first_name, last_name, title } = req.body;
@@ -18,16 +19,23 @@ export async function addPatient(req, res) {
     });
 
   if (emailExists.size > 0) {
-    await dbConn
-      .execute(
+    try {
+      await dbConn.execute(
         "INSERT IGNORE INTO PatientRelation(patient_uid, staff_uid) VALUES(?, ?)",
         [emailExists.rows[0].uid, req.userUID]
-      )
-      .catch((error) => {
-        console.log(error.code, error.message);
-        return res.status(409).json({ msg: "Unable to add patient" });
-      });
-    return res.json({ success: true, msg: "Successfully added patient" });
+      );
+
+      notificationService.create(
+        emailExists.rows[0].uid,
+        req.userUID,
+        "You have been added as a patient"
+      );
+
+      return res.json({ success: true, msg: "Successfully added patient" });
+    } catch (error) {
+      console.log("auth.addPatient: ", error.message);
+      return res.status(409).json({ msg: "Unable to add patient" });
+    }
   }
 
   const role = "PATIENT";
