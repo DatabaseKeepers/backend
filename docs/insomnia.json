@@ -1,13 +1,13 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-11-05T21:07:07.181Z",
+  "__export_date": "2023-11-09T00:19:56.895Z",
   "__export_source": "insomnia.desktop.app:v0.2.2",
   "resources": [
     {
       "_id": "req_f98271e44f354bdebdbdd2c7ae31bfde",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1698838429724,
+      "modified": 1699411319918,
       "created": 1697856018319,
       "url": "{{host}}/api/auth/add-patient",
       "name": "Create a new patient account or add existing patient.",
@@ -15,7 +15,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"email\": \"patient20@radiologyarchive.com\",\n\t\"dob\": \"1990-01-01\",\n\t\"first_name\": \"Agent\",\n\t\"last_name\": \"Twenty\"\n}"
+        "text": "{\n\t\"email\": \"patient20@radiologyarchive.com\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -67,7 +67,7 @@
     {
       "_id": "req_60dd5e4c71984712897a033168fe383b",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1699182916014,
+      "modified": 1699489143180,
       "created": 1696463217635,
       "url": "{{host}}/api/auth/login",
       "name": "Login user",
@@ -75,7 +75,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"email\": \"radiologist@test.com\",\n\t\"password\": \"testtest123\"\n}"
+        "text": "{\n\t\"email\": \"physician@test.com\",\n\t\"password\": \"testtest123\"\n}"
       },
       "parameters": [],
       "headers": [{ "name": "Content-Type", "value": "application/json" }],
@@ -237,6 +237,59 @@
       "environment": {},
       "environmentPropertyOrder": null,
       "metaSortKey": -1695805414619.75,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_1eb6028f89cb458dbc48ff8373c77b71",
+      "parentId": "fld_c43de8071e9a4e1eb2bbd6df0c5dff41",
+      "modified": 1699489178297,
+      "created": 1699423372135,
+      "url": "{{ _.host }}/api/notification/polling",
+      "name": "Get notifications by polling this endpoint.",
+      "description": "```response:200\n[\n\t{\n\t\t\"uid\": \"5a0b9f38-7e78-11ee-805e-52c1adc66d9e\",\n\t\t\"read\": 0,\n\t\t\"timestamp\": \"2023-11-08 20:49:46.610\",\n\t\t\"message\": \"You have been added as a patient\",\n\t\t\"createdAt\": \"2023-11-08 20:49:46.694\"\n\t}\n]\n```\n\n```response:204\n```",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/0.2.2",
+          "id": "pair_d779cacb04844f729a92bb6725fb44c7",
+          "disabled": false
+        },
+        {
+          "id": "pair_0bbe34302e5c4797ac7047021d354988",
+          "name": "Content-Type",
+          "value": "application/json",
+          "description": ""
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "prefix": "Bearer",
+        "token": "{{ _.jwtToken }}"
+      },
+      "metaSortKey": -1699423377260,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "segmentParams": [],
+      "_type": "request"
+    },
+    {
+      "_id": "fld_c43de8071e9a4e1eb2bbd6df0c5dff41",
+      "parentId": "wrk_a49d39df1d5c4aa0b0064df427ad3890",
+      "modified": 1699423366220,
+      "created": 1699423360293,
+      "name": "notification",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1695804222567.875,
       "_type": "request_group"
     },
     {
