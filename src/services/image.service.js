@@ -1,6 +1,8 @@
 import dbConn from "../config/db.js";
+import { notify } from "../services/notification.service.js";
 
 export async function updateImageNote(req, res) {
+  let patientResult;
   const invoiceResult = await dbConn
     .execute(
       "\
@@ -22,16 +24,47 @@ export async function updateImageNote(req, res) {
     });
   }
 
-  await dbConn
-    .execute(
-      "INSERT INTO ImageNote (image_uid, author_uid, note) VALUES (?, ?, ?) \
-        ON DUPLICATE KEY UPDATE note = VALUES(note)",
+  try {
+    patientResult = await dbConn.execute(
+      "SELECT i.uploaded_for AS patient_uid FROM Image i WHERE i.uid = ?",
+      [req.params.image_uid]
+    );
+  } catch (error) {
+    console.log("image.service.uploadImageNote.patientResult: ", error);
+  }
+
+  const patientUID = patientResult.rows[0].patient_uid;
+
+  try {
+    await dbConn.execute(
+      "INSERT INTO ImageNote (image_uid, author_uid, note) VALUES (?, ?, ?)",
       [req.params.image_uid, req.userUID, req.body.note]
-    )
-    .catch((error) => {
-      console.log("image.service.image: ", error);
-      res.json({ success: false });
-    });
+    );
+    notify(
+      patientUID,
+      req.userUID,
+      "Your image has a new note.",
+      "/imagelibrary"
+    );
+  } catch (error) {
+    if (error.body.message.includes("AlreadyExists")) {
+      await dbConn
+        .execute(
+          "UPDATE ImageNote SET note = ? WHERE image_uid = ? AND author_uid = ?",
+          [req.body.note, req.params.image_uid, req.userUID]
+        )
+        .catch((error) => {
+          console.log("image.service.uploadImageNote: ", error);
+          res.json({ success: false });
+        });
+      notify(
+        patientUID,
+        req.userUID,
+        "Your image note has been updated.",
+        "/imagelibrary"
+      );
+    }
+  }
 
   res.json({ success: true });
 }

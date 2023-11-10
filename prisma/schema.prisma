@@ -33,14 +33,14 @@ model User {
   claimed_as_physician Boolean             @default(false)
   ImagesUploaded       Image[]             @relation("UploadedImages")
   Images               Image[]             @relation("Images")
-  NotificationsFor     Notification[]      @relation("PatientNotification")
-  NotificationsFrom    Notification[]      @relation("RadiologistNotification")
   PatientRelation      PatientRelation[]   @relation("PatientRelation")
   StaffRelation        PatientRelation[]   @relation("StaffRelation")
   StaffCredentials     StaffCredentials?
   PatientInvoice       Invoice[]           @relation("PatientInvoice")
   RadiologistInvoice   Invoice[]           @relation("RadiologistInvoice")
   Hospitals            HospitalPhysician[]
+  NotificationsFor     Notification[]      @relation("NotificationSender")
+  NotificationsBy      Notification[]      @relation("NotificationRecipient")
 
   @@index(uid)
 }
@@ -51,17 +51,16 @@ model StripeUser {
 }
 
 model Image {
-  id                Int            @id @default(autoincrement())
-  uid               String         @unique @db.VarChar(36)
-  uploaded_by_user  User           @relation("UploadedImages", fields: [uploaded_by], references: [uid])
-  uploaded_by       String         @db.VarChar(29)
-  uploaded_for_user User           @relation("Images", fields: [uploaded_for], references: [uid])
-  uploaded_for      String         @db.VarChar(29)
+  id                Int         @id @default(autoincrement())
+  uid               String      @unique @db.VarChar(36)
+  uploaded_by_user  User        @relation("UploadedImages", fields: [uploaded_by], references: [uid])
+  uploaded_by       String      @db.VarChar(29)
+  uploaded_for_user User        @relation("Images", fields: [uploaded_for], references: [uid])
+  uploaded_for      String      @db.VarChar(29)
   url               String
   notes             ImageNote[]
   diagnoses         String?
-  createdAt         DateTime       @default(now())
-  Notification      Notification[] @relation("ImageNotification")
+  createdAt         DateTime    @default(now())
 
   @@index([uid])
   @@index([uploaded_by])
@@ -102,19 +101,20 @@ model ImageNote {
 }
 
 model Notification {
-  id              Int     @id @default(autoincrement())
-  uid             String  @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
-  patient         User    @relation("PatientNotification", fields: [patient_uid], references: [uid])
-  patient_uid     String  @db.VarChar(29)
-  radiologist     User    @relation("RadiologistNotification", fields: [radiologist_uid], references: [uid])
-  radiologist_uid String  @db.VarChar(29)
-  image           Image   @relation("ImageNotification", fields: [image_uid], references: [uid])
-  image_uid       String  @db.VarChar(36)
-  read            Boolean @default(false)
+  id            Int      @id @default(autoincrement())
+  uid           String   @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
+  message       String   @db.VarChar(255)
+  read          Boolean  @default(false)
+  recipient     User     @relation("NotificationRecipient", fields: [recipient_uid], references: [uid])
+  recipient_uid String   @db.VarChar(29)
+  sender        User     @relation("NotificationSender", fields: [sender_uid], references: [uid])
+  sender_uid    String   @db.VarChar(29)
+  to            String?  @db.LongText
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt @map("timestamp")
 
-  @@index([patient_uid])
-  @@index([radiologist_uid])
-  @@index([image_uid])
+  @@index([sender_uid])
+  @@index([recipient_uid])
 }
 
 model PatientRelation {
@@ -140,16 +140,16 @@ model StaffCredentials {
 }
 
 model Invoice {
-  id              Int           @id @default(autoincrement())
-  uid             String        @unique @db.VarChar(29)
-  url             String        @db.LongText()
-  patient         User          @relation("PatientInvoice", fields: [patient_uid], references: [uid])
-  patient_uid     String        @db.VarChar(29)
-  radiologist     User          @relation("RadiologistInvoice", fields: [radiologist_uid], references: [uid])
-  radiologist_uid String        @db.VarChar(29)
+  id              Int      @id @default(autoincrement())
+  uid             String   @unique @db.VarChar(29)
+  url             String   @db.LongText()
+  patient         User     @relation("PatientInvoice", fields: [patient_uid], references: [uid])
+  patient_uid     String   @db.VarChar(29)
+  radiologist     User     @relation("RadiologistInvoice", fields: [radiologist_uid], references: [uid])
+  radiologist_uid String   @db.VarChar(29)
   amount          Float
-  paid            Boolean       @default(false)
-  createdAt       DateTime      @default(now())
+  paid            Boolean  @default(false)
+  createdAt       DateTime @default(now())
 
   @@index([patient_uid])
   @@index([radiologist_uid])

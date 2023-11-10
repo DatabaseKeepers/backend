@@ -1,4 +1,6 @@
+import crypto from "crypto";
 import dbConn from "../config/db.js";
+import { notify } from "./notification.service.js";
 
 export async function assignRadiologist(req, res) {
   await dbConn
@@ -223,19 +225,25 @@ export async function radiologists(_req, res) {
 
 export async function uploadImage(req, res) {
   try {
-    await dbConn.execute("SELECT UUID() as uuid").then((result) => {
-      dbConn
-        .execute(
-          "INSERT IGNORE INTO Image (uid, uploaded_by, uploaded_for, url) VALUES (?, ?, ?, ?)",
-          [result.rows[0].uuid, req.userUID, req.body.patient, req.body.url]
-        )
-        .then(() => {
-          dbConn.execute(
-            "INSERT INTO ImageNote (image_uid, author_uid, note) VALUES (?, ?, ?)",
-            [result.rows[0].uuid, req.userUID, req.body.notes]
-          );
-        });
+    const uuid = crypto.randomUUID();
+    const results = await dbConn.transaction(async (tx) => {
+      const image = await tx.execute(
+        "INSERT IGNORE INTO Image (uid, uploaded_by, uploaded_for, url) VALUES (?, ?, ?, ?)",
+        [uuid, req.userUID, req.body.patient, req.body.url]
+      );
+      const imageNote = await tx.execute(
+        "INSERT INTO ImageNote (image_uid, author_uid, note) VALUES (?, ?, ?)",
+        [uuid, req.userUID, req.body.notes]
+      );
+      return [image.rowsAffected, imageNote.rowsAffected];
     });
+    if (results.length === 2 && results[0] > 0 && results[1] > 0) {
+      notify(
+        req.body.patient,
+        req.userUID,
+        "You have a new image from your physician."
+      );
+    }
   } catch (error) {
     console.log("user.service.uploadImage: ", error);
     res.status(422).json({ success: false });
