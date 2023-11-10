@@ -1,16 +1,16 @@
 import dbConn from "../config/db.js";
 
-export async function create(receipient, sender, message) {
+export async function notify(receipient, sender, message) {
   try {
     const now = new Date();
     const { rows } = await dbConn.execute(
       "INSERT INTO \
         Notification (recipient_uid, sender_uid, message, createdAt, timestamp) \
-        VALUES (?, ?, ?, ?)",
+        VALUES (?, ?, ?, ?, ?)",
       [receipient, sender, message, now, now]
     );
   } catch (error) {
-    console.log("notification.service.create: ", error);
+    console.log("notification.service.notify: ", error);
   }
 }
 

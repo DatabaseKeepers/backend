@@ -6,7 +6,7 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from "../config/firebase.js";
-import { notificationService } from "./index.js";
+import { notify } from "./notification.service.js";
 
 export async function addPatient(req, res) {
   const { email, dob, first_name, last_name, title } = req.body;
@@ -25,7 +25,7 @@ export async function addPatient(req, res) {
         [emailExists.rows[0].uid, req.userUID]
       );
 
-      notificationService.create(
+      notify(
         emailExists.rows[0].uid,
         req.userUID,
         "You have been added as a patient"
