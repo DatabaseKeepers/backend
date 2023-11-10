@@ -109,6 +109,7 @@ model Notification {
   recipient_uid String   @db.VarChar(29)
   sender        User     @relation("NotificationSender", fields: [sender_uid], references: [uid])
   sender_uid    String   @db.VarChar(29)
+  to            String?  @db.LongText
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt @map("timestamp")
 
