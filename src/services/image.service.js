@@ -26,7 +26,15 @@ export async function updateImageNote(req, res) {
 
   try {
     patientResult = await dbConn.execute(
-      "SELECT i.uploaded_for AS patient_uid FROM Image i WHERE i.uid = ?",
+      "\
+      SELECT \
+        U.uid AS physician_uid, PR.patient_uid \
+      FROM User U \
+      JOIN \
+        PatientRelation PR ON U.uid = PR.staff_uid \
+      JOIN \
+        Image I ON I.uploaded_for = PR.patient_uid \
+      WHERE I.uid = ? AND U.role = 'PHYSICIAN'",
       [req.params.image_uid]
     );
   } catch (error) {
@@ -34,6 +42,7 @@ export async function updateImageNote(req, res) {
   }
 
   const patientUID = patientResult.rows[0].patient_uid;
+  const physicianUID = patientResult.rows[0].physician_uid;
 
   try {
     await dbConn.execute(
@@ -46,6 +55,12 @@ export async function updateImageNote(req, res) {
       "Your image has a new note.",
       "/imagelibrary"
     );
+    notify(
+      physicianUID,
+      req.userUID,
+      "A radiologist has added a note to your patient's image.",
+      "/patients"
+    )
   } catch (error) {
     if (error.body.message.includes("AlreadyExists")) {
       await dbConn
