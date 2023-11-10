@@ -28,7 +28,7 @@ export async function addPatient(req, res) {
       notify(
         emailExists.rows[0].uid,
         req.userUID,
-        "You have been added as a patient"
+        "You have been added as a patient."
       );
 
       return res.json({ success: true, msg: "Successfully added patient" });

@@ -5,7 +5,7 @@ export async function notify(receipient, sender, message, to) {
     const now = new Date();
     const { rows } = await dbConn.execute(
       "INSERT INTO \
-        Notification (recipient_uid, sender_uid, message, createdAt, timestamp, to) \
+        Notification (recipient_uid, sender_uid, message, createdAt, timestamp, `to`) \
         VALUES (?, ?, ?, ?, ?, ?)",
       [receipient, sender, message, now, now, to]
     );

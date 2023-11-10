@@ -241,7 +241,7 @@ export async function uploadImage(req, res) {
       notify(
         req.body.patient,
         req.userUID,
-        "You have a new image from your physician"
+        "You have a new image from your physician."
       );
     }
   } catch (error) {
