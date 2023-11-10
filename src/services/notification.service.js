@@ -19,7 +19,7 @@ export async function polling(req, res) {
     const { rows } = await dbConn.execute(
       "\
       SELECT \
-        uid, `read`, timestamp, message, createdAt \
+        uid, `read`, timestamp, message, DATE(createdAt) as createdAt \
       FROM \
         Notification WHERE `read` = 0 AND recipient_uid = ?",
       [req.userUID]
