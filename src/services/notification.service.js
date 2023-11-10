@@ -1,13 +1,13 @@
 import dbConn from "../config/db.js";
 
-export async function notify(receipient, sender, message) {
+export async function notify(receipient, sender, message, to) {
   try {
     const now = new Date();
     const { rows } = await dbConn.execute(
       "INSERT INTO \
-        Notification (recipient_uid, sender_uid, message, createdAt, timestamp) \
-        VALUES (?, ?, ?, ?, ?)",
-      [receipient, sender, message, now, now]
+        Notification (recipient_uid, sender_uid, message, createdAt, timestamp, to) \
+        VALUES (?, ?, ?, ?, ?, ?)",
+      [receipient, sender, message, now, now, to]
     );
   } catch (error) {
     console.log("notification.service.notify: ", error);
@@ -19,9 +19,10 @@ export async function polling(req, res) {
     const { rows } = await dbConn.execute(
       "\
       SELECT \
-        uid, `read`, timestamp, message, DATE(createdAt) as createdAt \
+        uid, `read`, timestamp, message, DATE(createdAt) as createdAt, `to` \
       FROM \
-        Notification WHERE `read` = 0 AND recipient_uid = ?",
+        Notification WHERE `read` = 0 AND recipient_uid = ? \
+      ORDER BY timestamp DESC",
       [req.userUID]
     );
     if (rows.length > 0) {
