@@ -19,7 +19,24 @@ export async function addPatient(req, res) {
     });
 
   if (emailExists.size > 0) {
+    const patient_uid = emailExists.rows[0].uid;
+
     try {
+      const patientRelations = await dbConn.execute(
+        "SELECT COUNT(*) FROM PatientRelation WHERE patient_uid = ?",
+        [patient_uid]
+      );
+
+      if (patientRelations.rows[0]["count(*)"] > 1) {
+        return res.status(409).json({
+          errors: [
+            {
+              msg: "This patient is already assigned to another physician.",
+            },
+          ],
+        });
+      }
+
       await dbConn.execute(
         "INSERT IGNORE INTO PatientRelation(patient_uid, staff_uid) VALUES(?, ?)",
         [emailExists.rows[0].uid, req.userUID]

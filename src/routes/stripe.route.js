@@ -1,6 +1,7 @@
 import express from "express";
 import dbConn from "../config/db.js";
 import stripe from "../config/stripe.js";
+import { notify } from "../services/notification.service.js";
 import { STRIPE_WEBHOOK_SECRET_KEY } from "../utils/environment.js";
 
 const router = express.Router();
@@ -52,9 +53,19 @@ router.post(express.raw({ type: "application/json" }), (req, res) => {
     case "invoice.payment_succeeded":
       break;
     case "invoice.paid":
-      dbConn.execute("UPDATE Invoice SET paid = 1 WHERE uid = ?", [
-        event.data.object.id,
-      ]);
+      try {
+        dbConn.execute("UPDATE Invoice SET paid = 1 WHERE uid = ?", [
+          event.data.object.id,
+        ]);
+        notify(
+          event.data.object.metadata.radiologist,
+          event.data.object.metadata.patient,
+          `${event.data.object.customer_name} has paid for an analysis.`,
+          "/patients"
+        );
+      } catch (error) {
+        console.log("Error updating invoice: ", error);
+      }
       break;
     case "invoice.sent":
       break;

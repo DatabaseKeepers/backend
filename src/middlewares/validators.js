@@ -6,8 +6,8 @@ async function checkEmailExists(email) {
   await adminAuth
     .getUserByEmail(email)
     .then((user) => {
-      if (user) return Promise.resolve();
-      return Promise.reject();
+      if (user) return Promise.reject();
+      return Promise.resolve();
     })
     .catch((error) => {
       if (error.code === "auth/user-not-found") return Promise.resolve();
@@ -160,7 +160,7 @@ export const signupSchema = checkSchema(
       emailExists: {
         bail: true,
         custom: checkEmailExists,
-        errorMessage: "Email already exists",
+        errorMessage: "This email is already in use",
       },
       isEmail: {
         trim: true,
@@ -305,7 +305,24 @@ export const uploadImageSchema = checkSchema({
   },
 });
 
-export const uploadProfileSchema = checkSchema({
+export const updateEmailSchema = checkSchema(
+  {
+    email: {
+      emailExists: {
+        bail: true,
+        custom: checkEmailExists,
+        errorMessage: "This email is already in use",
+      },
+      isEmail: {
+        trim: true,
+        errorMessage: "Invalid email",
+      },
+    },
+  },
+  ["body"]
+);
+
+export const updateProfileSchema = checkSchema({
   profile_image_url: {
     isString: {
       bail: true,

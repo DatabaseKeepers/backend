@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-11-09T00:19:56.895Z",
+  "__export_date": "2023-11-11T02:23:49.592Z",
   "__export_source": "insomnia.desktop.app:v0.2.2",
   "resources": [
     {
@@ -67,7 +67,7 @@
     {
       "_id": "req_60dd5e4c71984712897a033168fe383b",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1699489143180,
+      "modified": 1699652533631,
       "created": 1696463217635,
       "url": "{{host}}/api/auth/login",
       "name": "Login user",
@@ -94,11 +94,11 @@
     {
       "_id": "req_089baa5e56c5476783b69aa3fb7f7250",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1698894156142,
+      "modified": 1699619809682,
       "created": 1695426311293,
       "url": "{{host}}/api/auth/signup",
       "name": "Create an account",
-      "description": "```response:400\nWhen the user signs up as a Physician that does not exist.\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Physician does not exist in hospital\",\n\t\t\t\"path\": \"/api/auth/signup\"\n\t\t}\n\t]\n}\n```",
+      "description": "```response:400\nWhen the user signs up as a Physician that does not exist.\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Physician does not exist in hospital\",\n\t\t\t\"path\": \"/api/auth/signup\"\n\t\t}\n\t]\n}\n```\n\n```response:400\nWhen the user uses an email that is already taken\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"This email is already in use\",\n\t\t\t\"path\": \"/api/auth/signup\"\n\t\t}\n\t]\n}\n```",
       "method": "POST",
       "body": {
         "mimeType": "application/json",
@@ -507,6 +507,37 @@
         "prefix": "Bearer"
       },
       "metaSortKey": -1697999150978.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "segmentParams": [],
+      "_type": "request"
+    },
+    {
+      "_id": "req_f6c559574ef04a80b16d1b9adcdaf513",
+      "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
+      "modified": 1699669367861,
+      "created": 1699618431584,
+      "url": "{{host}}/api/user/email",
+      "name": "Update the user's email with a new one.",
+      "description": "```response:200\n{\n\t\"success\": true,\n\t\"msg\": \"Email updated successfully.\"\n}\n```\n\n```response:400\nWhen the user tries to update their email to one that is already taken.\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"This email is already in use\",\n\t\t\t\"path\": \"/api/user/email\"\n\t\t}\n\t]\n}\n```",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\": \"naturemade@test.com\",\n\t\"password\": \"testtest123\"\n}"
+      },
+      "parameters": [],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1697999150972.25,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
