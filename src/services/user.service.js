@@ -1,5 +1,10 @@
 import crypto from "crypto";
 import dbConn from "../config/db.js";
+import {
+  adminAuth,
+  auth,
+  signInWithEmailAndPassword,
+} from "../config/firebase.js";
 import { notify } from "./notification.service.js";
 
 export async function assignRadiologist(req, res) {
@@ -250,6 +255,40 @@ export async function uploadImage(req, res) {
   }
 
   res.json({ success: true });
+}
+
+export async function updateNewEmail(req, res) {
+  const { email, password } = req.body;
+
+  const currentUser = await adminAuth.getUser(req.userUID);
+
+  try {
+    // Reauthenticate the user before updating the email
+    await signInWithEmailAndPassword(auth, currentUser.email, password);
+
+    await adminAuth.updateUser(req.userUID, { email });
+
+    // Update the email in the database
+    await dbConn
+      .execute("UPDATE User SET email = ? WHERE uid = ?", [email, req.userUID])
+      .catch((error) => console.log(error));
+
+    res.json({ success: true, msg: "Email updated successfully." });
+  } catch (error) {
+    console.log("user.service.updateNewEmail:", error);
+    if (error.code === "auth/invalid-login-credentials") {
+      return res
+        .status(422)
+        .json({ success: false, errors: [{ msg: "Incorrect password" }] });
+    } else if (error.code === "auth/too-many-requests") {
+      return res.status(422).json({
+        success: false,
+        errors: [{ msg: "Too many requests. Try again later." }],
+      });
+    } else {
+      res.status(422).json({ success: false });
+    }
+  }
 }
 
 export async function updateProfile(req, res) {

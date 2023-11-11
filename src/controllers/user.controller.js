@@ -24,6 +24,10 @@ export async function profile(req, res) {
   await userService.profile(req, res);
 }
 
+export async function updateNewEmail(req, res) {
+  await userService.updateNewEmail(req, res);
+}
+
 export async function updateProfile(req, res) {
   await userService.updateProfile(req, res);
 }

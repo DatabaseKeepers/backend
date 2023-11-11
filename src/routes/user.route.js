@@ -5,7 +5,8 @@ import errors from "../middlewares/errors.js";
 import { isAuthenticated } from "../middlewares/firebase-auth.js";
 import {
   uploadImageSchema,
-  uploadProfileSchema,
+  updateEmailSchema,
+  updateProfileSchema,
 } from "../middlewares/validators.js";
 
 const router = express.Router();
@@ -26,15 +27,18 @@ router.delete(
   userController.removeRadiologist
 );
 router.get("/me", [isAuthenticated], userController.me);
+router.get("/meet-our-radiologists", [], userController.meetOurRadiologists);
 router.get("/patients", [isAuthenticated, isStaff], userController.patients);
 router.get("/profile", [isAuthenticated], userController.profile);
+router.get("/radiologists", [], userController.radiologists);
+
+router.put("/email", [isAuthenticated, updateEmailSchema, errors], userController.updateNewEmail);
 router.put(
   "/profile",
-  [isAuthenticated, uploadProfileSchema, errors],
+  [isAuthenticated, updateProfileSchema, errors],
   userController.updateProfile
 );
-router.get("/meet-our-radiologists", [], userController.meetOurRadiologists);
-router.get("/radiologists", [], userController.radiologists);
+
 router.post(
   "/upload-image",
   [isAuthenticated, isStaff, uploadImageSchema],
