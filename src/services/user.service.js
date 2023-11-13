@@ -249,7 +249,7 @@ export async function uploadImage(req, res) {
       );
       const imageNote = await tx.execute(
         "INSERT INTO ImageNote (image_uid, author_uid, note) VALUES (?, ?, ?)",
-        [uuid, req.userUID, req.body.notes]
+        [uuid, req.userUID, req.body.notes ?? ""]
       );
       return [image.rowsAffected, imageNote.rowsAffected];
     });
