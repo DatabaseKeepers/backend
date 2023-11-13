@@ -40,6 +40,12 @@ router.put(
 );
 
 router.post(
+  "/reset-password",
+  [isAuthenticated, sendResetPasswordSchema, errors],
+  userController.sendResetPassword
+);
+
+router.post(
   "/upload-image",
   [isAuthenticated, isStaff, uploadImageSchema],
   userController.uploadImage
