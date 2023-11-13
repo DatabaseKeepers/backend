@@ -4,6 +4,7 @@ import { isAuthorized, isStaff } from "../middlewares/authorization.js";
 import errors from "../middlewares/errors.js";
 import { isAuthenticated } from "../middlewares/firebase-auth.js";
 import {
+  sendResetPasswordSchema,
   uploadImageSchema,
   updateEmailSchema,
   updateProfileSchema,
