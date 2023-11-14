@@ -21,7 +21,7 @@ export async function polling(req, res) {
       SELECT \
         uid, `read`, timestamp, message, DATE(createdAt) as createdAt, `to` \
       FROM \
-        Notification WHERE `read` = 0 AND recipient_uid = ? \
+        Notification WHERE recipient_uid = ? \
       ORDER BY timestamp DESC",
       [req.userUID]
     );
@@ -32,5 +32,25 @@ export async function polling(req, res) {
     }
   } catch (error) {
     console.log("notification.service.polling: ", error);
+  }
+}
+
+export async function read(req, res) {
+  const { read } = req.body;
+
+  if (read.length === 0) return res.status(204).end();
+
+  try {
+    const result = await dbConn.execute(
+      "UPDATE Notification SET `read` = 1 WHERE uid IN (?)",
+      [read]
+    );
+    return res.json({
+      success: result.rowsAffected === read.length ? true : false,
+      read,
+    });
+  } catch (error) {
+    console.log("notification.service.read: ", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 }

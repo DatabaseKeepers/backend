@@ -268,6 +268,18 @@ export const paySchema = checkSchema(
   ["body"]
 );
 
+export const readNotificationSchema = checkSchema(
+  {
+    read: {
+      isArray: {
+        bail: true,
+        errorMessage: "read must be an array",
+      },
+    },
+  },
+  ["body"]
+);
+
 export const updateImageNoteSchema = checkSchema({
   image_uid: {
     imageExists: {
@@ -340,3 +352,15 @@ export const updateProfileSchema = checkSchema({
     optional: true,
   },
 });
+
+export const sendResetPasswordSchema = checkSchema(
+  {
+    email: {
+      isEmail: {
+        bail: true,
+        errorMessage: "Invalid email",
+      }
+    }
+  },
+  ["body"]
+);

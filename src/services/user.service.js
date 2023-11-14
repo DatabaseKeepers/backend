@@ -3,6 +3,7 @@ import dbConn from "../config/db.js";
 import {
   adminAuth,
   auth,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from "../config/firebase.js";
 import { notify } from "./notification.service.js";
@@ -228,6 +229,16 @@ export async function radiologists(_req, res) {
   res.json({ radiologists: result.rows });
 }
 
+export async function sendResetPassword(req, res) {
+  try {
+    await sendPasswordResetEmail(auth, req.body.email);
+    res.json({ success: true })
+  } catch (error) {
+    console.log("user.service.resetPassword: ", error);
+    res.json({ success: false });
+  }
+}
+
 export async function uploadImage(req, res) {
   try {
     const uuid = crypto.randomUUID();
@@ -238,7 +249,7 @@ export async function uploadImage(req, res) {
       );
       const imageNote = await tx.execute(
         "INSERT INTO ImageNote (image_uid, author_uid, note) VALUES (?, ?, ?)",
-        [uuid, req.userUID, req.body.notes]
+        [uuid, req.userUID, req.body.notes ?? ""]
       );
       return [image.rowsAffected, imageNote.rowsAffected];
     });
