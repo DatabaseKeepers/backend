@@ -43,3 +43,7 @@ export async function radiologists(req, res) {
 export async function uploadImage(req, res) {
   await userService.uploadImage(req, res);
 }
+
+export async function sendResetPassword(req, res) {
+  await userService.sendResetPassword(req, res);
+}
