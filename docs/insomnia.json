@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-11-11T02:23:49.592Z",
+  "__export_date": "2023-11-14T22:34:41.203Z",
   "__export_source": "insomnia.desktop.app:v0.2.2",
   "resources": [
     {
@@ -67,7 +67,7 @@
     {
       "_id": "req_60dd5e4c71984712897a033168fe383b",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1699652533631,
+      "modified": 1699827682661,
       "created": 1696463217635,
       "url": "{{host}}/api/auth/login",
       "name": "Login user",
@@ -293,6 +293,45 @@
       "_type": "request_group"
     },
     {
+      "_id": "req_f03c6f568d3c42db9537a9d3a38fafeb",
+      "parentId": "fld_c43de8071e9a4e1eb2bbd6df0c5dff41",
+      "modified": 1699788036232,
+      "created": 1699747098757,
+      "url": "{{ _.host }}/api/notification/read",
+      "name": "Mark notifications as read.",
+      "description": "```response:200\n{\n    \"success\": true,\n    \"read\": [\n        \"62544370-7fbe-11ee-805e-52c1adc66d9e\",\n        \"c8bf3d6b-7fbd-11ee-805e-52c1adc66d9e\",\n        \"f2b0d489-7fbc-11ee-805e-52c1adc66d9e\",\n        \"d7cbe60a-7f98-11ee-805e-52c1adc66d9e\",\n        \"4cf366ff-7f98-11ee-805e-52c1adc66d9e\",\n        \"32d6316a-7f98-11ee-805e-52c1adc66d9e\",\n        \"f3484b51-7f91-11ee-805e-52c1adc66d9e\"\n    ]\n}\n```\n\n```reponse:204\nreq.body.read is an empty array\n```",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"read\": [\n    \"62544370-7fbe-11ee-805e-52c1adc66d9e\",\n    \"c8bf3d6b-7fbd-11ee-805e-52c1adc66d9e\",\n    \"f2b0d489-7fbc-11ee-805e-52c1adc66d9e\",\n    \"d7cbe60a-7f98-11ee-805e-52c1adc66d9e\",\n    \"4cf366ff-7f98-11ee-805e-52c1adc66d9e\",\n    \"32d6316a-7f98-11ee-805e-52c1adc66d9e\",\n    \"f3484b51-7f91-11ee-805e-52c1adc66d9e\"\n\t]\n}"
+      },
+      "parameters": [],
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/0.2.2",
+          "id": "pair_d779cacb04844f729a92bb6725fb44c7",
+          "disabled": false
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "prefix": "Bearer",
+        "token": "{{ _.jwtToken }}"
+      },
+      "metaSortKey": -1699122319990,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "segmentParams": [],
+      "_type": "request"
+    },
+    {
       "_id": "req_232e227e5bd345d5a9993651c1a68ae7",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
       "modified": 1698812219206,
@@ -448,6 +487,37 @@
         "prefix": "Bearer"
       },
       "metaSortKey": -1697999150984.75,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "segmentParams": [],
+      "_type": "request"
+    },
+    {
+      "_id": "req_384f02b4a1674972b6fc353e0bee4ff2",
+      "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
+      "modified": 1699827935147,
+      "created": 1699827610754,
+      "url": "{{host}}/api/user/reset-password",
+      "name": "Send a password reset link to the email.",
+      "description": "```response:200\n{\n\t\"success\": true\n}\n```\n\n```response:200\n{\n\t\"success\": false\n}\n```",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\": \"patient20@radiologyarchive.com\"\n}"
+      },
+      "parameters": [],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1697999150983.1875,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
