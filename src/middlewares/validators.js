@@ -412,6 +412,11 @@ export const updateProfileSchema = checkSchema({
     default: "",
     optional: true,
   },
+  enableRatingSystem: {
+    default: true,
+    toBoolean: true,
+    optional: true,
+  },
 });
 
 export const sendResetPasswordSchema = checkSchema(
