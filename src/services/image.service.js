@@ -56,11 +56,17 @@ export async function updateImageNote(req, res) {
       "/imagelibrary"
     );
     notify(
+      patientUID,
+      req.userUID,
+      "Don't forget to rate your radiologist.",
+      "/imagelibrary"
+    );
+    notify(
       physicianUID,
       req.userUID,
       "A radiologist has added a note to your patient's image.",
       "/patients"
-    )
+    );
   } catch (error) {
     if (error.body.message.includes("AlreadyExists")) {
       await dbConn
