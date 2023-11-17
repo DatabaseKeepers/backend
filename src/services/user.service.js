@@ -384,8 +384,8 @@ export async function updateProfile(req, res) {
         req.userUID,
       ]);
       profile_image_url = await tx.execute(
-        "UPDATE User SET profile_image_url = ? WHERE uid = ?",
-        [req.body.profile_image_url, req.userUID]
+        "UPDATE User SET profile_image_url = ?, allow_ratings = ? WHERE uid = ?",
+        [req.body.profile_image_url, req.body.enableRatingSystem, req.userUID]
       );
       if (user.size > 0 && user.rows[0].role !== "PATIENT") {
         bio = await tx.execute(

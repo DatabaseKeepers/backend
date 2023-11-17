@@ -104,6 +104,25 @@ async function checkRadiologistExists(uid, { req }) {
     });
 }
 
+async function checkRatingsEnabled(uid) {
+  const result = await dbConn.execute(
+    "SELECT \
+      uid, \
+      CASE \
+        WHEN allow_ratings = 1 THEN 'true' \
+        ELSE 'false' \
+      END AS allow_ratings \
+    FROM User WHERE uid = ?",
+    [uid]
+  );
+  if (result.rows.length === 0) return Promise.reject();
+  if (result.rows[0].allow_ratings === "true") {
+    return Promise.resolve();
+  } else {
+    return Promise.reject();
+  }
+}
+
 async function checkRoleIsRadiologist(uid, { req }) {
   await dbConn
     .execute("SELECT uid FROM User WHERE uid = ? AND role = 'RADIOLOGIST'", [
@@ -317,6 +336,11 @@ export const rateRadiologistSchema = checkSchema(
         custom: checkRoleIsRadiologist,
         errorMessage: "User is not a radiologist",
       },
+      ratingsEnabled: {
+        bail: true,
+        custom: checkRatingsEnabled,
+        errorMessage: "Radiologist currently has ratings disabled",
+      },
     },
     rating: {
       isInt: {
@@ -410,6 +434,11 @@ export const updateProfileSchema = checkSchema({
   },
   bio: {
     default: "",
+    optional: true,
+  },
+  enableRatingSystem: {
+    default: true,
+    toBoolean: true,
     optional: true,
   },
 });
