@@ -323,6 +323,15 @@ export async function uploadImage(req, res) {
         req.userUID,
         "You have a new image from your physician."
       );
+
+      if (!req.body.notes) {
+        notify(
+          req.userUID,
+          req.body.patient,
+          "Don't forget to add your notes to your patient's image.",
+          "/patients"
+        );
+      }
     }
   } catch (error) {
     console.log("user.service.uploadImage: ", error);
