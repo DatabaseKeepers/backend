@@ -31,6 +31,7 @@ model User {
   profile_image_url    String?
   role                 Role                @default(PATIENT)
   claimed_as_physician Boolean             @default(false)
+  allow_ratings        Boolean             @default(true)
   ImagesUploaded       Image[]             @relation("UploadedImages")
   Images               Image[]             @relation("Images")
   PatientRelation      PatientRelation[]   @relation("PatientRelation")
@@ -41,6 +42,8 @@ model User {
   Hospitals            HospitalPhysician[]
   NotificationsFor     Notification[]      @relation("NotificationSender")
   NotificationsBy      Notification[]      @relation("NotificationRecipient")
+  RatingFor            Rating[]            @relation("RatingFor")
+  RatingBy             Rating[]            @relation("RatingBy")
 
   @@index(uid)
 }
@@ -127,6 +130,22 @@ model PatientRelation {
   @@unique([patient_uid, staff_uid])
   @@index([patient_uid])
   @@index([staff_uid])
+}
+
+model Rating {
+  uid       String   @unique @db.VarChar(36)
+  comment   String?  @db.LongText()
+  rating    Int
+  rated     User     @relation("RatingFor", fields: [rated_uid], references: [uid])
+  rated_uid String   @db.VarChar(29)
+  user      User     @relation("RatingBy", fields: [user_uid], references: [uid])
+  user_uid  String   @db.VarChar(29)
+  createdAt DateTime @default(now())
+  editedAt  DateTime @updatedAt
+
+  @@id([rated_uid, user_uid])
+  @@index([rated_uid])
+  @@index([user_uid])
 }
 
 model StaffCredentials {
