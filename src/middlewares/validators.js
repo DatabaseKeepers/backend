@@ -55,7 +55,7 @@ async function checkPatientExists(uid, { req }) {
 }
 
 // Disable if physician exists in hospital
-async function checkPhysicianExistsInHospital(hospital, { req }) {
+async function checkPhysicianExistsInHospital(/*hospital, { req }*/) {
   /* if (req.body.role === "physician") {
     await dbConn
       .execute(
@@ -87,6 +87,38 @@ async function checkPhysicianExistsInHospital(hospital, { req }) {
       .catch((error) => console.log(error.code, error.message));
   } */
   return Promise.resolve();
+}
+
+async function checkRadiologistExists(uid, { req }) {
+  await dbConn
+    .execute("SELECT uid FROM User WHERE uid = ?", [uid])
+    .then((result) => {
+      if (result.rows.length > 0) {
+        return Promise.resolve(req);
+      }
+      return Promise.reject();
+    })
+    .catch((error) => {
+      console.log(error.code, error.message);
+      return Promise.reject();
+    });
+}
+
+async function checkRoleIsRadiologist(uid, { req }) {
+  await dbConn
+    .execute("SELECT uid FROM User WHERE uid = ? AND role = 'RADIOLOGIST'", [
+      uid,
+    ])
+    .then((result) => {
+      if (result.rows.length > 0) {
+        return Promise.resolve(req);
+      }
+      return Promise.reject();
+    })
+    .catch((error) => {
+      console.log(error.code, error.message);
+      return Promise.reject();
+    });
 }
 
 async function checkInvoiceExists(uid, { req }) {
@@ -268,6 +300,35 @@ export const paySchema = checkSchema(
   ["body"]
 );
 
+export const rateRadiologistSchema = checkSchema(
+  {
+    uid: {
+      notEmpty: {
+        bail: true,
+        errorMessage: "Radiologist's uid is required",
+      },
+      radiologistExists: {
+        bail: true,
+        custom: checkRadiologistExists,
+        errorMessage: "Radiologist does not exist",
+      },
+      isRadiologist: {
+        bail: true,
+        custom: checkRoleIsRadiologist,
+        errorMessage: "User is not a radiologist",
+      },
+    },
+    rating: {
+      isInt: {
+        bail: true,
+        options: { min: 1, max: 5 },
+        errorMessage: "Invalid rating",
+      },
+    },
+  },
+  ["body"]
+);
+
 export const readNotificationSchema = checkSchema(
   {
     read: {
@@ -359,8 +420,8 @@ export const sendResetPasswordSchema = checkSchema(
       isEmail: {
         bail: true,
         errorMessage: "Invalid email",
-      }
-    }
+      },
+    },
   },
   ["body"]
 );

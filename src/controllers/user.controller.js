@@ -40,6 +40,10 @@ export async function radiologists(req, res) {
   await userService.radiologists(req, res);
 }
 
+export async function rateRadiologist(req, res) {
+  await userService.rateRadiologist(req, res);
+}
+
 export async function uploadImage(req, res) {
   await userService.uploadImage(req, res);
 }

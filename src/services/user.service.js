@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import { v4 as uuidv4 } from "uuid";
 import dbConn from "../config/db.js";
 import {
   adminAuth,
@@ -32,6 +33,61 @@ export async function assignRadiologist(req, res) {
       }
       res.json({ success: false });
     });
+}
+
+export async function rateRadiologist(req, res) {
+  const { uid, rating, comment } = req.body;
+  const now = new Date();
+
+  try {
+    const rating_uid = uuidv4();
+    await dbConn
+      .execute(
+        "INSERT INTO \
+          Rating \
+            (uid, comment, rating, rated_uid, user_uid, createdAt, editedAt) \
+          VALUES \
+            (?, ?, ?, ?, ?, ?, ?)",
+        [rating_uid, comment, rating, uid, req.userUID, now, now]
+      )
+      .then((result) => {
+        if (result.rowsAffected > 0) {
+          res.json({ success: true });
+          notify(uid, req.userUID, "A patient has rated your service.");
+        } else {
+          res.json({ success: false });
+        }
+      });
+  } catch (error) {
+    if (error.body.message.includes("AlreadyExists")) {
+      await dbConn
+        .execute(
+          "SELECT rating FROM Rating WHERE rated_uid = ? AND user_uid = ?",
+          [uid, req.userUID]
+        )
+        .then(async (result) => {
+          if (result.rows[0].rating === rating) {
+            return res.json({ success: true });
+          }
+
+          await dbConn
+            .execute(
+              "UPDATE Rating SET comment = ?, rating = ? WHERE rated_uid = ? AND user_uid = ?",
+              [comment, rating, uid, req.userUID]
+            )
+            .then((result) => {
+              if (result.rowsAffected > 0) {
+                res.json({ success: true });
+                notify(uid, req.userUID, "A patient has updated their rating.");
+              }
+            })
+            .catch((error) => {
+              console.log("user.service.rateRadiologist: ", error);
+              res.json({ success: false });
+            });
+        });
+    }
+  }
 }
 
 export async function removeRadiologist(req, res) {
@@ -215,11 +271,19 @@ export async function radiologists(_req, res) {
   const result = await dbConn
     .execute(
       "\
-      SELECT U.uid, U.title, U.first_name, U.last_name, U.email, U.profile_image_url, \
-        SC.bio, SC.expertise, SC.years_of_exp \
+      SELECT \
+        U.uid, U.title, U.first_name, U.last_name, U.email, U.profile_image_url, \
+        SC.bio, SC.expertise, SC.years_of_exp, \
+        AVG(R.rating) as average_rating \
       FROM User U \
-      LEFT JOIN StaffCredentials SC ON U.uid = SC.uid \
-      WHERE U.role = 'RADIOLOGIST'"
+      LEFT JOIN \
+        StaffCredentials SC ON U.uid = SC.uid \
+      LEFT JOIN \
+        Rating R ON U.uid = R.rated_uid \
+      WHERE U.role = 'RADIOLOGIST' \
+      GROUP BY \
+        U.uid, U.title, U.first_name, U.last_name, U.email, U.profile_image_url, \
+        SC.bio, SC.expertise, SC.years_of_exp"
     )
     .catch((error) => {
       console.log("user.service.radiologists: ", error);
@@ -232,7 +296,7 @@ export async function radiologists(_req, res) {
 export async function sendResetPassword(req, res) {
   try {
     await sendPasswordResetEmail(auth, req.body.email);
-    res.json({ success: true })
+    res.json({ success: true });
   } catch (error) {
     console.log("user.service.resetPassword: ", error);
     res.json({ success: false });

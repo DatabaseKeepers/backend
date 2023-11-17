@@ -4,6 +4,7 @@ import { isAuthorized, isStaff } from "../middlewares/authorization.js";
 import errors from "../middlewares/errors.js";
 import { isAuthenticated } from "../middlewares/firebase-auth.js";
 import {
+  rateRadiologistSchema,
   sendResetPasswordSchema,
   uploadImageSchema,
   updateEmailSchema,
@@ -41,11 +42,15 @@ router.put(
 );
 
 router.post(
+  "/rate",
+  [isAuthenticated, rateRadiologistSchema, errors],
+  userController.rateRadiologist
+)
+router.post(
   "/reset-password",
   [isAuthenticated, sendResetPasswordSchema, errors],
   userController.sendResetPassword
 );
-
 router.post(
   "/upload-image",
   [isAuthenticated, isStaff, uploadImageSchema],
