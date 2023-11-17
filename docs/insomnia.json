@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-11-14T22:34:41.203Z",
+  "__export_date": "2023-11-17T10:07:21.859Z",
   "__export_source": "insomnia.desktop.app:v0.2.2",
   "resources": [
     {
@@ -67,7 +67,7 @@
     {
       "_id": "req_60dd5e4c71984712897a033168fe383b",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1699827682661,
+      "modified": 1700215347151,
       "created": 1696463217635,
       "url": "{{host}}/api/auth/login",
       "name": "Login user",
@@ -75,7 +75,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"email\": \"physician@test.com\",\n\t\"password\": \"testtest123\"\n}"
+        "text": "{\n\t\"email\": \"patient@test.com\",\n\t\"password\": \"testtest123\"\n}"
       },
       "parameters": [],
       "headers": [{ "name": "Content-Type", "value": "application/json" }],
@@ -529,6 +529,37 @@
       "_type": "request"
     },
     {
+      "_id": "req_0cc9324bf6db4a98b8f3cce282142888",
+      "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
+      "modified": 1700215569138,
+      "created": 1700175261520,
+      "url": "{{host}}/api/user/rate",
+      "name": "Rate the given radiologist.",
+      "description": "```response:200\n{\n\t\"success\": true\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Radiologist's uid is required\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Radiologist does not exist\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"User is not a radiologist\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Invalid rating\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```\n\n```reponse:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Radiologist currently has ratings disabled\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"uid\": \"{{ _.radiologist_uid }}\",\n\t\"rating\": 5\n}"
+      },
+      "parameters": [],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1697999150982.4062,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "segmentParams": [],
+      "_type": "request"
+    },
+    {
       "_id": "req_14ed04cc5e604598acd4db661b85fa7d",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
       "modified": 1698557852655,
@@ -559,15 +590,15 @@
     {
       "_id": "req_a49c0796eb864d10883e1860cc65c709",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1698894431641,
+      "modified": 1700214510503,
       "created": 1698113234532,
       "url": "{{host}}/api/user/profile",
       "name": "Update profile information.",
-      "description": "```response:200\n{\n\t\"success\": true,\n\t\"data\": {\n\t\t\"profile_image_url\": \"\",\n\t\t\"bio\": \"\"\n\t}\n}\n```",
+      "description": "```response:200\n{\n\t\"success\": true,\n\t\"data\": {\n\t\t\"profile_image_url\": \"\",\n\t\t\"bio\": \"\",\n\t\t\"enableRatingSystem\": true\n\t}\n}\n```",
       "method": "PUT",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"profile_image_url\": \"\"\n}"
+        "text": "{\n\t\"profile_image_url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F9e81bf6e-e3de-4dbb-9bf1-fc6528324c93?alt=media&token=4bd4d32f-0ed7-4adc-b9ad-8b618f443d74\",\n\t\"enableRatingSystem\": true\n}"
       },
       "parameters": [],
       "headers": [{ "name": "Content-Type", "value": "application/json" }],
@@ -590,7 +621,7 @@
     {
       "_id": "req_f6c559574ef04a80b16d1b9adcdaf513",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1699669367861,
+      "modified": 1700089415578,
       "created": 1699618431584,
       "url": "{{host}}/api/user/email",
       "name": "Update the user's email with a new one.",
