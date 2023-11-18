@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-11-18T10:45:51.739Z",
+  "__export_date": "2023-11-18T23:20:42.487Z",
   "__export_source": "insomnia.desktop.app:v0.2.2",
   "resources": [
     {
@@ -119,6 +119,38 @@
         "disabled": true
       },
       "metaSortKey": -1697999280639,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "segmentParams": [],
+      "_type": "request"
+    },
+    {
+      "_id": "req_384f02b4a1674972b6fc353e0bee4ff2",
+      "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
+      "modified": 1700348051904,
+      "created": 1699827610754,
+      "url": "{{host}}/api/auth/reset-password",
+      "name": "Send a password reset link to the email.",
+      "description": "```response:200\n{\n\t\"success\": true\n}\n```\n\n```response:200\n{\n\t\"success\": false\n}\n```",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\": \"test@radiologyarchive.com\"\n}"
+      },
+      "parameters": [],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer",
+        "disabled": true
+      },
+      "metaSortKey": -1697999280589,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -487,37 +519,6 @@
         "prefix": "Bearer"
       },
       "metaSortKey": -1697999150984.75,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "segmentParams": [],
-      "_type": "request"
-    },
-    {
-      "_id": "req_384f02b4a1674972b6fc353e0bee4ff2",
-      "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1699827935147,
-      "created": 1699827610754,
-      "url": "{{host}}/api/user/reset-password",
-      "name": "Send a password reset link to the email.",
-      "description": "```response:200\n{\n\t\"success\": true\n}\n```\n\n```response:200\n{\n\t\"success\": false\n}\n```",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"email\": \"patient20@radiologyarchive.com\"\n}"
-      },
-      "parameters": [],
-      "headers": [{ "name": "Content-Type", "value": "application/json" }],
-      "authentication": {
-        "type": "bearer",
-        "token": "{{ _.jwtToken }}",
-        "prefix": "Bearer"
-      },
-      "metaSortKey": -1697999150983.1875,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
