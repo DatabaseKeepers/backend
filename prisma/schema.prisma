@@ -90,12 +90,13 @@ model HospitalPhysician {
 }
 
 model ImageNote {
-  uid        String   @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
-  author_uid String   @db.VarChar(29)
-  image_uid  String   @db.VarChar(36)
-  note       String   @db.LongText
-  createdAt  DateTime @default(now())
-  Image      Image    @relation(fields: [image_uid], references: [uid])
+  uid           String   @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
+  author_uid    String   @db.VarChar(29)
+  image_uid     String   @db.VarChar(36)
+  recommend_uid String?  @db.VarChar(29)
+  note          String   @db.LongText
+  createdAt     DateTime @default(now())
+  Image         Image    @relation(fields: [image_uid], references: [uid])
 
   @@id([author_uid, image_uid])
   @@index([uid])

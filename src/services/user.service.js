@@ -1,5 +1,4 @@
 import crypto from "crypto";
-import { v4 as uuidv4 } from "uuid";
 import dbConn from "../config/db.js";
 import {
   adminAuth,
@@ -40,7 +39,7 @@ export async function rateRadiologist(req, res) {
   const now = new Date();
 
   try {
-    const rating_uid = uuidv4();
+    const rating_uid = crypto.randomUUID();
     await dbConn
       .execute(
         "INSERT INTO \
@@ -121,7 +120,12 @@ export async function images(req, res) {
               'uid', INN.author_uid, \
               'note', INN.note, \
               'full_name', CONCAT(UA.title, ' ', UA.first_name, ' ', UA.last_name), \
-              'role', UA.role \
+              'role', UA.role, \
+              'recommendation', \
+              CASE \
+                WHEN URA.uid IS NOT NULL THEN CONCAT(URA.first_name, ' ', URA.last_name) \
+                ELSE NULL \
+              END \
             ) \
           ), \
           JSON_ARRAY() \
@@ -129,11 +133,12 @@ export async function images(req, res) {
       FROM User U \
       JOIN Image I ON U.uid = I.uploaded_for \
       LEFT JOIN ( \
-        SELECT INN.uid, INN.note, INN.image_uid, INN.author_uid \
+        SELECT INN.uid, INN.note, INN.image_uid, INN.author_uid, INN.recommend_uid \
         FROM ImageNote INN \
         JOIN User UA ON INN.author_uid = UA.uid \
         WHERE UA.role IN ('PHYSICIAN', 'RADIOLOGIST') \
       ) AS INN ON I.uid = INN.image_uid \
+      LEFT JOIN User URA ON INN.recommend_uid = URA.uid AND URA.role = 'RADIOLOGIST' \
       LEFT JOIN User UA ON INN.author_uid = UA.uid \
       WHERE U.role = 'PATIENT' AND U.uid = ? \
       GROUP BY I.uid, I.url",
