@@ -133,6 +133,16 @@ export async function login(req, res) {
     });
 }
 
+export async function sendResetPassword(req, res) {
+  try {
+    await sendPasswordResetEmail(auth, req.body.email);
+    res.json({ success: true });
+  } catch (error) {
+    console.log("user.service.resetPassword: ", error);
+    res.json({ success: false });
+  }
+}
+
 export async function signup(req, res) {
   const { email, password, dob, first_name, last_name, title, role, hospital } =
     req.body;

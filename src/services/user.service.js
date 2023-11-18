@@ -298,16 +298,6 @@ export async function radiologists(_req, res) {
   res.json({ radiologists: result.rows });
 }
 
-export async function sendResetPassword(req, res) {
-  try {
-    await sendPasswordResetEmail(auth, req.body.email);
-    res.json({ success: true });
-  } catch (error) {
-    console.log("user.service.resetPassword: ", error);
-    res.json({ success: false });
-  }
-}
-
 export async function uploadImage(req, res) {
   try {
     const uuid = crypto.randomUUID();

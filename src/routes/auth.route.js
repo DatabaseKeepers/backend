@@ -6,6 +6,7 @@ import { isAuthenticated } from "../middlewares/firebase-auth.js";
 import {
   //addPatientSchema,
   loginSchema,
+  sendResetPasswordSchema,
   signupSchema,
 } from "../middlewares/validators.js";
 
@@ -17,6 +18,11 @@ router.post(
   authController.addPatient
 );
 router.post("/login", [loginSchema], authController.login);
+router.post(
+  "/reset-password",
+  [sendResetPasswordSchema, errors],
+  authController.sendResetPassword
+);
 router.post("/signup", [signupSchema, errors], authController.signup);
 router.get("/token", [isAuthenticated], authController.token);
 
