@@ -53,7 +53,7 @@ router.post(
 );
 router.post(
   "/upload-image",
-  [isAuthenticated, isStaff, uploadImageSchema],
+  [isAuthenticated, isStaff, uploadImageSchema, errors],
   userController.uploadImage
 );
 

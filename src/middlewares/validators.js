@@ -387,6 +387,23 @@ export const uploadImageSchema = checkSchema({
       errorMessage: "Patient does not exist",
     },
   },
+  recommend: {
+    optional: {
+      options: {
+        values: "null",
+      },
+    },
+    radiologistExists: {
+      bail: true,
+      custom: checkRadiologistExists,
+      errorMessage: "Radiologist does not exist",
+    },
+    isRadiologist: {
+      bail: true,
+      custom: checkRoleIsRadiologist,
+      errorMessage: "User is not a radiologist",
+    },
+  },
   url: {
     notEmpty: {
       bail: true,
