@@ -113,7 +113,7 @@ export async function images(req, res) {
     .execute(
       "\
       SELECT \
-        I.uid, I.url, \
+        I.uid, I.url, U.first_name, U.last_name, \
         IF(COUNT(INN.note) > 0, \
           JSON_ARRAYAGG( \
             JSON_OBJECT( \
