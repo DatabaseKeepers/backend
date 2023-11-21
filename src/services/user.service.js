@@ -307,8 +307,8 @@ export async function uploadImage(req, res) {
         [uuid, req.userUID, req.body.patient, req.body.url]
       );
       const imageNote = await tx.execute(
-        "INSERT INTO ImageNote (image_uid, author_uid, note) VALUES (?, ?, ?)",
-        [uuid, req.userUID, req.body.notes ?? ""]
+        "INSERT INTO ImageNote (image_uid, author_uid, note, recommend_uid) VALUES (?, ?, ?, ?)",
+        [uuid, req.userUID, req.body.notes ?? "", req.body.recommend]
       );
       return [image.rowsAffected, imageNote.rowsAffected];
     });
