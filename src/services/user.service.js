@@ -371,8 +371,11 @@ export async function updateNewEmail(req, res) {
 }
 
 export async function updateProfile(req, res) {
+  const enabled = req.body.enableRatingSystem ?? true;
+  const newBio = req.body.bio ?? "";
   let profile_image_url,
     bio = null;
+
   try {
     await dbConn.transaction(async (tx) => {
       const user = await dbConn.execute("SELECT role FROM User WHERE uid = ?", [
@@ -380,12 +383,12 @@ export async function updateProfile(req, res) {
       ]);
       profile_image_url = await tx.execute(
         "UPDATE User SET profile_image_url = ?, allow_ratings = ? WHERE uid = ?",
-        [req.body.profile_image_url, req.body.enableRatingSystem, req.userUID]
+        [req.body.profile_image_url, enabled, req.userUID]
       );
       if (user.size > 0 && user.rows[0].role !== "PATIENT") {
         bio = await tx.execute(
           "INSERT INTO StaffCredentials(bio, uid) VALUES(?, ?) ON DUPLICATE KEY UPDATE bio = ?",
-          [req.body.bio, req.userUID, req.body.bio]
+          [newBio, req.userUID, newBio]
         );
       }
       return [profile_image_url, bio];

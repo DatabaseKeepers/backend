@@ -449,15 +449,6 @@ export const updateProfileSchema = checkSchema({
       },
     },
   },
-  bio: {
-    default: "",
-    optional: true,
-  },
-  enableRatingSystem: {
-    default: true,
-    toBoolean: true,
-    optional: true,
-  },
 });
 
 export const sendResetPasswordSchema = checkSchema(
