@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-11-21T06:22:46.068Z",
+  "__export_date": "2023-11-22T03:40:42.457Z",
   "__export_source": "insomnia.desktop.app:v0.2.2",
   "resources": [
     {
@@ -151,6 +151,38 @@
         "disabled": true
       },
       "metaSortKey": -1697999280589,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "segmentParams": [],
+      "_type": "request"
+    },
+    {
+      "_id": "req_370ee703de3e4f2a8b677e42b6994fa7",
+      "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
+      "modified": 1700624422539,
+      "created": 1700624277168,
+      "url": "{{host}}/api/auth/portal/:role",
+      "name": "Return if user is permitted to the requested portal.",
+      "description": "```response:200\n{\n\t\"success\": true\n}\n```\n\n```response:409\n{\n\t\"msg\": \"Unable to access portal\"\n}\n```",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\": \"physician@test.com\"\n}"
+      },
+      "parameters": [],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer",
+        "disabled": true
+      },
+      "metaSortKey": -1697999280564,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -622,7 +654,7 @@
     {
       "_id": "req_a49c0796eb864d10883e1860cc65c709",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1700214510503,
+      "modified": 1700561438247,
       "created": 1698113234532,
       "url": "{{host}}/api/user/profile",
       "name": "Update profile information.",
@@ -630,7 +662,7 @@
       "method": "PUT",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"profile_image_url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F9e81bf6e-e3de-4dbb-9bf1-fc6528324c93?alt=media&token=4bd4d32f-0ed7-4adc-b9ad-8b618f443d74\",\n\t\"enableRatingSystem\": true\n}"
+        "text": "{\n\t\"profile_image_url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F9e81bf6e-e3de-4dbb-9bf1-fc6528324c93?alt=media&token=4bd4d32f-0ed7-4adc-b9ad-8b618f443d74\",\n\t\"bio\": \"test\",\n\t\"enableRatingSystem\": false\n}"
       },
       "parameters": [],
       "headers": [{ "name": "Content-Type", "value": "application/json" }],
@@ -898,7 +930,7 @@
     {
       "_id": "env_a5ef9e77a97f4f21b8e7df3c66f630e7",
       "parentId": "env_579dda9506b34136873873f6380d25b8",
-      "modified": 1700302769752,
+      "modified": 1700624396495,
       "created": 1696463135692,
       "name": "",
       "data": {
@@ -907,7 +939,8 @@
         "patient_uid": "{patient_uid}",
         "radiologist_uid": "{radiologist_uid}",
         "invoice_uid": "{invoice_uid}",
-        "image_uid": "{image_uid}"
+        "image_uid": "{image_uid}",
+        "role": "{patient|radiologist|physician}"
       },
       "dataPropertyOrder": {
         "&": [
@@ -916,7 +949,8 @@
           "patient_uid",
           "radiologist_uid",
           "invoice_uid",
-          "image_uid"
+          "image_uid",
+          "role"
         ]
       },
       "color": null,
