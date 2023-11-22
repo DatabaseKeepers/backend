@@ -319,6 +319,22 @@ export const paySchema = checkSchema(
   ["body"]
 );
 
+export const portalSchema = checkSchema(
+  {
+    email: {
+      notEmpty: {
+        bail: true,
+        errorMessage: "Email is required",
+      },
+      isEmail: {
+        trim: true,
+        errorMessage: "Invalid email",
+      },
+    },
+  },
+  ["body"]
+);
+
 export const rateRadiologistSchema = checkSchema(
   {
     uid: {

@@ -133,6 +133,25 @@ export async function login(req, res) {
     });
 }
 
+export async function portal(req, res) {
+  const { role } = req.params;
+  const { email } = req.body;
+  try {
+    const result = await dbConn.execute(
+      "SELECT role FROM User WHERE email = ?",
+      [email]
+    );
+    if (role.toUpperCase() === result.rows[0].role) {
+      return res.status(200).json({ success: true });
+    } else {
+      return res.status(409).json({ msg: "Unable to access portal" });
+    }
+  } catch (error) {
+    console.log("auth.service.portal: ", error);
+    res.status(409).json({ msg: "Unable to access portal" });
+  }
+}
+
 export async function sendResetPassword(req, res) {
   try {
     await sendPasswordResetEmail(auth, req.body.email);
