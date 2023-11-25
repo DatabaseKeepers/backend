@@ -3,7 +3,6 @@ import dbConn from "../config/db.js";
 import {
   adminAuth,
   auth,
-  sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from "../config/firebase.js";
 import { notify } from "./notification.service.js";
