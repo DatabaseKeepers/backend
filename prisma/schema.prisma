@@ -56,6 +56,7 @@ model StripeUser {
 model Image {
   id                Int         @id @default(autoincrement())
   uid               String      @unique @db.VarChar(36)
+  invoices          Invoice[]   @relation("ImageInvoice")
   uploaded_by_user  User        @relation("UploadedImages", fields: [uploaded_by], references: [uid])
   uploaded_by       String      @db.VarChar(29)
   uploaded_for_user User        @relation("Images", fields: [uploaded_for], references: [uid])
@@ -163,6 +164,8 @@ model Invoice {
   id              Int      @id @default(autoincrement())
   uid             String   @unique @db.VarChar(29)
   url             String   @db.LongText()
+  image           Image    @relation("ImageInvoice", fields: [image_uid], references: [uid])
+  image_uid       String   @db.VarChar(36) @default("")
   patient         User     @relation("PatientInvoice", fields: [patient_uid], references: [uid])
   patient_uid     String   @db.VarChar(29)
   radiologist     User     @relation("RadiologistInvoice", fields: [radiologist_uid], references: [uid])
@@ -171,6 +174,7 @@ model Invoice {
   paid            Boolean  @default(false)
   createdAt       DateTime @default(now())
 
+  @@index([image_uid])
   @@index([patient_uid])
   @@index([radiologist_uid])
 }

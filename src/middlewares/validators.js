@@ -255,30 +255,40 @@ export const signupSchema = checkSchema(
   ["body"]
 );
 
-export const invoiceSchema = checkSchema(
-  {
-    uid: {
-      notEmpty: {
-        bail: true,
-        errorMessage: "Radiologist's uid is required",
+export const invoiceSchema = checkSchema({
+  uid: {
+    in: ["params"],
+    notEmpty: {
+      bail: true,
+      errorMessage: "Radiologist's uid is required",
+    },
+    checkUid: {
+      bail: true,
+      custom: (uid) => {
+        if (uid === "Select a radiologist") return Promise.reject();
+        else return Promise.resolve();
       },
-      checkUid: {
-        bail: true,
-        custom: (uid) => {
-          if (uid === "Select a radiologist") return Promise.reject();
-          else return Promise.resolve();
-        },
-        errorMessage: "Please select a radiologist",
-      },
-      isLength: {
-        bail: true,
-        options: { min: 28, max: 28 },
-        errorMessage: "Invalid radiologist's uid",
-      },
+      errorMessage: "Please select a radiologist",
+    },
+    isLength: {
+      bail: true,
+      options: { min: 28, max: 28 },
+      errorMessage: "Invalid radiologist's uid",
     },
   },
-  ["params"]
-);
+  image: {
+    in: ["body"],
+    notEmpty: {
+      bail: true,
+      errorMessage: "Image uid is required",
+    },
+    checkUid: {
+      bail: true,
+      custom: checkImageExists,
+      errorMessage: "Image does not exist",
+    },
+  },
+});
 
 export const invoicesSchema = checkSchema(
   {
