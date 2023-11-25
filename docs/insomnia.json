@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-11-22T03:40:42.457Z",
+  "__export_date": "2023-11-25T12:05:37.617Z",
   "__export_source": "insomnia.desktop.app:v0.2.2",
   "resources": [
     {
@@ -164,7 +164,7 @@
     {
       "_id": "req_370ee703de3e4f2a8b677e42b6994fa7",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1700624422539,
+      "modified": 1700624465601,
       "created": 1700624277168,
       "url": "{{host}}/api/auth/portal/:role",
       "name": "Return if user is permitted to the requested portal.",
@@ -872,13 +872,16 @@
     {
       "_id": "req_7e73dc5f31ec461bb7db2c5b1ab57576",
       "parentId": "fld_3f0ce5f0862941ecb05e8f7e31fe7957",
-      "modified": 1698804251636,
+      "modified": 1700913915760,
       "created": 1697125401660,
       "url": "{{ _.host }}/api/payment/{{ _.radiologist_uid }}/invoice",
       "name": "Creates an invoice after the patient selects a radiologist.",
-      "description": "```response:200\n{\n\t\"success\": true,\n\t\"msg\": \"Successfully created invoice.\"\n}\n```\n\n```response:200\n{\n\t\"success\": false,\n\t\"msg\": \"Error creating invoice.\"\n}\n```\n\n```response:409\n{\n\t\"msg\": \"You have unpaid invoices. Please pay or cancel them before requesting another opinion.\"\n}\n```",
+      "description": "```response:200\n{\n\t\"success\": true,\n\t\"msg\": \"Successfully created invoice.\"\n}\n```\n\n```response:500\n{\n\t\"success\": false,\n\t\"msg\": \"Error creating invoice.\"\n}\n```\n\n```response:409\n{\n\t\"success\": false,\n\t\"msg\": \"You have unpaid invoices. Please pay or cancel them before requesting another opinion.\"\n}\n```\n\n```response:409\n{\n\t\"success\": false,\n\t\"msg\": \"Image already has an invoice for this radiologist.\"\n}\n```",
       "method": "POST",
-      "body": { "mimeType": "application/json", "text": "" },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"image\": \"{{ _.image_uid }}\"\n}"
+      },
       "parameters": [],
       "headers": [
         {
