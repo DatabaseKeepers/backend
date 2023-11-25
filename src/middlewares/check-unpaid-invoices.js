@@ -9,6 +9,7 @@ async function checkUnpaidInvoices(req, res, next) {
 
     if (unpaidInvoice.rows[0]["count(*)"] > 0) {
       return res.status(409).json({
+        success: false,
         msg: "You have unpaid invoices. Please pay or cancel them before requesting another opinion.",
       });
     }
