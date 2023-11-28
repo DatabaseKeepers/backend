@@ -413,7 +413,7 @@ export const uploadImageSchema = checkSchema({
       errorMessage: "Patient does not exist",
     },
   },
-  recommend: {
+  recommendation: {
     optional: {
       options: {
         values: "null",

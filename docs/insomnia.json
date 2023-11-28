@@ -603,7 +603,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"notes\": \"notes\",\n\t\"patient\": \"{{ _.patient_uid }}\",\n\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F1a3c9474-7246-4729-ab94-f71e80c3cf9f?alt=media&token=c0ca84f7-6bc3-48b8-aa2b-1c3078e1aeb8\",\n\t\"recommend\": \"{{ _.radiologist_uid }}\"\n}"
+        "text": "{\n\t\"notes\": \"notes\",\n\t\"patient\": \"{{ _.patient_uid }}\",\n\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F1a3c9474-7246-4729-ab94-f71e80c3cf9f?alt=media&token=c0ca84f7-6bc3-48b8-aa2b-1c3078e1aeb8\",\n\t\"recommendation\": \"{{ _.radiologist_uid }}\"\n}"
       },
       "parameters": [],
       "headers": [{ "name": "Content-Type", "value": "application/json" }],
