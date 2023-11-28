@@ -54,9 +54,8 @@ async function checkPatientExists(uid, { req }) {
     });
 }
 
-// Disable if physician exists in hospital
-async function checkPhysicianExistsInHospital(/*hospital, { req }*/) {
-  /* if (req.body.role === "physician") {
+async function checkPhysicianExistsInHospital(hospital, { req }) {
+  if (req.body.role === "physician") {
     await dbConn
       .execute(
         "\
@@ -77,7 +76,11 @@ async function checkPhysicianExistsInHospital(/*hospital, { req }*/) {
         [hospital, req.body.first_name, req.body.last_name, req.body.dob]
       )
       .then((result) => {
-        if (result.size > 0) {
+        if (result.size === 0) {
+          return Promise.reject();
+        } else if (result.rows[0].claimed_as_physician === 1) {
+          return Promise.reject();
+        } else if (result.rows[0].claimed_as_physician === 0) {
           req.userUID = result.rows[0].uid;
           return Promise.resolve(req);
         } else {
@@ -85,7 +88,7 @@ async function checkPhysicianExistsInHospital(/*hospital, { req }*/) {
         }
       })
       .catch((error) => console.log(error.code, error.message));
-  } */
+  }
   return Promise.resolve();
 }
 
