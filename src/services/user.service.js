@@ -203,7 +203,7 @@ export async function profile(req, res) {
       const user = await tx.execute(
         "\
         SELECT \
-          title, first_name, last_name, dob, email, profile_image_url, SC.bio, SC.expertise, SC.years_of_exp \
+          title, first_name, last_name, dob, email, profile_image_url, allow_ratings, SC.bio, SC.expertise, SC.years_of_exp \
         FROM User U \
         LEFT JOIN StaffCredentials SC ON U.uid = SC.uid \
         WHERE U.uid = ?",
