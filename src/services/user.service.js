@@ -304,6 +304,12 @@ export async function uploadImage(req, res) {
         "INSERT INTO ImageNote (image_uid, author_uid, note, recommend_uid) VALUES (?, ?, ?, ?)",
         [uuid, req.userUID, req.body.notes ?? "", req.body.recommendation]
       );
+      
+      await tx.execute(
+        "UPDATE Image SET physician_name = ?, upload_date = ? WHERE uid =?",
+        [req.body.physicianName, req.body.uploadDate, uuid]
+      );
+
       return [image.rowsAffected, imageNote.rowsAffected];
     });
     if (results.length === 2 && results[0] > 0 && results[1] > 0) {

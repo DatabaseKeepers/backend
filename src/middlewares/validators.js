@@ -446,6 +446,26 @@ export const uploadImageSchema = checkSchema({
       errorMessage: "Invalid image url",
     },
   },
+  physicianName: {
+    optional: {
+      options: {
+        nullable: true,
+      },
+    },
+    isString: {
+      errorMessage: "Physician name should be a string",
+    },
+  },
+  uploadDate: {
+    optional: {
+      options: {
+        nullable: true,
+      },
+    },
+    isISO8601: {
+      errorMessage: "Invalid upload date format",
+    },
+  },
 });
 
 export const updateEmailSchema = checkSchema(
