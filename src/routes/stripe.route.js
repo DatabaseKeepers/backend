@@ -1,6 +1,6 @@
 import express from "express";
 import dbConn from "../config/db.js";
-import stripe from "../config/stripe.js";
+import stripe, { stripeEventStore } from "../config/stripe.js";
 import { notify } from "../services/notification.service.js";
 import { STRIPE_WEBHOOK_SECRET_KEY } from "../utils/environment.js";
 
@@ -16,6 +16,9 @@ router.post(express.raw({ type: "application/json" }), (req, res) => {
       sig,
       STRIPE_WEBHOOK_SECRET_KEY
     );
+    if (stripeEventStore.has(event.id)) {
+      return res.status(400).send(`Event ${event.id} already processed`);
+    }
   } catch (err) {
     console.log(`❌ Error message: ${err.message}`);
     return res.status(400).send(`Webhook Error: ${err.message}`);
@@ -37,10 +40,11 @@ router.post(express.raw({ type: "application/json" }), (req, res) => {
     case "invoice.finalized":
       dbConn
         .execute(
-          "INSERT IGNORE INTO Invoice (uid, url, patient_uid, radiologist_uid, amount, paid, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)",
+          "INSERT IGNORE INTO Invoice (uid, url, image_uid, patient_uid, radiologist_uid, amount, paid, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
           [
             event.data.object.id,
             event.data.object.hosted_invoice_url,
+            event.data.object.metadata.image,
             event.data.object.metadata.patient,
             event.data.object.metadata.radiologist,
             event.data.object.total / 100,
@@ -63,6 +67,7 @@ router.post(express.raw({ type: "application/json" }), (req, res) => {
           `${event.data.object.customer_name} has paid for an analysis.`,
           "/patients"
         );
+        stripeEventStore.add(event.id);
       } catch (error) {
         console.log("Error updating invoice: ", error);
       }

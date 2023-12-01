@@ -21,6 +21,7 @@ export async function invoice(req, res) {
         },
         pending_invoice_items_behavior: "include",
         metadata: {
+          image: req.body.image,
           patient: req.userUID,
           radiologist: req.params.uid,
         },

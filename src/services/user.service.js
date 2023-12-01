@@ -34,6 +34,61 @@ export async function assignRadiologist(req, res) {
     });
 }
 
+export async function rateRadiologist(req, res) {
+  const { uid, rating, comment } = req.body;
+  const now = new Date();
+
+  try {
+    const rating_uid = crypto.randomUUID();
+    await dbConn
+      .execute(
+        "INSERT INTO \
+          Rating \
+            (uid, comment, rating, rated_uid, user_uid, createdAt, editedAt) \
+          VALUES \
+            (?, ?, ?, ?, ?, ?, ?)",
+        [rating_uid, comment, rating, uid, req.userUID, now, now]
+      )
+      .then((result) => {
+        if (result.rowsAffected > 0) {
+          res.json({ success: true });
+          notify(uid, req.userUID, "A patient has rated your service.");
+        } else {
+          res.json({ success: false });
+        }
+      });
+  } catch (error) {
+    if (error.body.message.includes("AlreadyExists")) {
+      await dbConn
+        .execute(
+          "SELECT rating FROM Rating WHERE rated_uid = ? AND user_uid = ?",
+          [uid, req.userUID]
+        )
+        .then(async (result) => {
+          if (result.rows[0].rating === rating) {
+            return res.json({ success: true });
+          }
+
+          await dbConn
+            .execute(
+              "UPDATE Rating SET comment = ?, rating = ? WHERE rated_uid = ? AND user_uid = ?",
+              [comment, rating, uid, req.userUID]
+            )
+            .then((result) => {
+              if (result.rowsAffected > 0) {
+                res.json({ success: true });
+                notify(uid, req.userUID, "A patient has updated their rating.");
+              }
+            })
+            .catch((error) => {
+              console.log("user.service.rateRadiologist: ", error);
+              res.json({ success: false });
+            });
+        });
+    }
+  }
+}
+
 export async function removeRadiologist(req, res) {
   await dbConn
     .execute(
@@ -58,14 +113,19 @@ export async function images(req, res) {
     .execute(
       "\
       SELECT \
-        I.uid, I.url, \
+        I.uid, I.url, U.first_name, U.last_name, \
         IF(COUNT(INN.note) > 0, \
           JSON_ARRAYAGG( \
             JSON_OBJECT( \
               'uid', INN.author_uid, \
               'note', INN.note, \
               'full_name', CONCAT(UA.title, ' ', UA.first_name, ' ', UA.last_name), \
-              'role', UA.role \
+              'role', UA.role, \
+              'recommendation', \
+              CASE \
+                WHEN URA.uid IS NOT NULL THEN CONCAT(URA.first_name, ' ', URA.last_name) \
+                ELSE NULL \
+              END \
             ) \
           ), \
           JSON_ARRAY() \
@@ -73,11 +133,12 @@ export async function images(req, res) {
       FROM User U \
       JOIN Image I ON U.uid = I.uploaded_for \
       LEFT JOIN ( \
-        SELECT INN.uid, INN.note, INN.image_uid, INN.author_uid \
+        SELECT INN.uid, INN.note, INN.image_uid, INN.author_uid, INN.recommend_uid \
         FROM ImageNote INN \
         JOIN User UA ON INN.author_uid = UA.uid \
         WHERE UA.role IN ('PHYSICIAN', 'RADIOLOGIST') \
       ) AS INN ON I.uid = INN.image_uid \
+      LEFT JOIN User URA ON INN.recommend_uid = URA.uid AND URA.role = 'RADIOLOGIST' \
       LEFT JOIN User UA ON INN.author_uid = UA.uid \
       WHERE U.role = 'PATIENT' AND U.uid = ? \
       GROUP BY I.uid, I.url",
@@ -113,38 +174,22 @@ export async function me(req, res) {
 
 export async function patients(req, res) {
   const result = await dbConn
-    .execute(
-      "SELECT U.uid, U.dob, U.first_name, U.last_name, U.email, U.profile_image_url, \
-        JSON_ARRAYAGG( \
-          JSON_OBJECT( \
-            'uid', I.uid, \
-            'url', I.url, \
-            'authors', IFNULL(authors, JSON_ARRAY()) \
-          ) \
-        ) AS images \
-        FROM User U \
-        JOIN PatientRelation PR ON U.uid = PR.patient_uid \
-      LEFT JOIN Image I ON U.uid = I.uploaded_for \
-      LEFT JOIN ( \
-        SELECT \
-          INN.image_uid, \
-          JSON_ARRAYAGG( \
-            JSON_OBJECT( \
-              'uid', INN.author_uid, \
-              'note', INN.note, \
-              'role', UA.role, \
-              'full_name', CONCAT(UA.title, ' ', UA.first_name, ' ', UA.last_name) \
-            ) \
-          ) AS authors \
-        FROM ImageNote INN \
-        JOIN User UA ON INN.author_uid = UA.uid \
-        WHERE UA.role IN ('PHYSICIAN', 'RADIOLOGIST') \
-        GROUP BY INN.image_uid \
-      ) AS authors_subquery ON I.uid = authors_subquery.image_uid \
-      WHERE PR.staff_uid = ? \
-      GROUP BY U.uid, U.dob, U.first_name, U.last_name, U.email, U.profile_image_url",
-      [req.userUID]
-    )
+    .execute("SELECT role FROM User WHERE uid = ?", [req.userUID])
+    .then(async (result) => {
+      if (result.size === 1 && result.rows[0].role === "RADIOLOGIST") {
+        return await dbConn
+          .execute(patientsAsRadiologistQuery, [req.userUID, req.userUID])
+          .catch((error) => {
+            console.log("user.service.patientsAsRadiologistQuery: ", error);
+          });
+      } else {
+        return await dbConn
+          .execute(patientsAsPhysicianQuery, [req.userUID])
+          .catch((error) => {
+            console.log("user.service.patientsAsPhysicianQuery: ", error);
+          });
+      }
+    })
     .catch((error) => {
       console.log("user.service.patients: ", error);
       res.json({ patients: [] });
@@ -159,7 +204,7 @@ export async function profile(req, res) {
       const user = await tx.execute(
         "\
         SELECT \
-          title, first_name, last_name, dob, email, profile_image_url, SC.bio, SC.expertise, SC.years_of_exp \
+          title, first_name, last_name, dob, email, profile_image_url, allow_ratings, SC.bio, SC.expertise, SC.years_of_exp \
         FROM User U \
         LEFT JOIN StaffCredentials SC ON U.uid = SC.uid \
         WHERE U.uid = ?",
@@ -215,11 +260,19 @@ export async function radiologists(_req, res) {
   const result = await dbConn
     .execute(
       "\
-      SELECT U.uid, U.title, U.first_name, U.last_name, U.email, U.profile_image_url, \
-        SC.bio, SC.expertise, SC.years_of_exp \
+      SELECT \
+        U.uid, U.title, U.first_name, U.last_name, U.email, U.profile_image_url, \
+        SC.bio, SC.expertise, SC.years_of_exp, \
+        AVG(R.rating) as average_rating \
       FROM User U \
-      LEFT JOIN StaffCredentials SC ON U.uid = SC.uid \
-      WHERE U.role = 'RADIOLOGIST'"
+      LEFT JOIN \
+        StaffCredentials SC ON U.uid = SC.uid \
+      LEFT JOIN \
+        Rating R ON U.uid = R.rated_uid \
+      WHERE U.role = 'RADIOLOGIST' \
+      GROUP BY \
+        U.uid, U.title, U.first_name, U.last_name, U.email, U.profile_image_url, \
+        SC.bio, SC.expertise, SC.years_of_exp"
     )
     .catch((error) => {
       console.log("user.service.radiologists: ", error);
@@ -248,8 +301,8 @@ export async function uploadImage(req, res) {
         [uuid, req.userUID, req.body.patient, req.body.url]
       );
       const imageNote = await tx.execute(
-        "INSERT INTO ImageNote (image_uid, author_uid, note) VALUES (?, ?, ?)",
-        [uuid, req.userUID, req.body.notes ?? ""]
+        "INSERT INTO ImageNote (image_uid, author_uid, note, recommend_uid) VALUES (?, ?, ?, ?)",
+        [uuid, req.userUID, req.body.notes ?? "", req.body.recommendation]
       );
       return [image.rowsAffected, imageNote.rowsAffected];
     });
@@ -259,6 +312,15 @@ export async function uploadImage(req, res) {
         req.userUID,
         "You have a new image from your physician."
       );
+
+      if (!req.body.notes) {
+        notify(
+          req.userUID,
+          req.body.patient,
+          "Don't forget to add your notes to your patient's image.",
+          "/patients"
+        );
+      }
     }
   } catch (error) {
     console.log("user.service.uploadImage: ", error);
@@ -303,21 +365,24 @@ export async function updateNewEmail(req, res) {
 }
 
 export async function updateProfile(req, res) {
+  const enabled = req.body.enableRatingSystem ?? true;
+  const newBio = req.body.bio ?? "";
   let profile_image_url,
     bio = null;
+
   try {
     await dbConn.transaction(async (tx) => {
       const user = await dbConn.execute("SELECT role FROM User WHERE uid = ?", [
         req.userUID,
       ]);
       profile_image_url = await tx.execute(
-        "UPDATE User SET profile_image_url = ? WHERE uid = ?",
-        [req.body.profile_image_url, req.userUID]
+        "UPDATE User SET profile_image_url = ?, allow_ratings = ? WHERE uid = ?",
+        [req.body.profile_image_url, enabled, req.userUID]
       );
       if (user.size > 0 && user.rows[0].role !== "PATIENT") {
         bio = await tx.execute(
           "INSERT INTO StaffCredentials(bio, uid) VALUES(?, ?) ON DUPLICATE KEY UPDATE bio = ?",
-          [req.body.bio, req.userUID, req.body.bio]
+          [newBio, req.userUID, newBio]
         );
       }
       return [profile_image_url, bio];
@@ -329,3 +394,73 @@ export async function updateProfile(req, res) {
     res.status(422).json({ success: false });
   }
 }
+
+const patientsAsRadiologistQuery =
+  "SELECT U.uid, U.dob, U.first_name, U.last_name, U.email, U.profile_image_url, \
+        JSON_ARRAYAGG( \
+          JSON_OBJECT( \
+            'uid', I.uid, \
+            'url', I.url, \
+            'authors', IFNULL(authors, JSON_ARRAY()) \
+          ) \
+        ) AS images \
+        FROM User U \
+        JOIN PatientRelation PR ON U.uid = PR.patient_uid \
+      LEFT JOIN Image I ON U.uid = I.uploaded_for \
+      LEFT JOIN ( \
+        SELECT \
+          INN.image_uid, \
+          JSON_ARRAYAGG( \
+            JSON_OBJECT( \
+              'uid', INN.author_uid, \
+              'note', INN.note, \
+              'role', UA.role, \
+              'full_name', CONCAT(UA.title, ' ', UA.first_name, ' ', UA.last_name) \
+            ) \
+          ) AS authors \
+        FROM ImageNote INN \
+        JOIN User UA ON INN.author_uid = UA.uid \
+        WHERE UA.role IN ('PHYSICIAN', 'RADIOLOGIST') \
+        GROUP BY INN.image_uid \
+      ) AS authors_subquery ON I.uid = authors_subquery.image_uid \
+      WHERE \
+        PR.staff_uid = ? \
+        AND EXISTS ( \
+          SELECT 1 \
+          FROM Invoice inv \
+          WHERE inv.radiologist_uid = ? \
+          AND inv.image_uid = I.uid \
+          AND inv.paid = 1 \
+      ) \
+      GROUP BY U.uid, U.dob, U.first_name, U.last_name, U.email, U.profile_image_url";
+
+const patientsAsPhysicianQuery =
+  "SELECT U.uid, U.dob, U.first_name, U.last_name, U.email, U.profile_image_url, \
+        JSON_ARRAYAGG( \
+          JSON_OBJECT( \
+            'uid', I.uid, \
+            'url', I.url, \
+            'authors', IFNULL(authors, JSON_ARRAY()) \
+          ) \
+        ) AS images \
+        FROM User U \
+        JOIN PatientRelation PR ON U.uid = PR.patient_uid \
+      LEFT JOIN Image I ON U.uid = I.uploaded_for \
+      LEFT JOIN ( \
+        SELECT \
+          INN.image_uid, \
+          JSON_ARRAYAGG( \
+            JSON_OBJECT( \
+              'uid', INN.author_uid, \
+              'note', INN.note, \
+              'role', UA.role, \
+              'full_name', CONCAT(UA.title, ' ', UA.first_name, ' ', UA.last_name) \
+            ) \
+          ) AS authors \
+        FROM ImageNote INN \
+        JOIN User UA ON INN.author_uid = UA.uid \
+        WHERE UA.role IN ('PHYSICIAN', 'RADIOLOGIST') \
+        GROUP BY INN.image_uid \
+      ) AS authors_subquery ON I.uid = authors_subquery.image_uid \
+      WHERE PR.staff_uid = ? \
+      GROUP BY U.uid, U.dob, U.first_name, U.last_name, U.email, U.profile_image_url";

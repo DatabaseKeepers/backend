@@ -2,6 +2,7 @@ import express from "express";
 import { paymentController } from "../controllers/index.js";
 import { isAuthorized, isStaff } from "../middlewares/authorization.js";
 import checkExistingImages from "../middlewares/check-existing-images.js";
+import checkImageHasInvoice from "../middlewares/check-image-has-invoice.js";
 import checkUnpaidInvoices from "../middlewares/check-unpaid-invoices.js";
 import createStripeCustomer from "../middlewares/create-stripe-customer.js";
 import errors from "../middlewares/errors.js";
@@ -33,6 +34,7 @@ router.post(
     checkExistingImages,
     createStripeCustomer,
     checkUnpaidInvoices,
+    checkImageHasInvoice,
   ],
   paymentController.invoice
 );

@@ -133,11 +133,38 @@ export async function login(req, res) {
     });
 }
 
+export async function portal(req, res) {
+  const { role } = req.params;
+  const { email } = req.body;
+  try {
+    const result = await dbConn.execute(
+      "SELECT role FROM User WHERE email = ?",
+      [email]
+    );
+    if (role.toUpperCase() === result.rows[0].role) {
+      return res.status(200).json({ success: true });
+    } else {
+      return res.status(409).json({ msg: "Unable to access portal" });
+    }
+  } catch (error) {
+    console.log("auth.service.portal: ", error);
+    res.status(409).json({ msg: "Unable to access portal" });
+  }
+}
+
+export async function sendResetPassword(req, res) {
+  try {
+    await sendPasswordResetEmail(auth, req.body.email);
+    res.json({ success: true });
+  } catch (error) {
+    console.log("user.service.resetPassword: ", error);
+    res.json({ success: false });
+  }
+}
+
 export async function signup(req, res) {
-  const { email, password, dob, first_name, last_name, title, role, hospital } =
-    req.body;
-  // Remove updating existing account that is reserved for physicians
-  /* const isPhysician = req.body.role === "physician";
+  const { email, password, dob, first_name, last_name, title, role } = req.body;
+  const isPhysician = req.body.role === "physician";
 
   if (isPhysician) {
     await adminAuth
@@ -148,7 +175,9 @@ export async function signup(req, res) {
       .then((userRecord) => {
         dbConn
           .execute(
-            "UPDATE User SET email = ?, title = ?, claimed_as_physician = true, WHERE uid = ?",
+            "UPDATE \
+              User SET email = ?, title = ?, claimed_as_physician = true, role = 'PHYSICIAN', title = 'Dr.' \
+              WHERE uid = ?",
             [email, title, userRecord.uid]
           )
           .then((result) => {
@@ -167,6 +196,49 @@ export async function signup(req, res) {
           })
           .catch((error) => {
             console.log("Error adding physician: ", error.body.message);
+            return res.status(409).json({
+              errors: [
+                { msg: "Unable to create account", path: "auth/signup" },
+              ],
+            });
+          });
+      })
+      .catch((error) => {
+        console.log("Error creating new user:", error.errorInfo);
+        return res
+          .status(409)
+          .json({ errors: [{ msg: error.message, path: "auth/signup" }] });
+      });
+  } else {
+    await adminAuth
+      .createUser({
+        email: email,
+        password: password,
+      })
+      .then((userRecord) => {
+        // Create a new user in the planetscale database since we use firebase auth
+        // for authentication and planetscale for storing user data
+        dbConn
+          .execute(
+            "INSERT INTO User(uid, email, dob, first_name, last_name, title, role) VALUES(?, ?, ?, ?, ?, ?, ?)",
+            [userRecord.uid, email, dob, first_name, last_name, title, role]
+          )
+          .then((result) => {
+            if (result.rowsAffected > 0) {
+              res.status(200).json({ msg: "Successfully created new user" });
+            }
+            adminAuth
+              .updateUser(userRecord.uid, {
+                displayName: title
+                  ? `${title} ${first_name} ${last_name}`
+                  : `${first_name} ${last_name}`,
+              })
+              .catch((error) =>
+                console.log("Error updating displayName: ", error)
+              );
+          })
+          .catch((error) => {
+            console.log("Error inserting new user:", error.body.message);
             res.status(409).json({
               errors: [
                 { msg: "Unable to create account", path: "auth/signup" },
@@ -176,63 +248,9 @@ export async function signup(req, res) {
       })
       .catch((error) => {
         console.log("Error creating new user:", error.errorInfo);
-        res
+        return res
           .status(409)
           .json({ errors: [{ msg: error.message, path: "auth/signup" }] });
       });
-  } */
-  await adminAuth
-    .createUser({
-      email: email,
-      password: password,
-    })
-    .then((userRecord) => {
-      // Create a new user in the planetscale database since we use firebase auth
-      // for authentication and planetscale for storing user data
-      dbConn
-        .execute(
-          "INSERT INTO User(uid, email, dob, first_name, last_name, title, role) VALUES(?, ?, ?, ?, ?, ?, ?)",
-          [userRecord.uid, email, dob, first_name, last_name, title, role]
-        )
-        .then((result) => {
-          if (result.rowsAffected > 0) {
-            res.status(200).json({ msg: "Successfully created new user" });
-          }
-          adminAuth
-            .updateUser(userRecord.uid, {
-              displayName: title
-                ? `${title} ${first_name} ${last_name}`
-                : `${first_name} ${last_name}`,
-            })
-            .catch((error) =>
-              console.log("Error updating displayName: ", error)
-            );
-        })
-        .catch((error) => {
-          console.log("Error inserting new user:", error.body.message);
-          res.status(409).json({
-            errors: [{ msg: "Unable to create account", path: "auth/signup" }],
-          });
-        });
-      dbConn
-        .execute(
-          "INSERT INTO HospitalPhysician(hospital_uid, physician_uid) VALUES(?, ?)",
-          [hospital, userRecord.uid]
-        )
-        .catch((error) => {
-          console.log(
-            "Error inserting new HospitalPhysician: ",
-            error.body.message
-          );
-          res.status(409).json({
-            errors: [{ msg: "Unable to create account", path: "auth/signup" }],
-          });
-        });
-    })
-    .catch((error) => {
-      console.log("Error creating new user:", error.errorInfo);
-      res
-        .status(409)
-        .json({ errors: [{ msg: error.message, path: "auth/signup" }] });
-    });
+  }
 }

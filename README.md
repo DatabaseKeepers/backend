@@ -28,6 +28,7 @@ See the [radiology archive API docs](https://databasekeepers.github.io/backend/)
 │   ├── middlewares
 │   │   ├── authorization.js                # Ensure user is permitted to access an endpoint
 │   │   ├── check-existing-images.js        # Ensure user has images before proceeding to transaction process
+│   │   ├── check-image-has-invoice.js      # Ensure user does not pay for an image more than once for the same radiologist
 │   │   ├── check-image-note-permissions.js # Ensure user is authorized having a patient relation with the patient's image
 │   │   ├── check-unpaid-invoices.js        # Prevent user from creating multiple invoices before paying previous ones
 │   │   ├── create-stripe-user.js           # Creates stripe customer upon given user

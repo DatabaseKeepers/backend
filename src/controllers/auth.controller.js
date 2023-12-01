@@ -8,6 +8,14 @@ export async function login(req, res) {
   await authService.login(req, res);
 }
 
+export async function portal(req, res) {
+  await authService.portal(req, res);
+}
+
+export async function sendResetPassword(req, res) {
+  await authService.sendResetPassword(req, res);
+}
+
 export async function signup(req, res) {
   await authService.signup(req, res);
 }

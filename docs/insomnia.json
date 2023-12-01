@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-11-11T02:23:49.592Z",
+  "__export_date": "2023-11-25T12:05:37.617Z",
   "__export_source": "insomnia.desktop.app:v0.2.2",
   "resources": [
     {
@@ -67,7 +67,7 @@
     {
       "_id": "req_60dd5e4c71984712897a033168fe383b",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1699652533631,
+      "modified": 1700302781058,
       "created": 1696463217635,
       "url": "{{host}}/api/auth/login",
       "name": "Login user",
@@ -75,7 +75,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"email\": \"physician@test.com\",\n\t\"password\": \"testtest123\"\n}"
+        "text": "{\n\t\"email\": \"patient@test.com\",\n\t\"password\": \"testtest123\"\n}"
       },
       "parameters": [],
       "headers": [{ "name": "Content-Type", "value": "application/json" }],
@@ -119,6 +119,70 @@
         "disabled": true
       },
       "metaSortKey": -1697999280639,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "segmentParams": [],
+      "_type": "request"
+    },
+    {
+      "_id": "req_384f02b4a1674972b6fc353e0bee4ff2",
+      "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
+      "modified": 1700348051904,
+      "created": 1699827610754,
+      "url": "{{host}}/api/auth/reset-password",
+      "name": "Send a password reset link to the email.",
+      "description": "```response:200\n{\n\t\"success\": true\n}\n```\n\n```response:200\n{\n\t\"success\": false\n}\n```",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\": \"test@radiologyarchive.com\"\n}"
+      },
+      "parameters": [],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer",
+        "disabled": true
+      },
+      "metaSortKey": -1697999280589,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "segmentParams": [],
+      "_type": "request"
+    },
+    {
+      "_id": "req_370ee703de3e4f2a8b677e42b6994fa7",
+      "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
+      "modified": 1700624465601,
+      "created": 1700624277168,
+      "url": "{{host}}/api/auth/portal/:role",
+      "name": "Return if user is permitted to the requested portal.",
+      "description": "```response:200\n{\n\t\"success\": true\n}\n```\n\n```response:409\n{\n\t\"msg\": \"Unable to access portal\"\n}\n```",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\": \"physician@test.com\"\n}"
+      },
+      "parameters": [],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer",
+        "disabled": true
+      },
+      "metaSortKey": -1697999280564,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -293,13 +357,52 @@
       "_type": "request_group"
     },
     {
+      "_id": "req_f03c6f568d3c42db9537a9d3a38fafeb",
+      "parentId": "fld_c43de8071e9a4e1eb2bbd6df0c5dff41",
+      "modified": 1699788036232,
+      "created": 1699747098757,
+      "url": "{{ _.host }}/api/notification/read",
+      "name": "Mark notifications as read.",
+      "description": "```response:200\n{\n    \"success\": true,\n    \"read\": [\n        \"62544370-7fbe-11ee-805e-52c1adc66d9e\",\n        \"c8bf3d6b-7fbd-11ee-805e-52c1adc66d9e\",\n        \"f2b0d489-7fbc-11ee-805e-52c1adc66d9e\",\n        \"d7cbe60a-7f98-11ee-805e-52c1adc66d9e\",\n        \"4cf366ff-7f98-11ee-805e-52c1adc66d9e\",\n        \"32d6316a-7f98-11ee-805e-52c1adc66d9e\",\n        \"f3484b51-7f91-11ee-805e-52c1adc66d9e\"\n    ]\n}\n```\n\n```reponse:204\nreq.body.read is an empty array\n```",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"read\": [\n    \"62544370-7fbe-11ee-805e-52c1adc66d9e\",\n    \"c8bf3d6b-7fbd-11ee-805e-52c1adc66d9e\",\n    \"f2b0d489-7fbc-11ee-805e-52c1adc66d9e\",\n    \"d7cbe60a-7f98-11ee-805e-52c1adc66d9e\",\n    \"4cf366ff-7f98-11ee-805e-52c1adc66d9e\",\n    \"32d6316a-7f98-11ee-805e-52c1adc66d9e\",\n    \"f3484b51-7f91-11ee-805e-52c1adc66d9e\"\n\t]\n}"
+      },
+      "parameters": [],
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/0.2.2",
+          "id": "pair_d779cacb04844f729a92bb6725fb44c7",
+          "disabled": false
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "prefix": "Bearer",
+        "token": "{{ _.jwtToken }}"
+      },
+      "metaSortKey": -1699122319990,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "segmentParams": [],
+      "_type": "request"
+    },
+    {
       "_id": "req_232e227e5bd345d5a9993651c1a68ae7",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1698812219206,
+      "modified": 1700304171291,
       "created": 1697879165547,
       "url": "{{host}}/api/user/{{ _.patient_uid }}/images",
       "name": "Returns a list of images of the specified user uid.",
-      "description": "```response:200\n{\n\t\"images\": [\n\t\t{\n\t\t\t\"uid\": \"377807b7-76c4-11ee-b572-a2381fd4f437\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F061c6157-ddb8-4154-a679-082682d8437e?alt=media&token=be532a67-8b3e-409d-9e56-2227432177f9\",\n\t\t\t\"authors\": []\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"4885efe7-6fb3-11ee-aa85-fe400bebb284\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F1a3c9474-7246-4729-ab94-f71e80c3cf9f?alt=media&token=c0ca84f7-6bc3-48b8-aa2b-1c3078e1aeb8\",\n\t\t\t\"authors\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\t\t\"note\": \"mushroom\",\n\t\t\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\t\t\"full_name\": \"Dr. John Physician\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\t\t\"note\": \"pizza\",\n\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\"full_name\": \"Dr. John Radiologist\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"6npcE5FQFweAYGAxDlxSARwz1qn2\",\n\t\t\t\t\t\"note\": \"This is a test diagnosis\",\n\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\"full_name\": \"Dr. Monica Kirk\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"67091c8a-76c4-11ee-b572-a2381fd4f437\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F7b459790-0dd2-4f7c-b6a0-62f71fb0e11f?alt=media&token=9fa36c25-ff58-4beb-ac5b-ed824d4470b6\",\n\t\t\t\"authors\": []\n\t\t}\n\t]\n}\n```",
+      "description": "```response:200\n{\n\t\"images\": [\n\t\t{\n\t\t\t\"uid\": \"377807b7-76c4-11ee-b572-a2381fd4f437\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F061c6157-ddb8-4154-a679-082682d8437e?alt=media&token=be532a67-8b3e-409d-9e56-2227432177f9\",\n\t\t\t\"authors\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\t\t\"note\": \"taking notes\",\n\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\"full_name\": \"John Radiologist\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"4885efe7-6fb3-11ee-aa85-fe400bebb284\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F1a3c9474-7246-4729-ab94-f71e80c3cf9f?alt=media&token=c0ca84f7-6bc3-48b8-aa2b-1c3078e1aeb8\",\n\t\t\t\"authors\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"6npcE5FQFweAYGAxDlxSARwz1qn2\",\n\t\t\t\t\t\"note\": \"This is a test diagnosis\",\n\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\"full_name\": \"Monica Kirk\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\t\t\"note\": \"mushroom\",\n\t\t\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\t\t\"full_name\": \"John Physician\",\n\t\t\t\t\t\"recommendation\": \"John Radiologist\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\t\t\"note\": \"Note check\",\n\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\"full_name\": \"John Radiologist\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"4d43d0b6-77c8-11ee-88bf-827fec34a1d2\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F6b4da36e-1560-4929-8cb9-a7556f316049?alt=media&token=27195483-9540-43f1-8632-c6366e327c2c\",\n\t\t\t\"authors\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\t\t\"note\": \"adada\",\n\t\t\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\t\t\"full_name\": \"John Physician\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\t\t\"note\": \"back medicine for you bud\\nmedicines don't work\",\n\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\"full_name\": \"John Radiologist\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"67091c8a-76c4-11ee-b572-a2381fd4f437\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F7b459790-0dd2-4f7c-b6a0-62f71fb0e11f?alt=media&token=9fa36c25-ff58-4beb-ac5b-ed824d4470b6\",\n\t\t\t\"authors\": []\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"7ae01044-7c28-11ee-99cf-3e4bd1f222fe\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2Fe2c72d1a-4d9d-4f3a-b74b-5902f8512104?alt=media&token=22c70171-80cd-4720-a175-cf1cea19020a\",\n\t\t\t\"authors\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\t\t\"note\": \"This is his rib cage chest x-ray.\",\n\t\t\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\t\t\"full_name\": \"John Physician\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\t\t\"note\": \"Newly made note to test notification sent for physician.\\n\\n- Dr. Radiologist\",\n\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\"full_name\": \"John Radiologist\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"8ed9e7d5-4b82-48d5-85ff-04032eba011f\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F36045545-4739-4f7f-9313-604c5638f5bc?alt=media&token=3e8d71f5-6029-4f0a-9c5c-79bbdec14bbf\",\n\t\t\t\"authors\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\t\t\"note\": \"carpal tunnel\",\n\t\t\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\t\t\"full_name\": \"John Physician\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\t\t\"note\": \"This is newly made analysis to send as notification for the physician.\\n\\n- Dr. Radiologist\",\n\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\"full_name\": \"John Radiologist\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"fb809939-774a-11ee-88bf-827fec34a1d2\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F02fb16ad-b66b-4a08-b21b-396e737a82ee?alt=media&token=1a4ca417-1b6c-41b7-b902-7e776d2ca224\",\n\t\t\t\"authors\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\t\t\"note\": \"My brain atm\",\n\t\t\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\t\t\"full_name\": \"John Physician\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t]\n}\n```",
       "method": "GET",
       "body": { "mimeType": "application/json", "text": "" },
       "parameters": [],
@@ -459,6 +562,68 @@
       "_type": "request"
     },
     {
+      "_id": "req_0cc9324bf6db4a98b8f3cce282142888",
+      "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
+      "modified": 1700215569138,
+      "created": 1700175261520,
+      "url": "{{host}}/api/user/rate",
+      "name": "Rate the given radiologist.",
+      "description": "```response:200\n{\n\t\"success\": true\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Radiologist's uid is required\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Radiologist does not exist\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"User is not a radiologist\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Invalid rating\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```\n\n```reponse:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Radiologist currently has ratings disabled\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"uid\": \"{{ _.radiologist_uid }}\",\n\t\"rating\": 5\n}"
+      },
+      "parameters": [],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1697999150982.4062,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "segmentParams": [],
+      "_type": "request"
+    },
+    {
+      "_id": "req_1c683a071a414c3e8f5e98f488e71daf",
+      "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
+      "modified": 1700546706161,
+      "created": 1700282633857,
+      "url": "{{host}}/api/user/upload-image",
+      "name": "Upload image for the patient.",
+      "description": "```response:200\n{\n\t\"success\": true\n}\n```\n\n```response:422\n{\n\t\"success\": false\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Patient's uid is required\",\n\t\t\t\"path\": \"/api/user/upload-image\"\n\t\t}\n\t]\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Patient does not exist\",\n\t\t\t\"path\": \"/api/user/upload-image\"\n\t\t}\n\t]\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Radiologist does not exist\",\n\t\t\t\"path\": \"/api/user/upload-image\"\n\t\t}\n\t]\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"User is not a radiologist\",\n\t\t\t\"path\": \"/api/user/upload-image\"\n\t\t}\n\t]\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Image url is required\",\n\t\t\t\"path\": \"/api/user/image-upload\"\n\t\t}\n\t]\n}\n```\n\n```reponse:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Invalid image url\",\n\t\t\t\"path\": \"/api/user/image-url\"\n\t\t}\n\t]\n}\n```",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"notes\": \"notes\",\n\t\"patient\": \"{{ _.patient_uid }}\",\n\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F1a3c9474-7246-4729-ab94-f71e80c3cf9f?alt=media&token=c0ca84f7-6bc3-48b8-aa2b-1c3078e1aeb8\",\n\t\"recommendation\": \"{{ _.radiologist_uid }}\"\n}"
+      },
+      "parameters": [],
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.jwtToken }}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1697999150982.0156,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "segmentParams": [],
+      "_type": "request"
+    },
+    {
       "_id": "req_14ed04cc5e604598acd4db661b85fa7d",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
       "modified": 1698557852655,
@@ -489,15 +654,15 @@
     {
       "_id": "req_a49c0796eb864d10883e1860cc65c709",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1698894431641,
+      "modified": 1700561438247,
       "created": 1698113234532,
       "url": "{{host}}/api/user/profile",
       "name": "Update profile information.",
-      "description": "```response:200\n{\n\t\"success\": true,\n\t\"data\": {\n\t\t\"profile_image_url\": \"\",\n\t\t\"bio\": \"\"\n\t}\n}\n```",
+      "description": "```response:200\n{\n\t\"success\": true,\n\t\"data\": {\n\t\t\"profile_image_url\": \"\",\n\t\t\"bio\": \"\",\n\t\t\"enableRatingSystem\": true\n\t}\n}\n```",
       "method": "PUT",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"profile_image_url\": \"\"\n}"
+        "text": "{\n\t\"profile_image_url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F9e81bf6e-e3de-4dbb-9bf1-fc6528324c93?alt=media&token=4bd4d32f-0ed7-4adc-b9ad-8b618f443d74\",\n\t\"bio\": \"test\",\n\t\"enableRatingSystem\": false\n}"
       },
       "parameters": [],
       "headers": [{ "name": "Content-Type", "value": "application/json" }],
@@ -520,7 +685,7 @@
     {
       "_id": "req_f6c559574ef04a80b16d1b9adcdaf513",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1699669367861,
+      "modified": 1700089415578,
       "created": 1699618431584,
       "url": "{{host}}/api/user/email",
       "name": "Update the user's email with a new one.",
@@ -707,13 +872,16 @@
     {
       "_id": "req_7e73dc5f31ec461bb7db2c5b1ab57576",
       "parentId": "fld_3f0ce5f0862941ecb05e8f7e31fe7957",
-      "modified": 1698804251636,
+      "modified": 1700913915760,
       "created": 1697125401660,
       "url": "{{ _.host }}/api/payment/{{ _.radiologist_uid }}/invoice",
       "name": "Creates an invoice after the patient selects a radiologist.",
-      "description": "```response:200\n{\n\t\"success\": true,\n\t\"msg\": \"Successfully created invoice.\"\n}\n```\n\n```response:200\n{\n\t\"success\": false,\n\t\"msg\": \"Error creating invoice.\"\n}\n```\n\n```response:409\n{\n\t\"msg\": \"You have unpaid invoices. Please pay or cancel them before requesting another opinion.\"\n}\n```",
+      "description": "```response:200\n{\n\t\"success\": true,\n\t\"msg\": \"Successfully created invoice.\"\n}\n```\n\n```response:500\n{\n\t\"success\": false,\n\t\"msg\": \"Error creating invoice.\"\n}\n```\n\n```response:409\n{\n\t\"success\": false,\n\t\"msg\": \"You have unpaid invoices. Please pay or cancel them before requesting another opinion.\"\n}\n```\n\n```response:409\n{\n\t\"success\": false,\n\t\"msg\": \"Image already has an invoice for this radiologist.\"\n}\n```",
       "method": "POST",
-      "body": { "mimeType": "application/json", "text": "" },
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"image\": \"{{ _.image_uid }}\"\n}"
+      },
       "parameters": [],
       "headers": [
         {
@@ -765,7 +933,7 @@
     {
       "_id": "env_a5ef9e77a97f4f21b8e7df3c66f630e7",
       "parentId": "env_579dda9506b34136873873f6380d25b8",
-      "modified": 1699182982067,
+      "modified": 1700624396495,
       "created": 1696463135692,
       "name": "",
       "data": {
@@ -774,7 +942,8 @@
         "patient_uid": "{patient_uid}",
         "radiologist_uid": "{radiologist_uid}",
         "invoice_uid": "{invoice_uid}",
-        "image_uid": "{image_uid}"
+        "image_uid": "{image_uid}",
+        "role": "{patient|radiologist|physician}"
       },
       "dataPropertyOrder": {
         "&": [
@@ -783,7 +952,8 @@
           "patient_uid",
           "radiologist_uid",
           "invoice_uid",
-          "image_uid"
+          "image_uid",
+          "role"
         ]
       },
       "color": null,

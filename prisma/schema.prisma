@@ -31,6 +31,7 @@ model User {
   profile_image_url    String?
   role                 Role                @default(PATIENT)
   claimed_as_physician Boolean             @default(false)
+  allow_ratings        Boolean             @default(true)
   ImagesUploaded       Image[]             @relation("UploadedImages")
   Images               Image[]             @relation("Images")
   PatientRelation      PatientRelation[]   @relation("PatientRelation")
@@ -41,6 +42,8 @@ model User {
   Hospitals            HospitalPhysician[]
   NotificationsFor     Notification[]      @relation("NotificationSender")
   NotificationsBy      Notification[]      @relation("NotificationRecipient")
+  RatingFor            Rating[]            @relation("RatingFor")
+  RatingBy             Rating[]            @relation("RatingBy")
 
   @@index(uid)
 }
@@ -53,6 +56,7 @@ model StripeUser {
 model Image {
   id                Int         @id @default(autoincrement())
   uid               String      @unique @db.VarChar(36)
+  invoices          Invoice[]   @relation("ImageInvoice")
   uploaded_by_user  User        @relation("UploadedImages", fields: [uploaded_by], references: [uid])
   uploaded_by       String      @db.VarChar(29)
   uploaded_for_user User        @relation("Images", fields: [uploaded_for], references: [uid])
@@ -87,12 +91,13 @@ model HospitalPhysician {
 }
 
 model ImageNote {
-  uid        String   @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
-  author_uid String   @db.VarChar(29)
-  image_uid  String   @db.VarChar(36)
-  note       String   @db.LongText
-  createdAt  DateTime @default(now())
-  Image      Image    @relation(fields: [image_uid], references: [uid])
+  uid           String   @unique @default(dbgenerated("(UUID())")) @db.VarChar(36)
+  author_uid    String   @db.VarChar(29)
+  image_uid     String   @db.VarChar(36)
+  recommend_uid String?  @db.VarChar(29)
+  note          String   @db.LongText
+  createdAt     DateTime @default(now())
+  Image         Image    @relation(fields: [image_uid], references: [uid])
 
   @@id([author_uid, image_uid])
   @@index([uid])
@@ -129,6 +134,22 @@ model PatientRelation {
   @@index([staff_uid])
 }
 
+model Rating {
+  uid       String   @unique @db.VarChar(36)
+  comment   String?  @db.LongText()
+  rating    Int
+  rated     User     @relation("RatingFor", fields: [rated_uid], references: [uid])
+  rated_uid String   @db.VarChar(29)
+  user      User     @relation("RatingBy", fields: [user_uid], references: [uid])
+  user_uid  String   @db.VarChar(29)
+  createdAt DateTime @default(now())
+  editedAt  DateTime @updatedAt
+
+  @@id([rated_uid, user_uid])
+  @@index([rated_uid])
+  @@index([user_uid])
+}
+
 model StaffCredentials {
   user         User    @relation(fields: [uid], references: [uid])
   uid          String  @unique @db.VarChar(29)
@@ -143,6 +164,8 @@ model Invoice {
   id              Int      @id @default(autoincrement())
   uid             String   @unique @db.VarChar(29)
   url             String   @db.LongText()
+  image           Image    @relation("ImageInvoice", fields: [image_uid], references: [uid])
+  image_uid       String   @db.VarChar(36) @default("")
   patient         User     @relation("PatientInvoice", fields: [patient_uid], references: [uid])
   patient_uid     String   @db.VarChar(29)
   radiologist     User     @relation("RadiologistInvoice", fields: [radiologist_uid], references: [uid])
@@ -151,6 +174,7 @@ model Invoice {
   paid            Boolean  @default(false)
   createdAt       DateTime @default(now())
 
+  @@index([image_uid])
   @@index([patient_uid])
   @@index([radiologist_uid])
 }
