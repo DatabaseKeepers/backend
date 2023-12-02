@@ -75,7 +75,10 @@ export async function rateRadiologist(req, res) {
             )
             .then((result) => {
               if (result.rowsAffected > 0) {
-                res.json({ success: true });
+                res.json({
+                  success: true,
+                  msg: "Rating updated successfully.",
+                });
                 notify(uid, req.userUID, "A patient has updated their rating.");
               }
             })
