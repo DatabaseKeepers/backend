@@ -5,4 +5,8 @@ const stripe = new Stripe(STRIPE_SECRET_KEY, {
   apiVersion: "2023-10-16",
 });
 
+const stripeEventStore = new Set();
+
+export { stripeEventStore };
+
 export default stripe;
