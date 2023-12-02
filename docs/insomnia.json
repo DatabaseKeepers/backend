@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-11-25T12:05:37.617Z",
+  "__export_date": "2023-12-02T09:16:56.502Z",
   "__export_source": "insomnia.desktop.app:v0.2.2",
   "resources": [
     {
@@ -94,7 +94,7 @@
     {
       "_id": "req_089baa5e56c5476783b69aa3fb7f7250",
       "parentId": "fld_8bea69be9e5841dd94352de723ab4921",
-      "modified": 1699619809682,
+      "modified": 1701169359702,
       "created": 1695426311293,
       "url": "{{host}}/api/auth/signup",
       "name": "Create an account",
@@ -102,7 +102,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"email\": \"fakephysician@test.com\",\n\t\"password\": \"testtest123\",\n\t\"dob\": \"1990-01-01\",\n\t\"first_name\": \"John\",\n\t\"last_name\": \"Doe\",\n\t\"role\": \"Physician\",\n\t\"hospital\": \"City General Medical Center\"\n}"
+        "text": "{\n\t\"email\": \"fakephysician@test.com\",\n\t\"password\": \"testtest123\",\n\t\"dob\": \"1990-01-01\",\n\t\"first_name\": \"John\",\n\t\"last_name\": \"Doe\",\n\t\"role\": \"Physician\",\n\t\"hospital\": \"32706028-7461-11ee-81b2-ca6978a5600e\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -398,11 +398,11 @@
     {
       "_id": "req_232e227e5bd345d5a9993651c1a68ae7",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1700304171291,
+      "modified": 1701501633763,
       "created": 1697879165547,
       "url": "{{host}}/api/user/{{ _.patient_uid }}/images",
       "name": "Returns a list of images of the specified user uid.",
-      "description": "```response:200\n{\n\t\"images\": [\n\t\t{\n\t\t\t\"uid\": \"377807b7-76c4-11ee-b572-a2381fd4f437\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F061c6157-ddb8-4154-a679-082682d8437e?alt=media&token=be532a67-8b3e-409d-9e56-2227432177f9\",\n\t\t\t\"authors\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\t\t\"note\": \"taking notes\",\n\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\"full_name\": \"John Radiologist\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"4885efe7-6fb3-11ee-aa85-fe400bebb284\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F1a3c9474-7246-4729-ab94-f71e80c3cf9f?alt=media&token=c0ca84f7-6bc3-48b8-aa2b-1c3078e1aeb8\",\n\t\t\t\"authors\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"6npcE5FQFweAYGAxDlxSARwz1qn2\",\n\t\t\t\t\t\"note\": \"This is a test diagnosis\",\n\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\"full_name\": \"Monica Kirk\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\t\t\"note\": \"mushroom\",\n\t\t\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\t\t\"full_name\": \"John Physician\",\n\t\t\t\t\t\"recommendation\": \"John Radiologist\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\t\t\"note\": \"Note check\",\n\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\"full_name\": \"John Radiologist\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"4d43d0b6-77c8-11ee-88bf-827fec34a1d2\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F6b4da36e-1560-4929-8cb9-a7556f316049?alt=media&token=27195483-9540-43f1-8632-c6366e327c2c\",\n\t\t\t\"authors\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\t\t\"note\": \"adada\",\n\t\t\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\t\t\"full_name\": \"John Physician\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\t\t\"note\": \"back medicine for you bud\\nmedicines don't work\",\n\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\"full_name\": \"John Radiologist\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"67091c8a-76c4-11ee-b572-a2381fd4f437\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F7b459790-0dd2-4f7c-b6a0-62f71fb0e11f?alt=media&token=9fa36c25-ff58-4beb-ac5b-ed824d4470b6\",\n\t\t\t\"authors\": []\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"7ae01044-7c28-11ee-99cf-3e4bd1f222fe\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2Fe2c72d1a-4d9d-4f3a-b74b-5902f8512104?alt=media&token=22c70171-80cd-4720-a175-cf1cea19020a\",\n\t\t\t\"authors\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\t\t\"note\": \"This is his rib cage chest x-ray.\",\n\t\t\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\t\t\"full_name\": \"John Physician\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\t\t\"note\": \"Newly made note to test notification sent for physician.\\n\\n- Dr. Radiologist\",\n\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\"full_name\": \"John Radiologist\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"8ed9e7d5-4b82-48d5-85ff-04032eba011f\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F36045545-4739-4f7f-9313-604c5638f5bc?alt=media&token=3e8d71f5-6029-4f0a-9c5c-79bbdec14bbf\",\n\t\t\t\"authors\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\t\t\"note\": \"carpal tunnel\",\n\t\t\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\t\t\"full_name\": \"John Physician\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\t\t\"note\": \"This is newly made analysis to send as notification for the physician.\\n\\n- Dr. Radiologist\",\n\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\"full_name\": \"John Radiologist\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"fb809939-774a-11ee-88bf-827fec34a1d2\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F02fb16ad-b66b-4a08-b21b-396e737a82ee?alt=media&token=1a4ca417-1b6c-41b7-b902-7e776d2ca224\",\n\t\t\t\"authors\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\t\t\"note\": \"My brain atm\",\n\t\t\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\t\t\"full_name\": \"John Physician\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t]\n}\n```",
+      "description": "```response:200\n{\n\t\"images\": [\n\t\t{\n\t\t\t\"uid\": \"b2aa96cc-58ad-4f4b-895f-8d76c916c2a5\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F01123ddd-90e0-4f03-a059-e10e10c0e179?alt=media&token=f29197f5-d58c-433f-b161-a7af40f04eaa\",\n\t\t\t\"createdAt\": \"2023-11-28 04:14:19.604\",\n\t\t\t\"first_name\": \"John\",\n\t\t\t\"last_name\": \"Doe\",\n\t\t\t\"uploadedBy_title\": \"Dr.\",\n\t\t\t\"uploadedBy_first_name\": \"John\",\n\t\t\t\"uploadedBy_last_name\": \"Physician\",\n\t\t\t\"authors\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\t\t\"note\": \"mushroom is back\",\n\t\t\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\t\t\"full_name\": \"Dr. John Physician\",\n\t\t\t\t\t\"recommendation\": \"Emily Johnson\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"uid\": \"ecb64a03-2efb-4ee4-8b86-c39832c201b8\",\n\t\t\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F592183fb-dd7c-44fc-952d-d7285bcdd701?alt=media&token=b8ede824-c0ae-4097-8726-cdd735ea6463\",\n\t\t\t\"createdAt\": \"2023-11-28 04:37:07.187\",\n\t\t\t\"first_name\": \"John\",\n\t\t\t\"last_name\": \"Doe\",\n\t\t\t\"uploadedBy_title\": \"Dr.\",\n\t\t\t\"uploadedBy_first_name\": \"John\",\n\t\t\t\"uploadedBy_last_name\": \"Physician\",\n\t\t\t\"authors\": [\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"q8ZY1MwztoTaGIKQCOrt9jQjMNi1\",\n\t\t\t\t\t\"note\": \"Ribcage, no recommendation chosen.\",\n\t\t\t\t\t\"role\": \"PHYSICIAN\",\n\t\t\t\t\t\"full_name\": \"Dr. John Physician\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"uid\": \"T3e7wxi3khgwiZGp7fXejUJe2Qg2\",\n\t\t\t\t\t\"note\": \"test\",\n\t\t\t\t\t\"role\": \"RADIOLOGIST\",\n\t\t\t\t\t\"full_name\": \"Dr. John Radiologist\",\n\t\t\t\t\t\"recommendation\": null\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t]\n}\n```",
       "method": "GET",
       "body": { "mimeType": "application/json", "text": "" },
       "parameters": [],
@@ -564,11 +564,11 @@
     {
       "_id": "req_0cc9324bf6db4a98b8f3cce282142888",
       "parentId": "fld_75fa0d2d1274485c8aedb3784d962004",
-      "modified": 1700215569138,
+      "modified": 1701508568277,
       "created": 1700175261520,
       "url": "{{host}}/api/user/rate",
       "name": "Rate the given radiologist.",
-      "description": "```response:200\n{\n\t\"success\": true\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Radiologist's uid is required\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Radiologist does not exist\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"User is not a radiologist\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Invalid rating\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```\n\n```reponse:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Radiologist currently has ratings disabled\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```",
+      "description": "```response:200\n{\n\t\"success\": true,\n\t\"msg\": \"Rating submitted successfully.\"\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Radiologist's uid is required\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Radiologist does not exist\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"User is not a radiologist\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```\n\n```response:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Invalid rating\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```\n\n```reponse:400\n{\n\t\"errors\": [\n\t\t{\n\t\t\t\"msg\": \"Radiologist currently has ratings disabled\",\n\t\t\t\"path\": \"/api/user/rate\"\n\t\t}\n\t]\n}\n```",
       "method": "POST",
       "body": {
         "mimeType": "application/json",
@@ -603,7 +603,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"notes\": \"notes\",\n\t\"patient\": \"{{ _.patient_uid }}\",\n\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F1a3c9474-7246-4729-ab94-f71e80c3cf9f?alt=media&token=c0ca84f7-6bc3-48b8-aa2b-1c3078e1aeb8\",\n\t\"recommendation\": \"{{ _.radiologist_uid }}\"\n}"
+        "text": "{\n\t\"notes\": \"notes\",\n\t\"patient\": \"{{ _.patient_uid }}\",\n\t\"url\": \"https://firebasestorage.googleapis.com/v0/b/database-keepers-dev.appspot.com/o/development%2F1a3c9474-7246-4729-ab94-f71e80c3cf9f?alt=media&token=c0ca84f7-6bc3-48b8-aa2b-1c3078e1aeb8\",\n\t\"recommend\": \"{{ _.radiologist_uid }}\"\n}"
       },
       "parameters": [],
       "headers": [{ "name": "Content-Type", "value": "application/json" }],
