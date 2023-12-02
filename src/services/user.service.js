@@ -112,7 +112,10 @@ export async function images(req, res) {
     .execute(
       "\
       SELECT \
-        I.uid, I.url, U.first_name, U.last_name, \
+        I.uid, I.url, I.createdAt, U.first_name, U.last_name, \
+        UA_uploaded.title as uploadedBy_title, \
+        UA_uploaded.first_name AS uploadedBy_first_name, \
+        UA_uploaded.last_name AS uploadedBy_last_name, \
         IF(COUNT(INN.note) > 0, \
           JSON_ARRAYAGG( \
             JSON_OBJECT( \
@@ -131,8 +134,9 @@ export async function images(req, res) {
         ) AS authors \
       FROM User U \
       JOIN Image I ON U.uid = I.uploaded_for \
+      LEFT JOIN User UA_uploaded ON I.uploaded_by = UA_uploaded.uid \
       LEFT JOIN ( \
-        SELECT INN.uid, INN.note, INN.image_uid, INN.author_uid, INN.recommend_uid \
+        SELECT INN.uid, INN.note, INN.image_uid, INN.author_uid, INN.createdAt, INN.recommend_uid \
         FROM ImageNote INN \
         JOIN User UA ON INN.author_uid = UA.uid \
         WHERE UA.role IN ('PHYSICIAN', 'RADIOLOGIST') \
