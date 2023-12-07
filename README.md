@@ -23,6 +23,7 @@ See the [radiology archive API docs](https://databasekeepers.github.io/backend/)
 │   │   ├── hospital.controller.js
 │   │   ├── image.controller.js
 │   │   ├── payment.controller.js
+│   │   ├── notification.controller.js
 │   │   ├── user.controller.js
 │   │   └── index.js
 │   ├── middlewares
@@ -40,6 +41,7 @@ See the [radiology archive API docs](https://databasekeepers.github.io/backend/)
 │   │   ├── hospital.route.js
 │   │   ├── image.route.js
 │   │   ├── payment.route.js
+│   │   ├── notification.route.js
 │   │   ├── stripe.route.js
 │   │   ├── user.route.js
 │   │   └── index.js
@@ -48,6 +50,7 @@ See the [radiology archive API docs](https://databasekeepers.github.io/backend/)
 │   │   ├── hospital.service.js
 │   │   ├── image.service.js
 │   │   ├── payment.service.js
+│   │   ├── notification.service.js
 │   │   ├── user.service.js
 │   │   └── index.js
 │   ├── utils                   # Snippets to be used throughout codebase
