@@ -14,7 +14,7 @@ See the [radiology archive API docs](https://databasekeepers.github.io/backend/)
 ├── prisma
 │   └── schema.prisma
 ├── src
-│   ├── config                  # External services: (planetscale & firebase)
+│   ├── config                  # External services: (PlanetScale, Firebase, Stripe)
 │   │   ├── db.js
 │   │   ├── firebase.js
 │   │   └── stripe.js
@@ -44,17 +44,16 @@ See the [radiology archive API docs](https://databasekeepers.github.io/backend/)
 │   │   ├── user.route.js
 │   │   └── index.js
 │   ├── services                # Employs logic to requests from controller
-│   │   ├── auth.controller.js
-│   │   ├── hospital.controller.js
-│   │   ├── image.controller.js
-│   │   ├── payment.controller.js
-│   │   ├── user.controller.js
+│   │   ├── auth.service.js
+│   │   ├── hospital.service.js
+│   │   ├── image.service.js
+│   │   ├── payment.service.js
+│   │   ├── user.service.js
 │   │   └── index.js
 │   ├── utils                   # Snippets to be used throughout codebase
-│   │   ├── environment.js      # Environment variables are loaded here and exported
-│   │   └── errors.js           # Returns any errors before servicing
-│   ├── app.js                  # Initialize express appication and its dependencies
-│   └── index.js                # Entry point to start express appplication
+│   │   └── environment.js      # Environment variables are loaded here and exported
+│   ├── app.js                  # Initialize express application and its dependencies
+│   └── index.js                # Entry point to start express application
 ├── README.md
 ├── package.json
 ├── package-lock.json
